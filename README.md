@@ -1,49 +1,76 @@
-# Starlight Starter Kit: Basics
+# Mind Harness
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Aplikacja do zarządzania sobą i swoimi sieciami, oparta na koncepcji **User Harness** — rekonstrukcji ludzkiego modelu poznawczego z użyciem Theory of Mind.
+
+## Stack
+
+- **Astro 6** + **Starlight** — dokumentacja i strony statyczne
+- **Svelte 5** (runes) — interaktywny dashboard
+- **Dexie.js** — IndexedDB offline
+- **D3.js** — wizualizacje (force graph, timeline, wykresy)
+- **NVIDIA NIM** — LLM integration (translator, auditor, analyzer)
+- **shadcn-inspired** — dark theme UI
+
+## Moduły
+
+| Moduł | Koncept User Harness | Opis |
+|-------|---------------------|------|
+| Dashboard | — | Panel główny z podsumowaniem |
+| Przekonania | `B_u(t)` — belief state | Śledzenie przekonań 1st/2nd/3rd order z historią |
+| Obserwacje | `Ω` — omega filter | Dziennik obserwacji z filtrem epistemicznym |
+| Sieć | nested beliefs | Graf wpływów społecznych (D3 force) |
+| Decyzje | `π(B,G)→A` — policy | Rejestr decyzji z threshold gauge |
+| Cele | `G(t)` — goal hierarchy | Drzewo celów z progress barami |
+| Analiza | pattern detection | Wykresy, trendy, detekcja sprzeczności (LLM) |
+
+## Szybki start
+
+```bash
+npm install
+npm run dev
+```
+
+Dashboard: `/app/dashboard`
+Dokumentacja: `/`
+
+## LLM Integration (NVIDIA NIM)
+
+1. Wejdź w **Ustawienia** → **LLM API Key**
+2. Wpisz klucz NVIDIA NIM
+3. Domyślny model: `meta/llama-3.1-8b-instruct`
+
+Trzy role (zgodnie z User Harness paper):
+- **Translator** — parsuje surowy tekst na strukturę (observation + beliefUpdate)
+- **Auditor** — sprawdza spójność przekonań
+- **Analyzer** — wykrywa wzorce i trendy
+
+## Struktura
 
 ```
-npm create astro@latest -- --template starlight
+src/
+├── components/       # Svelte 5 komponenty UI
+│   ├── beliefs/      # Moduł przekonań
+│   ├── observations/ # Dziennik obserwacji
+│   ├── network/      # Mapa sieci (D3)
+│   ├── decisions/    # Rejestr decyzji
+│   ├── goals/        # System celów
+│   ├── analysis/     # Analiza i insighty
+│   └── layout/       # Aplikacyjny shell
+├── lib/
+│   ├── db/           # Dexie.js — IndexedDB schema + CRUD
+│   └── llm/          # NVIDIA NIM client + role
+├── pages/app/        # Dashboard routes
+└── content/docs/     # Starlight dokumentacja
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Teoria
 
-## 🚀 Project Structure
+Oparte na research paper "User Harness" (University of Illinois Urbana-Champaign, May 2026):
+- Filtr epistemiczny Omega (Ω) — co użytkownik faktycznie zauważa
+- Dynamika przekonań Gamma (γ) — reguły aktualizacji
+- Polityka decyzyjna Pi (π) — kiedy przekonania → akcja
+- Zagnieżdżone przekonania — 1st/2nd/3rd order Theory of Mind
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+## Licencja
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
-
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
-
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
-
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+MIT
