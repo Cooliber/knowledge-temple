@@ -1,6 +1,7 @@
 <script lang="ts">
   import { network } from '$lib/db'
   import type { NetworkNode, NetworkConnection } from '$lib/db/schema'
+  import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '$lib/components/ui'
   import NetworkGraph from './NetworkGraph.svelte'
   import NodeDetail from './NodeDetail.svelte'
   import ConnectionForm from './ConnectionForm.svelte'
@@ -123,15 +124,15 @@
     <div class="panel-header">
       <h2>Sieć powiązań</h2>
       <div class="panel-actions">
-        <button class="btn btn-sm" onclick={() => showHeatmap = !showHeatmap}>
+        <Button variant="outline" size="sm" onclick={() => showHeatmap = !showHeatmap}>
           {showHeatmap ? 'Graf' : 'Mapa wpływów'}
-        </button>
-        <button class="btn btn-sm" onclick={() => { showAddNode = !showAddNode; showAddConnection = false }}>
+        </Button>
+        <Button variant="outline" size="sm" onclick={() => { showAddNode = !showAddNode; showAddConnection = false }}>
           + Węzeł
-        </button>
-        <button class="btn btn-sm" onclick={() => { showAddConnection = !showAddConnection; showAddNode = false }}>
+        </Button>
+        <Button variant="outline" size="sm" onclick={() => { showAddConnection = !showAddConnection; showAddNode = false }}>
           + Połączenie
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -152,26 +153,30 @@
 
   <div class="detail-panel">
     {#if showAddNode}
-      <div class="card">
-        <h3>Nowy węzeł</h3>
-        <div class="form-group">
-          <label for="new-node-name">Nazwa</label>
-          <input id="new-node-name" type="text" bind:value={newNodeName} placeholder="Nazwa węzła..." />
-        </div>
-        <div class="form-group">
-          <label for="new-node-type">Typ</label>
-          <select id="new-node-type" bind:value={newNodeType}>
-            <option value="person">Osoba</option>
-            <option value="group">Grupa</option>
-            <option value="institution">Instytucja</option>
-            <option value="media">Media</option>
-          </select>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick={handleCreateNode}>Zapisz</button>
-          <button class="btn" onclick={() => showAddNode = false}>Anuluj</button>
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle class="text-sm">Nowy węzeł</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="form-group">
+            <Label for="new-node-name">Nazwa</Label>
+            <Input id="new-node-name" type="text" bind:value={newNodeName} placeholder="Nazwa węzła..." />
+          </div>
+          <div class="form-group">
+            <Label for="new-node-type">Typ</Label>
+            <select id="new-node-type" bind:value={newNodeType}>
+              <option value="person">Osoba</option>
+              <option value="group">Grupa</option>
+              <option value="institution">Instytucja</option>
+              <option value="media">Media</option>
+            </select>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button variant="default" onclick={handleCreateNode}>Zapisz</Button>
+          <Button variant="outline" onclick={() => showAddNode = false}>Anuluj</Button>
+        </CardFooter>
+      </Card>
     {/if}
 
     {#if showAddConnection}
@@ -184,26 +189,30 @@
     {/if}
 
     {#if editingNode}
-      <div class="card">
-        <h3>Edytuj węzeł</h3>
-        <div class="form-group">
-          <label for="edit-node-name">Nazwa</label>
-          <input id="edit-node-name" type="text" bind:value={editName} placeholder="Nazwa węzła..." />
-        </div>
-        <div class="form-group">
-          <label for="edit-node-type">Typ</label>
-          <select id="edit-node-type" bind:value={editType}>
-            <option value="person">Osoba</option>
-            <option value="group">Grupa</option>
-            <option value="institution">Instytucja</option>
-            <option value="media">Media</option>
-          </select>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick={() => handleUpdateNode(editingNode!.id, { name: editName, type: editType })}>Zapisz</button>
-          <button class="btn" onclick={handleCancelEdit}>Anuluj</button>
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle class="text-sm">Edytuj węzeł</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="form-group">
+            <Label for="edit-node-name">Nazwa</Label>
+            <Input id="edit-node-name" type="text" bind:value={editName} placeholder="Nazwa węzła..." />
+          </div>
+          <div class="form-group">
+            <Label for="edit-node-type">Typ</Label>
+            <select id="edit-node-type" bind:value={editType}>
+              <option value="person">Osoba</option>
+              <option value="group">Grupa</option>
+              <option value="institution">Instytucja</option>
+              <option value="media">Media</option>
+            </select>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button variant="default" onclick={() => handleUpdateNode(editingNode!.id, { name: editName, type: editType })}>Zapisz</Button>
+          <Button variant="outline" onclick={handleCancelEdit}>Anuluj</Button>
+        </CardFooter>
+      </Card>
     {:else if selectedNode}
       <NodeDetail
         node={selectedNode}
@@ -270,65 +279,10 @@
     gap: 0.5rem;
   }
 
-  .btn {
-    padding: 0.375rem 0.75rem;
-    border-radius: 6px;
-    border: 1px solid var(--sl-color-border);
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    font-size: 0.8125rem;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn:hover {
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-white);
-    border-color: var(--sl-color-gray-4);
-  }
-
-  .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
-    border-color: var(--sl-color-accent);
-  }
-
-  .btn-primary:hover {
-    background: var(--sl-color-accent-high);
-    border-color: var(--sl-color-accent-high);
-  }
-
-  .card {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
-  .card h3 {
-    margin: 0 0 1rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--sl-color-white);
-  }
-
   .form-group {
     margin-bottom: 0.75rem;
   }
 
-  .form-group label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.8125rem;
-    color: var(--sl-color-gray-3);
-  }
-
-  .form-group input,
   .form-group select {
     width: 100%;
     padding: 0.5rem 0.625rem;
@@ -340,16 +294,9 @@
     box-sizing: border-box;
   }
 
-  .form-group input:focus,
   .form-group select:focus {
     outline: none;
     border-color: var(--sl-color-accent);
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
   }
 
   .empty-state {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Belief } from '$lib/db'
+  import { Badge, Progress } from '$lib/components/ui/index.js'
 
   let {
     belief,
@@ -60,7 +61,7 @@
   type="button"
 >
   <div class="card-top">
-    <span class="type-badge type-{belief.type}">{typeLabel(belief.type)} rzędu</span>
+    <Badge class="type-{belief.type}">{typeLabel(belief.type)} rzędu</Badge>
     {#if belief.subject}
       <span class="subject-tag">{belief.subject}</span>
     {/if}
@@ -69,9 +70,7 @@
 
   <p class="card-text">{belief.text}</p>
 
-  <div class="strength-bar-track">
-    <div class="strength-bar-fill" style="width: {belief.strength * 100}%"></div>
-  </div>
+  <Progress value={belief.strength * 100} />
 
   <div class="card-bottom">
     {#if belief.category}
@@ -152,17 +151,6 @@
     gap: 0.5rem;
   }
 
-  .type-badge {
-    display: inline-block;
-    padding: 0.0625rem 0.375rem;
-    font-size: 0.65rem;
-    font-weight: 600;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    line-height: 1.4;
-  }
-
   .type-first_order {
     background: rgba(59, 130, 246, 0.15);
     color: #60a5fa;
@@ -201,20 +189,6 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .strength-bar-track {
-    height: 4px;
-    background: var(--sl-color-gray-5);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .strength-bar-fill {
-    height: 100%;
-    background: var(--sl-color-accent);
-    border-radius: 2px;
-    transition: width 0.3s;
   }
 
   .card-bottom {

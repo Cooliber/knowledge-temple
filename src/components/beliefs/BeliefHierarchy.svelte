@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Belief } from '$lib/db'
+  import { Card, CardContent, CardTitle } from '$lib/components/ui/index.js'
 
   let { beliefs }: { beliefs: Belief[] } = $props()
 
@@ -39,8 +40,9 @@
   }
 </script>
 
-<div class="hierarchy-container">
-  <h3 class="hierarchy-title">Hierarchia przekonań</h3>
+<Card class="hierarchy-container">
+  <CardContent>
+    <CardTitle class="text-lg font-bold mb-5">Hierarchia przekonań</CardTitle>
 
   {#if firstOrder.length === 0 && subjectGroups.length === 0}
     <div class="hierarchy-empty">
@@ -87,22 +89,12 @@
       {/each}
     </div>
   {/if}
-</div>
+  </CardContent>
+</Card>
 
 <style>
   .hierarchy-container {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1.5rem;
     overflow-y: auto;
-  }
-
-  .hierarchy-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--sl-color-white);
-    margin-bottom: 1.25rem;
   }
 
   .hierarchy-empty {

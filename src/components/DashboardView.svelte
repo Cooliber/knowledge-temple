@@ -2,12 +2,13 @@
   import { beliefs, observations, decisions, goals } from '$lib/db'
   import type { Belief, Observation, Decision, Goal } from '$lib/db'
   import {
-    Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
+    Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter,
     Button, Badge, Progress, Tabs, TabsList, TabsTrigger, TabsContent,
     Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
     Command, CommandInput, CommandList, CommandGroup, CommandItem,
     Input, Separator, Label,
   } from '$lib/components/ui/index.js'
+  import { TrendingUp, TrendingDown } from 'lucide-svelte'
 
   let allBeliefs: Belief[] = $state([])
   let allObservations: Observation[] = $state([])
@@ -46,10 +47,10 @@
     goalsCompleted: allGoals.filter(g => g.status === 'completed').length,
   })
 
-  const recentObs = $derived(allObservations.slice(0, 6))
-  const recentDecisions = $derived(allDecisions.slice(0, 6))
+  const recentObs = $derived(allObservations.slice(0, 5))
+  const recentDecisions = $derived(allDecisions.slice(0, 5))
   const topBeliefs = $derived([...allBeliefs].sort((a, b) => b.strength - a.strength).slice(0, 5))
-  const activeGoals = $derived(allGoals.filter(g => g.status === 'active').slice(0, 5))
+  const activeGoals = $derived(allGoals.filter(g => g.status === 'active').slice(0, 4))
 
   const cmdItems = [
     { section: 'Nawigacja', items: [
@@ -67,10 +68,6 @@
       { label: 'Dodaj przekonanie', action: () => { quickType = 'belief'; addDialog = true; cmdOpen = false } },
     ]},
   ]
-
-  function handleCmdSelect(value: string) {
-    cmdOpen = false
-  }
 
   async function handleQuickAdd() {
     if (!quickText.trim()) return
@@ -126,71 +123,98 @@
     </div>
   </div>
 {:else}
-  <!-- Command Palette Trigger -->
-  <div class="mb-6">
+  <!-- Search / Command Bar -->
+  <div class="mb-8">
     <button
       onclick={() => cmdOpen = true}
-      class="flex w-full items-center gap-2 rounded-lg border border-border bg-card-bg px-4 py-2.5 text-sm text-muted shadow-sm transition-all hover:border-primary/30 hover:text-foreground"
+      class="flex w-full items-center gap-2 rounded-xl border border-border bg-card-bg px-4 py-3 text-sm text-muted shadow-sm transition-all hover:border-primary/30 hover:text-foreground"
     >
-      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <span class="flex-1 text-left">Szukaj modułu lub dodaj...</span>
-      <kbd class="hidden rounded border border-border bg-muted/10 px-1.5 py-0.5 text-xs sm:inline-block">⌘K</kbd>
+      <svg class="h-4 w-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span class="flex-1 text-left">Szukaj modułu lub szybkie dodawanie...</span>
+      <kbd class="hidden rounded-md border border-border bg-muted/10 px-2 py-0.5 text-xs font-medium tracking-wide sm:inline-block">⌘K</kbd>
     </button>
   </div>
 
-  <!-- Stats Grid -->
-  <div class="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-    <Card>
-      <CardHeader class="p-4 pb-2">
-        <div class="flex items-center justify-between">
-          <CardTitle class="text-xs font-medium text-muted">Przekonania</CardTitle>
-          <span class="text-lg opacity-30">◈</span>
-        </div>
-        <CardDescription class="text-2xl font-bold text-foreground">{stats.beliefs}</CardDescription>
+  <!-- SectionCards — gradient stat cards with Badge + trending icons -->
+  <div class="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card-bg dark:*:data-[slot=card]:bg-card-bg *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <Card class="@container/card">
+      <CardHeader>
+        <CardDescription>Przekonania</CardDescription>
+        <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">{stats.beliefs}</CardTitle>
+        <CardAction>
+          <Badge variant="outline" class="gap-1">
+            <TrendingUp class="size-3" />
+            {allBeliefs.filter(b => b.strength > 0.7).length} silnych
+          </Badge>
+        </CardAction>
       </CardHeader>
-      <CardContent class="px-4 pb-3 pt-0">
-        <p class="text-xs text-muted">{allBeliefs.filter(b => b.strength > 0.7).length} silnych</p>
-      </CardContent>
+      <CardFooter class="flex-col items-start gap-1.5 text-sm">
+        <div class="line-clamp-1 flex gap-2 font-medium">
+          {stats.beliefs > 0 ? 'System przekonań aktywny' : 'Brak przekonań'} <TrendingUp class="size-4" />
+        </div>
+        <div class="text-muted">Obserwuj zmiany siły przekonań</div>
+      </CardFooter>
     </Card>
-    <Card>
-      <CardHeader class="p-4 pb-2">
-        <div class="flex items-center justify-between">
-          <CardTitle class="text-xs font-medium text-muted">Obserwacje</CardTitle>
-          <span class="text-lg opacity-30">◎</span>
-        </div>
-        <CardDescription class="text-2xl font-bold text-foreground">{stats.obs}</CardDescription>
+
+    <Card class="@container/card">
+      <CardHeader>
+        <CardDescription>Obserwacje</CardDescription>
+        <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">{stats.obs}</CardTitle>
+        <CardAction>
+          <Badge variant="outline" class="gap-1">
+            <TrendingUp class="size-3" />
+            +{stats.obsWeek} tym tyg.
+          </Badge>
+        </CardAction>
       </CardHeader>
-      <CardContent class="px-4 pb-3 pt-0">
-        <p class="text-xs text-muted">{stats.obsWeek} w tym tygodniu</p>
-      </CardContent>
+      <CardFooter class="flex-col items-start gap-1.5 text-sm">
+        <div class="line-clamp-1 flex gap-2 font-medium">
+          {stats.obsWeek > 0 ? 'Regularnie zbierasz dane' : 'Brak aktywności w tym tyg.'} <TrendingUp class="size-4" />
+        </div>
+        <div class="text-muted">Filtr Omega kontroluje uwagę</div>
+      </CardFooter>
     </Card>
-    <Card>
-      <CardHeader class="p-4 pb-2">
-        <div class="flex items-center justify-between">
-          <CardTitle class="text-xs font-medium text-muted">Decyzje</CardTitle>
-          <span class="text-lg opacity-30">⊜</span>
-        </div>
-        <CardDescription class="text-2xl font-bold text-foreground">{stats.decisions}</CardDescription>
+
+    <Card class="@container/card">
+      <CardHeader>
+        <CardDescription>Decyzje</CardDescription>
+        <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">{stats.decisions}</CardTitle>
+        <CardAction>
+          <Badge variant="outline" class="gap-1">
+            <TrendingUp class="size-3" />
+            {stats.decisionsPositive} pozytywnych
+          </Badge>
+        </CardAction>
       </CardHeader>
-      <CardContent class="px-4 pb-3 pt-0">
-        <p class="text-xs text-muted">{stats.decisionsPositive} pozytywnych</p>
-      </CardContent>
+      <CardFooter class="flex-col items-start gap-1.5 text-sm">
+        <div class="line-clamp-1 flex gap-2 font-medium">
+          {stats.decisionsPositive > stats.decisions / 2 ? 'Dobra skuteczność decyzyjna' : 'Popraw strategię'} <TrendingDown class="size-4" />
+        </div>
+        <div class="text-muted">Analiza outcome'ów decyzji</div>
+      </CardFooter>
     </Card>
-    <Card>
-      <CardHeader class="p-4 pb-2">
-        <div class="flex items-center justify-between">
-          <CardTitle class="text-xs font-medium text-muted">Cele</CardTitle>
-          <span class="text-lg opacity-30">⊚</span>
-        </div>
-        <CardDescription class="text-2xl font-bold text-foreground">{stats.goalsActive}</CardDescription>
+
+    <Card class="@container/card">
+      <CardHeader>
+        <CardDescription>Cele</CardDescription>
+        <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">{stats.goalsActive}</CardTitle>
+        <CardAction>
+          <Badge variant="outline" class="gap-1">
+            <TrendingUp class="size-3" />
+            {stats.goalsCompleted} zrobione
+          </Badge>
+        </CardAction>
       </CardHeader>
-      <CardContent class="px-4 pb-3 pt-0">
-        <p class="text-xs text-muted">{stats.goalsCompleted} ukończonych</p>
-      </CardContent>
+      <CardFooter class="flex-col items-start gap-1.5 text-sm">
+        <div class="line-clamp-1 flex gap-2 font-medium">
+          {stats.goalsCompleted > 0 ? 'Postęp w realizacji celów' : 'Zdefiniuj pierwsze cele'} <TrendingUp class="size-4" />
+        </div>
+        <div class="text-muted">{allGoals.length > 0 ? Math.round(allGoals.reduce((a, g) => a + g.progress, 0) / allGoals.length) : 0}% średniego postępu</div>
+      </CardFooter>
     </Card>
   </div>
 
-  <!-- Tabs -->
+  <!-- Tabs: Przegląd | Przekonania | Decyzje | Cele -->
   <Tabs bind:value={activeTab}>
     <TabsList class="mb-6">
       <TabsTrigger value="overview">Przegląd</TabsTrigger>
@@ -199,14 +223,12 @@
       <TabsTrigger value="goals">Cele</TabsTrigger>
     </TabsList>
 
-    <!-- Overview Tab -->
     <TabsContent value="overview">
-      <div class="grid gap-4 md:grid-cols-2">
-        <!-- Recent Observations -->
-        <Card>
+      <div class="grid gap-4 lg:grid-cols-2">
+        <Card class="@container/card">
           <CardHeader>
             <CardTitle class="text-sm">Ostatnie Obserwacje</CardTitle>
-            <CardDescription>Ostatnie 6 wpisów</CardDescription>
+            <CardDescription>Ostatnie 5 wpisów</CardDescription>
           </CardHeader>
           <CardContent class="p-0">
             {#if recentObs.length === 0}
@@ -217,17 +239,13 @@
             {:else}
               <div class="divide-y divide-border">
                 {#each recentObs as obs}
-                  <div class="flex items-start gap-3 px-6 py-3">
+                  <div class="flex items-start gap-3 px-6 py-3.5 transition-colors hover:bg-muted/5">
                     <div class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-primary/40"></div>
                     <div class="min-w-0 flex-1">
                       <p class="truncate text-sm">{obs.content}</p>
                       <p class="mt-0.5 text-xs text-muted">{obs.source} · {shortDate(obs.timestamp)}</p>
                     </div>
-                    <div class="flex items-center gap-1">
-                      <div class="h-1 w-12 rounded-full bg-muted/20">
-                        <div class="h-full rounded-full bg-primary/40" style="width: {obs.attentionLevel * 100}%"></div>
-                      </div>
-                    </div>
+                    <Progress value={Math.round(obs.attentionLevel * 100)} class="mt-1 h-1 w-12" />
                   </div>
                 {/each}
               </div>
@@ -235,11 +253,10 @@
           </CardContent>
         </Card>
 
-        <!-- Recent Decisions -->
-        <Card>
+        <Card class="@container/card">
           <CardHeader>
             <CardTitle class="text-sm">Ostatnie Decyzje</CardTitle>
-            <CardDescription>Ostatnie 6 wpisów</CardDescription>
+            <CardDescription>Ostatnie 5 wpisów</CardDescription>
           </CardHeader>
           <CardContent class="p-0">
             {#if recentDecisions.length === 0}
@@ -250,7 +267,7 @@
             {:else}
               <div class="divide-y divide-border">
                 {#each recentDecisions as dec}
-                  <div class="flex items-start gap-3 px-6 py-3">
+                  <div class="flex items-start gap-3 px-6 py-3.5 transition-colors hover:bg-muted/5">
                     <div
                       class="mt-1 h-2 w-2 shrink-0 rounded-full"
                       class:bg-success={dec.outcome === 'positive'}
@@ -260,14 +277,14 @@
                     ></div>
                     <div class="min-w-0 flex-1">
                       <p class="truncate text-sm">{dec.description}</p>
-                      <p class="mt-0.5 text-xs text-muted">
+                      <p class="mt-0.5 flex items-center gap-1.5 text-xs text-muted">
                         <Badge
-                          variant={dec.outcome === 'positive' ? 'success' : dec.outcome === 'negative' ? 'destructive' : dec.outcome === 'pending' ? 'warning' : 'default'}
-                          class="mr-1 px-1.5 py-0 text-[10px]"
+                          variant={dec.outcome === 'positive' ? 'success' : dec.outcome === 'negative' ? 'destructive' : dec.outcome === 'pending' ? 'warning' : 'secondary'}
+                          class="px-1.5 py-0 text-[10px]"
                         >
-                          {dec.outcome === 'positive' ? 'Pozytywny' : dec.outcome === 'negative' ? 'Negatywny' : dec.outcome === 'pending' ? 'Oczekuje' : 'Neutralny'}
+                          {dec.outcome === 'positive' ? 'OK' : dec.outcome === 'negative' ? 'FAIL' : dec.outcome === 'pending' ? '...' : '—'}
                         </Badge>
-                        · {shortDate(dec.timestamp)}
+                        {shortDate(dec.timestamp)}
                       </p>
                     </div>
                   </div>
@@ -279,12 +296,11 @@
       </div>
     </TabsContent>
 
-    <!-- Beliefs Tab -->
     <TabsContent value="beliefs">
-      <Card>
+      <Card class="@container/card">
         <CardHeader>
           <CardTitle class="text-sm">Najsilniejsze Przekonania</CardTitle>
-          <CardDescription>Top 5 według siły</CardDescription>
+          <CardDescription>Top 5 według siły — {stats.beliefs} przekonań</CardDescription>
         </CardHeader>
         <CardContent>
           {#if topBeliefs.length === 0}
@@ -296,7 +312,7 @@
             <div class="space-y-4">
               {#each topBeliefs as belief}
                 <div>
-                  <div class="mb-1 flex items-center justify-between">
+                  <div class="mb-1.5 flex items-center justify-between">
                     <span class="truncate text-sm">{belief.text}</span>
                     <span class="ml-2 shrink-0 text-xs font-medium tabular-nums {catColor(belief.strength * 100)}">
                       {Math.round(belief.strength * 100)}%
@@ -316,12 +332,11 @@
       </Card>
     </TabsContent>
 
-    <!-- Decisions Tab -->
     <TabsContent value="decisions">
-      <Card>
+      <Card class="@container/card">
         <CardHeader>
-          <CardTitle class="text-sm">Struktura Decyzji</CardTitle>
-          <CardDescription>{stats.decisions} decyzji · {stats.decisionsPositive} pozytywnych</CardDescription>
+          <CardTitle class="text-sm">Wszystkie Decyzje</CardTitle>
+          <CardDescription>{stats.decisions} decyzji · {stats.decisionsPositive} pozytywnych · {allDecisions.filter(d => d.outcome === 'pending').length} oczekujących</CardDescription>
         </CardHeader>
         <CardContent class="p-0">
           {#if allDecisions.length === 0}
@@ -331,9 +346,9 @@
           {:else}
             <div class="divide-y divide-border">
               {#each allDecisions as dec}
-                <div class="flex items-center gap-3 px-6 py-3">
+                <div class="flex items-center gap-3 px-6 py-3.5 transition-colors hover:bg-muted/5">
                   <Badge
-                    variant={dec.outcome === 'positive' ? 'success' : dec.outcome === 'negative' ? 'destructive' : dec.outcome === 'pending' ? 'warning' : 'outline'}
+                    variant={dec.outcome === 'positive' ? 'success' : dec.outcome === 'negative' ? 'destructive' : dec.outcome === 'pending' ? 'warning' : 'secondary'}
                     class="shrink-0 text-[10px]"
                   >
                     {dec.outcome === 'positive' ? 'OK' : dec.outcome === 'negative' ? 'FAIL' : dec.outcome === 'pending' ? '...' : '—'}
@@ -355,14 +370,12 @@
       </Card>
     </TabsContent>
 
-    <!-- Goals Tab -->
     <TabsContent value="goals">
-      <div class="grid gap-4 md:grid-cols-2">
-        <!-- Active Goals -->
-        <Card>
+      <div class="grid gap-4 lg:grid-cols-2">
+        <Card class="@container/card">
           <CardHeader>
             <CardTitle class="text-sm">Aktywne Cele</CardTitle>
-            <CardDescription>{stats.goalsActive} aktywnych</CardDescription>
+            <CardDescription>{stats.goalsActive} aktywnych · {stats.goalsCompleted} ukończonych</CardDescription>
           </CardHeader>
           <CardContent>
             {#if activeGoals.length === 0}
@@ -371,15 +384,15 @@
                 <Button size="sm" onclick={() => window.location.href = '/app/goals'}>Dodaj pierwszy</Button>
               </div>
             {:else}
-              <div class="space-y-4">
+              <div class="space-y-5">
                 {#each activeGoals as goal}
                   <div>
-                    <div class="mb-1 flex items-center justify-between">
-                      <span class="truncate text-sm">{goal.title}</span>
+                    <div class="mb-1.5 flex items-center justify-between">
+                      <span class="truncate text-sm font-medium">{goal.title}</span>
                       <span class="ml-2 shrink-0 text-xs font-medium tabular-nums text-muted">{goal.progress}%</span>
                     </div>
                     <Progress value={goal.progress} />
-                    <p class="mt-0.5 text-xs text-muted">
+                    <p class="mt-1 text-xs text-muted">
                       {goal.horizon === 'short' ? 'Krótki' : goal.horizon === 'medium' ? 'Średni' : 'Długi'} termin
                       {#if goal.deadline} · do {new Date(goal.deadline).toLocaleDateString('pl-PL')}{/if}
                     </p>
@@ -395,44 +408,43 @@
           </CardFooter>
         </Card>
 
-        <!-- Stats Overview -->
-        <Card>
+        <Card class="@container/card">
           <CardHeader>
-            <CardTitle class="text-sm">Podsumowanie</CardTitle>
-            <CardDescription>Stan systemu</CardDescription>
+            <CardTitle class="text-sm">Podsumowanie Systemu</CardTitle>
+            <CardDescription>Stan Mind Harness</CardDescription>
           </CardHeader>
           <CardContent>
-            <div class="space-y-4">
+            <div class="space-y-5">
               <div>
-                <div class="mb-1 flex justify-between text-sm">
+                <div class="mb-1.5 flex justify-between text-sm">
                   <span class="text-muted">Przekonania</span>
-                  <span class="font-medium">{stats.beliefs}</span>
+                  <span class="font-medium tabular-nums">{stats.beliefs}</span>
                 </div>
                 <Progress value={Math.min(100, stats.beliefs * 10)} />
               </div>
               <div>
-                <div class="mb-1 flex justify-between text-sm">
+                <div class="mb-1.5 flex justify-between text-sm">
                   <span class="text-muted">Obserwacje</span>
-                  <span class="font-medium">{stats.obs}</span>
+                  <span class="font-medium tabular-nums">{stats.obs}</span>
                 </div>
                 <Progress value={Math.min(100, stats.obs * 5)} />
               </div>
               <div>
-                <div class="mb-1 flex justify-between text-sm">
-                  <span class="text-muted">Realizacja celów</span>
-                  <span class="font-medium">{allGoals.length > 0 ? Math.round(allGoals.reduce((a, g) => a + g.progress, 0) / allGoals.length) : 0}%</span>
+                <div class="mb-1.5 flex justify-between text-sm">
+                  <span class="text-muted">Średni postęp celów</span>
+                  <span class="font-medium tabular-nums">{allGoals.length > 0 ? Math.round(allGoals.reduce((a, g) => a + g.progress, 0) / allGoals.length) : 0}%</span>
                 </div>
                 <Progress value={allGoals.length > 0 ? Math.round(allGoals.reduce((a, g) => a + g.progress, 0) / allGoals.length) : 0} />
               </div>
               <Separator />
-              <div class="grid grid-cols-2 gap-2 text-center text-sm">
-                <div class="rounded-lg bg-muted/10 p-3">
-                  <div class="text-lg font-bold text-primary">{stats.obsWeek}</div>
-                  <div class="text-xs text-muted">w tym tyg.</div>
+              <div class="grid grid-cols-2 gap-3 text-center text-sm">
+                <div class="rounded-xl bg-muted/10 p-4">
+                  <div class="text-2xl font-bold tabular-nums text-primary">{stats.obsWeek}</div>
+                  <div class="text-xs text-muted mt-0.5">obs. w tym tyg.</div>
                 </div>
-                <div class="rounded-lg bg-muted/10 p-3">
-                  <div class="text-lg font-bold text-success">{stats.decisionsPositive}</div>
-                  <div class="text-xs text-muted">+ decyzje</div>
+                <div class="rounded-xl bg-muted/10 p-4">
+                  <div class="text-2xl font-bold tabular-nums text-success">{stats.decisionsPositive}</div>
+                  <div class="text-xs text-muted mt-0.5">+ decyzje</div>
                 </div>
               </div>
             </div>
@@ -453,28 +465,12 @@
       </DialogHeader>
       <div class="space-y-4">
         <div class="flex gap-2">
-          <Button
-            variant={quickType === 'observation' ? 'default' : 'secondary'}
-            size="sm"
-            onclick={() => quickType = 'observation'}
-          >
-            Obserwacja
-          </Button>
-          <Button
-            variant={quickType === 'belief' ? 'default' : 'secondary'}
-            size="sm"
-            onclick={() => quickType = 'belief'}
-          >
-            Przekonanie
-          </Button>
+          <Button variant={quickType === 'observation' ? 'default' : 'secondary'} size="sm" onclick={() => quickType = 'observation'}>Obserwacja</Button>
+          <Button variant={quickType === 'belief' ? 'default' : 'secondary'} size="sm" onclick={() => quickType = 'belief'}>Przekonanie</Button>
         </div>
         <div class="space-y-2">
           <Label for="quick-text">Treść</Label>
-          <Input
-            id="quick-text"
-            bind:value={quickText}
-            placeholder={quickType === 'observation' ? 'Co zaobserwowałeś...' : 'Nowe przekonanie...'}
-          />
+          <Input id="quick-text" bind:value={quickText} placeholder={quickType === 'observation' ? 'Co zaobserwowałeś...' : 'Nowe przekonanie...'} />
         </div>
         {#if quickType === 'observation'}
           <div class="space-y-2">
@@ -521,10 +517,3 @@
     }
   }}
 />
-
-<style>
-  :global(body) {
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-  }
-</style>

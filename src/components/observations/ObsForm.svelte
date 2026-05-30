@@ -2,6 +2,7 @@
   import { observations as db } from '$lib/db'
   import type { Observation, Belief } from '$lib/db'
   import OmegaFilter from './OmegaFilter.svelte'
+  import { Button, Card, CardHeader, CardTitle, CardContent, CardFooter, Input, Label } from '$lib/components/ui'
 
   let {
     observation,
@@ -74,143 +75,124 @@
   }
 </script>
 
-<div class="obs-form mh-card mh-animate mh-animate-d3">
-  <h2 class="form-title">{isEdit ? 'Edytuj obserwację' : 'Nowa obserwacja'}</h2>
-
-  <div class="form-group">
-    <label class="form-label" for="obs-content">Treść</label>
-    <textarea
-      id="obs-content"
-      bind:value={formContent}
-      class="mh-input"
-      placeholder="Co zaobserwowałeś/aś?"
-      rows={5}
-    ></textarea>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group flex-1">
-      <label class="form-label" for="obs-source">Źródło</label>
-      <input
-        id="obs-source"
-        type="text"
-        bind:value={formSource}
-        class="mh-input"
-        placeholder="np. rozmowa z Anną, artykuł z X"
-      />
-    </div>
-    <div class="form-group flex-1">
-      <label class="form-label" for="obs-category">Kategoria</label>
-      <input
-        id="obs-category"
-        type="text"
-        bind:value={formCategory}
-        class="mh-input"
-        placeholder="np. psychologia, polityka"
-      />
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label">Typ źródła</label>
-    <div class="radio-group">
-      {#each sourceTypes as st}
-        <label class="radio-item" class:active={formSourceType === st}>
-          <input
-            type="radio"
-            value={st}
-            bind:group={formSourceType}
-            class="radio-input"
-          />
-          <span>{sourceTypeLabels[st]}</span>
-        </label>
-      {/each}
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label">Omega — współczynnik uwagi</label>
-    <OmegaFilter
-      attentionLevel={formAttention}
-      onchange={(v) => formAttention = v}
-    />
-  </div>
-
-  <div class="form-group">
-    <label class="form-label" for="obs-tags">Tagi (oddzielone przecinkami)</label>
-    <input
-      id="obs-tags"
-      type="text"
-      bind:value={formTags}
-      class="mh-input"
-      placeholder="np. ważne, praca, rodzina"
-    />
-  </div>
-
-  {#if beliefs.length > 0}
+<Card>
+  <CardHeader>
+    <CardTitle>{isEdit ? 'Edytuj obserwację' : 'Nowa obserwacja'}</CardTitle>
+  </CardHeader>
+  <CardContent>
     <div class="form-group">
-      <label class="form-label">Powiązane przekonania</label>
-      <div class="beliefs-grid">
-        {#each beliefs as belief (belief.id)}
-          <label
-            class="belief-chip"
-            class:selected={formLinked.includes(belief.id)}
-          >
+      <Label for="obs-content">Treść</Label>
+      <textarea
+        id="obs-content"
+        bind:value={formContent}
+        placeholder="Co zaobserwowałeś/aś?"
+        rows={5}
+        class="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      ></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group flex-1">
+        <Label for="obs-source">Źródło</Label>
+        <Input
+          id="obs-source"
+          type="text"
+          value={formSource}
+          oninput={(e) => formSource = e.currentTarget.value}
+          placeholder="np. rozmowa z Anną, artykuł z X"
+        />
+      </div>
+      <div class="form-group flex-1">
+        <Label for="obs-category">Kategoria</Label>
+        <Input
+          id="obs-category"
+          type="text"
+          value={formCategory}
+          oninput={(e) => formCategory = e.currentTarget.value}
+          placeholder="np. psychologia, polityka"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <Label>Typ źródła</Label>
+      <div class="radio-group">
+        {#each sourceTypes as st}
+          <label class="radio-item" class:active={formSourceType === st}>
             <input
-              type="checkbox"
-              checked={formLinked.includes(belief.id)}
-              onchange={() => toggleLinkedBelief(belief.id)}
-              class="belief-checkbox"
+              type="radio"
+              value={st}
+              bind:group={formSourceType}
+              class="radio-input"
             />
-            <span class="belief-text">{belief.text}</span>
-            <span class="belief-strength" style="opacity: {belief.strength}">
-              {Math.round(belief.strength * 100)}%
-            </span>
+            <span>{sourceTypeLabels[st]}</span>
           </label>
         {/each}
       </div>
     </div>
-  {/if}
 
-  <div class="form-actions">
-    <button class="mh-btn mh-btn-secondary" onclick={handleCancel}>
+    <div class="form-group">
+      <Label>Omega — współczynnik uwagi</Label>
+      <OmegaFilter
+        attentionLevel={formAttention}
+        onchange={(v) => formAttention = v}
+      />
+    </div>
+
+    <div class="form-group">
+      <Label for="obs-tags">Tagi (oddzielone przecinkami)</Label>
+      <Input
+        id="obs-tags"
+        type="text"
+        value={formTags}
+        oninput={(e) => formTags = e.currentTarget.value}
+        placeholder="np. ważne, praca, rodzina"
+      />
+    </div>
+
+    {#if beliefs.length > 0}
+      <div class="form-group">
+        <Label>Powiązane przekonania</Label>
+        <div class="beliefs-grid">
+          {#each beliefs as belief (belief.id)}
+            <label
+              class="belief-chip"
+              class:selected={formLinked.includes(belief.id)}
+            >
+              <input
+                type="checkbox"
+                checked={formLinked.includes(belief.id)}
+                onchange={() => toggleLinkedBelief(belief.id)}
+                class="belief-checkbox"
+              />
+              <span class="belief-text">{belief.text}</span>
+              <span class="belief-strength" style="opacity: {belief.strength}">
+                {Math.round(belief.strength * 100)}%
+              </span>
+            </label>
+          {/each}
+        </div>
+      </div>
+    {/if}
+  </CardContent>
+  <CardFooter class="flex justify-end gap-2 border-t pt-4">
+    <Button variant="outline" onclick={handleCancel}>
       Anuluj
-    </button>
-    <button
-      class="mh-btn mh-btn-primary"
+    </Button>
+    <Button
+      variant="default"
       onclick={handleSave}
       disabled={saving || !formContent.trim()}
     >
       {saving ? 'Zapisywanie…' : isEdit ? 'Zapisz zmiany' : 'Dodaj obserwację'}
-    </button>
-  </div>
-</div>
+    </Button>
+  </CardFooter>
+</Card>
 
 <style>
-  .obs-form {
-    padding: 1.25rem;
-  }
-
-  .form-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--mh-text);
-    margin: 0 0 1rem;
-  }
-
   .form-group {
     margin-bottom: 1rem;
   }
-
-  .form-label {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--mh-text-secondary);
-    margin-bottom: 0.35rem;
-    font-weight: 500;
-  }
-
-
 
   .form-row {
     display: flex;
@@ -290,20 +272,5 @@
     color: var(--mh-accent);
     font-size: 0.7rem;
     font-weight: 600;
-  }
-
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--mh-border);
-  }
-
-  .btn:disabled,
-  .mh-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
   }
 </style>

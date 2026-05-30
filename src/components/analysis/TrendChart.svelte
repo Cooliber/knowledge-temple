@@ -85,8 +85,9 @@
 </script>
 
 <div class="trend-chart">
-  <div class="controls">
-    <select bind:value={selectedId}>
+  <div>
+    <select bind:value={selectedId}
+      class="w-full p-2 bg-card-bg border border-border rounded-md text-sm text-foreground focus:outline-none focus:border-primary">
       <option value="">Wybierz przekonanie...</option>
       {#each beliefs as belief}
         <option value={belief.id}>{belief.text}</option>
@@ -95,17 +96,17 @@
   </div>
 
   {#if selectedBelief && sortedHistory.length >= 2}
-    <div class="chart-info">
-      <span class="belief-name">{selectedBelief.text}</span>
-      <span class="belief-range">
+    <div class="flex justify-between items-center">
+      <span class="text-sm font-semibold text-primary">{selectedBelief.text}</span>
+      <span class="text-xs text-muted">
         {d3.format('.0%')(sortedHistory[0].strength)} → {d3.format('.0%')(sortedHistory[sortedHistory.length - 1].strength)}
       </span>
     </div>
     <div bind:this={chartEl} class="chart-container"></div>
   {:else if selectedId}
-    <p class="empty-state">Za mało danych do wyświetlenia trendu (wymagane co najmniej 2 punkty)</p>
+    <p class="text-sm text-muted italic text-center py-12">Za mało danych do wyświetlenia trendu (wymagane co najmniej 2 punkty)</p>
   {:else}
-    <p class="empty-state">Wybierz przekonanie aby zobaczyć trend</p>
+    <p class="text-sm text-muted italic text-center py-12">Wybierz przekonanie aby zobaczyć trend</p>
   {/if}
 </div>
 
@@ -116,48 +117,8 @@
     gap: 1rem;
   }
 
-  .controls select {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    background: var(--sl-color-gray-7);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    color: var(--sl-color-text);
-    font-size: 0.875rem;
-  }
-
-  .controls select:focus {
-    outline: none;
-    border-color: var(--sl-color-accent);
-  }
-
-  .chart-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .belief-name {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--sl-color-accent-high);
-  }
-
-  .belief-range {
-    font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
-  }
-
   .chart-container {
     width: 100%;
     overflow: hidden;
-  }
-
-  .empty-state {
-    color: var(--sl-color-gray-4);
-    font-size: 0.875rem;
-    text-align: center;
-    padding: 3rem 1rem;
-    font-style: italic;
   }
 </style>

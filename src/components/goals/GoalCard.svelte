@@ -1,6 +1,7 @@
 <script lang="ts">
   import BeliefAlignment from './BeliefAlignment.svelte'
   import type { Goal, Belief } from '$lib/db'
+  import { Button, Badge, Card, Progress } from '$lib/components/ui/index.js'
 
   let {
     goal,
@@ -67,29 +68,29 @@
   }
 </script>
 
-<div class="card">
+<Card>
   <div class="card-header">
     <div class="header-info">
       <h3 class="card-title">{goal.title}</h3>
       <div class="header-badges">
-        <span class="status-badge" class:active={goal.status === 'active'} class:completed={goal.status === 'completed'} class:abandoned={goal.status === 'abandoned'}>
+        <Badge variant={goal.status === 'active' ? 'default' : goal.status === 'completed' ? 'success' : 'destructive'}>
           {statusLabel(goal.status)}
-        </span>
-        <span class="horizon-badge">
+        </Badge>
+        <Badge variant="secondary">
           {horizonLabel(goal.horizon)}
-        </span>
+        </Badge>
         <span class="priority-stars" title="Priorytet {goal.priority}/10">
           {priorityStars(goal.priority)}
         </span>
       </div>
     </div>
     <div class="card-actions">
-      <button class="btn btn-small btn-ghost" onclick={() => onedit?.()}>
+      <Button variant="ghost" size="sm" onclick={() => onedit?.()}>
         Edytuj
-      </button>
-      <button class="btn btn-small btn-danger" onclick={() => ondelete?.()}>
+      </Button>
+      <Button variant="destructive" size="sm" onclick={() => ondelete?.()}>
         Usuń
-      </button>
+      </Button>
     </div>
   </div>
 
@@ -112,23 +113,18 @@
           <span class="progress-value" style="color: {progressColor(progressValue)}">
             {progressValue}%
           </span>
-          <button class="btn btn-tiny btn-primary" onclick={saveProgress}>OK</button>
+          <Button variant="default" size="sm" onclick={saveProgress}>OK</Button>
         </div>
       {:else}
-        <button class="btn btn-tiny btn-ghost" onclick={() => {
+        <Button variant="ghost" size="sm" onclick={() => {
           progressValue = goal.progress
           editingProgress = true
         }}>
           Zmień
-        </button>
+        </Button>
       {/if}
     </div>
-    <div class="progress-bar">
-      <div
-        class="progress-fill"
-        style="width: {goal.progress}%; background: {progressColor(goal.progress)}"
-      ></div>
-    </div>
+    <Progress value={goal.progress} />
     <div class="progress-labels">
       <span>0%</span>
       <span class="progress-center" style="color: {progressColor(goal.progress)}">
@@ -173,15 +169,9 @@
       blocking={blockingBeliefs}
     />
   </div>
-</div>
+</Card>
 
 <style>
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
   .card-header {
     display: flex;
     align-items: flex-start;
@@ -208,37 +198,6 @@
     flex-wrap: wrap;
     gap: 0.375rem;
     align-items: center;
-  }
-
-  .status-badge {
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    font-size: 0.6875rem;
-    font-weight: 600;
-  }
-
-  .status-badge.active {
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    color: var(--sl-color-accent-high);
-  }
-
-  .status-badge.completed {
-    background: color-mix(in srgb, #4ade80 20%, transparent);
-    color: #4ade80;
-  }
-
-  .status-badge.abandoned {
-    background: color-mix(in srgb, #f87171 20%, transparent);
-    color: #f87171;
-  }
-
-  .horizon-badge {
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-gray-2);
   }
 
   .priority-stars {
@@ -312,19 +271,6 @@
     min-width: 3ch;
   }
 
-  .progress-bar {
-    height: 8px;
-    background: var(--sl-color-gray-5);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.3s;
-  }
-
   .progress-labels {
     display: flex;
     justify-content: space-between;
@@ -389,45 +335,4 @@
     color: var(--sl-color-gray-3);
   }
 
-  .btn {
-    padding: 0.375rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .btn-tiny {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.6875rem;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    border-color: var(--sl-color-gray-5);
-  }
-
-  .btn-ghost:hover {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-  }
-
-  .btn-danger {
-    background: transparent;
-    color: #f87171;
-    border-color: color-mix(in srgb, #f87171 40%, transparent);
-  }
-
-  .btn-danger:hover {
-    background: color-mix(in srgb, #f87171 15%, transparent);
-    color: #f87171;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: white;
-  }
 </style>

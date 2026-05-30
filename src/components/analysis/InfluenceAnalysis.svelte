@@ -1,10 +1,12 @@
 <script lang="ts">
-  import type { NetworkNode, NetworkConnection, Belief } from '$lib/db'
+  import type { NetworkNode, NetworkConnection, Belief, Observation } from '$lib/db'
+  import { Card, CardHeader, CardTitle, CardDescription, CardContent, Badge } from '$lib/components/ui/index.js'
 
-  let { nodes, connections, beliefs }: {
+  let { nodes, connections, beliefs, observations }: {
     nodes: NetworkNode[]
     connections: NetworkConnection[]
     beliefs: Belief[]
+    observations: Observation[]
   } = $props()
 
   let personObservations = $derived.by(() => {
@@ -71,75 +73,91 @@
 
 <div class="influence-analysis">
   {#if influenceData.length > 0}
-    <div class="card">
-      <h3 class="section-title">Najsilniejsze wpływy w sieci</h3>
-      <table class="influence-table">
-        <thead>
-          <tr>
-            <th>Źródło</th>
-            <th>Cel</th>
-            <th>Typ</th>
-            <th>Siła wpływu</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each influenceData.slice(0, 10) as item}
+    <Card>
+      <CardHeader>
+        <CardTitle class="text-sm">Najsilniejsze wpływy w sieci</CardTitle>
+      </CardHeader>
+      <CardContent class="p-0">
+        <table class="influence-table">
+          <thead>
             <tr>
-              <td class="source-cell">{item.sourceName}</td>
-              <td>{item.targetName}</td>
-              <td><span class="type-badge">{typeLabel(item.type)}</span></td>
-              <td>
-                <div class="influence-bar-track">
-                  <div class="influence-bar-fill" style="width: {item.strength * 100}%"></div>
-                </div>
-                <span class="influence-value">{Math.round(item.strength * 100)}%</span>
-              </td>
+              <th>Źródło</th>
+              <th>Cel</th>
+              <th>Typ</th>
+              <th>Siła wpływu</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {#each influenceData.slice(0, 10) as item}
+              <tr>
+                <td class="source-cell">{item.sourceName}</td>
+                <td>{item.targetName}</td>
+                <td><Badge variant="secondary" class="text-[11px]">{typeLabel(item.type)}</Badge></td>
+                <td>
+                  <div class="influence-bar-track">
+                    <div class="influence-bar-fill" style="width: {item.strength * 100}%"></div>
+                  </div>
+                  <span class="influence-value">{Math.round(item.strength * 100)}%</span>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </CardContent>
+    </Card>
   {:else}
-    <div class="card">
-      <h3 class="section-title">Najsilniejsze wpływy w sieci</h3>
-      <p class="empty">Brak danych o połączeniach sieciowych. Dodaj węzły i połączenia w module Sieć.</p>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle class="text-sm">Najsilniejsze wpływy w sieci</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p class="text-sm text-muted italic">Brak danych o połączeniach sieciowych. Dodaj węzły i połączenia w module Sieć.</p>
+      </CardContent>
+    </Card>
   {/if}
 
   {#if sourceBeliefMap.length > 0}
-    <div class="card">
-      <h3 class="section-title">Wpływ osób na przekonania</h3>
-      <p class="section-desc">Osoby i źródła, które pojawiają się w obserwacjach i ich powiązania z przekonaniami</p>
-      <table class="influence-table">
-        <thead>
-          <tr>
-            <th>Źródło</th>
-            <th>Obserwacje</th>
-            <th>Powiązane przekonania</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each sourceBeliefMap as item}
+    <Card>
+      <CardHeader>
+        <CardTitle class="text-sm">Wpływ osób na przekonania</CardTitle>
+        <CardDescription>Osoby i źródła, które pojawiają się w obserwacjach i ich powiązania z przekonaniami</CardDescription>
+      </CardHeader>
+      <CardContent class="p-0">
+        <table class="influence-table">
+          <thead>
             <tr>
-              <td class="source-cell">{item.source}</td>
-              <td>{item.count}</td>
-              <td class="beliefs-cell">
-                {#if item.beliefs.length === 0}
-                  <span class="no-beliefs">Brak powiązanych przekonań</span>
-                {:else}
-                  {item.beliefs.join(', ')}
-                {/if}
-              </td>
+              <th>Źródło</th>
+              <th>Obserwacje</th>
+              <th>Powiązane przekonania</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {#each sourceBeliefMap as item}
+              <tr>
+                <td class="source-cell">{item.source}</td>
+                <td>{item.count}</td>
+                <td class="beliefs-cell">
+                  {#if item.beliefs.length === 0}
+                    <span class="text-muted italic">Brak powiązanych przekonań</span>
+                  {:else}
+                    {item.beliefs.join(', ')}
+                  {/if}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </CardContent>
+    </Card>
   {:else}
-    <div class="card">
-      <h3 class="section-title">Wpływ osób na przekonania</h3>
-      <p class="empty">Brak obserwacji od osób lub rozmów. Dodaj obserwacje z źródłem "osoba" lub "rozmowa".</p>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle class="text-sm">Wpływ osób na przekonania</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p class="text-sm text-muted italic">Brak obserwacji od osób lub rozmów. Dodaj obserwacje z źródłem "osoba" lub "rozmowa".</p>
+      </CardContent>
+    </Card>
   {/if}
 </div>
 
@@ -150,33 +168,6 @@
     gap: 1rem;
   }
 
-  .card {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
-  .section-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--sl-color-gray-2);
-    margin-bottom: 0.25rem;
-  }
-
-  .section-desc {
-    font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
-    margin-bottom: 0.75rem;
-  }
-
-  .empty {
-    color: var(--sl-color-gray-4);
-    font-size: 0.8125rem;
-    font-style: italic;
-    padding: 1rem 0;
-  }
-
   .influence-table {
     width: 100%;
     border-collapse: collapse;
@@ -185,7 +176,7 @@
 
   .influence-table th {
     text-align: left;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     color: var(--sl-color-gray-3);
     font-weight: 600;
     font-size: 0.6875rem;
@@ -195,7 +186,7 @@
   }
 
   .influence-table td {
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     border-bottom: 1px solid var(--sl-color-gray-7);
     color: var(--sl-color-text);
   }
@@ -207,14 +198,6 @@
   .source-cell {
     font-weight: 600;
     color: var(--sl-color-accent-high);
-  }
-
-  .type-badge {
-    font-size: 0.6875rem;
-    padding: 0.125rem 0.375rem;
-    border-radius: 4px;
-    background: var(--sl-color-gray-7);
-    color: var(--sl-color-gray-3);
   }
 
   .influence-bar-track {
@@ -246,10 +229,5 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .no-beliefs {
-    color: var(--sl-color-gray-5);
-    font-style: italic;
   }
 </style>

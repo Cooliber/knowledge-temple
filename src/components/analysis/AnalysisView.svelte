@@ -5,6 +5,7 @@
   import InfluenceAnalysis from './InfluenceAnalysis.svelte'
   import { beliefs, observations, decisions, network } from '$lib/db'
   import type { Belief, Observation, Decision, NetworkNode, NetworkConnection } from '$lib/db'
+  import { Tabs, TabsList, TabsTrigger, TabsContent, Card, CardHeader, CardTitle, CardDescription, CardContent } from '$lib/components/ui/index.js'
 
   let allBeliefs: Belief[] = $state([])
   let allObservations: Observation[] = $state([])
@@ -84,59 +85,68 @@
   })
 </script>
 
-<div class="analysis-view mh-animate">
-  <div class="tabs">
-    {#each tabs as tab}
-      <button
-        class="mh-btn tab"
-        class:active={activeTab === tab.id}
-        onclick={() => activeTab = tab.id}
-      >
-        {tab.label}
-      </button>
-    {/each}
-  </div>
+<div class="analysis-view">
+  <Tabs bind:value={activeTab}>
+    <TabsList class="mb-6">
+      {#each tabs as tab}
+        <TabsTrigger value={tab.id}>{tab.label}</TabsTrigger>
+      {/each}
+    </TabsList>
 
-  <div class="tab-content">
-    {#if activeTab === 'insights'}
+    <TabsContent value="insights">
       <InsightsDashboard
         beliefs={allBeliefs}
         observations={allObservations}
         decisions={allDecisions}
       />
-    {:else if activeTab === 'trends'}
-      <div class="mh-card">
+    </TabsContent>
+
+    <TabsContent value="trends">
+      <Card>
         <TrendChart beliefs={allBeliefs} />
-      </div>
-    {:else if activeTab === 'contradictions'}
-      <div class="mh-card">
+      </Card>
+    </TabsContent>
+
+    <TabsContent value="contradictions">
+      <Card>
         <ContradictionDetector beliefs={allBeliefs} />
-      </div>
-    {:else if activeTab === 'influences'}
+      </Card>
+    </TabsContent>
+
+    <TabsContent value="influences">
       <InfluenceAnalysis
         nodes={allNodes}
         connections={allConnections}
         beliefs={allBeliefs}
+        observations={allObservations}
       />
-    {:else if activeTab === 'blindspots'}
-      <div class="mh-card">
-        <h3 class="mh-section-title">Slepe Plamy</h3>
-        <p class="section-desc">Obszary, które mogą wymagać większej uwagi</p>
-        {#if blindSpots.length === 0}
-          <p class="empty">Brak zidentyfikowanych ślepych plam. Dane są dobrze zrównoważone.</p>
-        {:else}
-          <div class="blind-spots">
-            {#each blindSpots as spot}
-              <div class="mh-card blind-spot-card">
-                <h4>{spot.title}</h4>
-                <p>{spot.description}</p>
-              </div>
-            {/each}
-          </div>
-        {/if}
-      </div>
-    {/if}
-  </div>
+    </TabsContent>
+
+    <TabsContent value="blindspots">
+      <Card>
+        <CardHeader>
+          <CardTitle class="text-sm">Slepe Plamy</CardTitle>
+          <CardDescription>Obszary, które mogą wymagać większej uwagi</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {#if blindSpots.length === 0}
+            <p class="text-sm text-muted italic text-center py-8">Brak zidentyfikowanych ślepych plam. Dane są dobrze zrównoważone.</p>
+          {:else}
+            <div class="flex flex-col gap-3">
+              {#each blindSpots as spot}
+                <Card>
+                  <CardContent class="p-3">
+                    <h4 class="text-sm font-semibold text-amber-500 mb-1">{spot.title}</h4>
+                    <p class="text-xs text-muted">{spot.description}</p>
+                  </CardContent>
+                </Card>
+              {/each}
+            </div>
+          {/if}
+        </CardContent>
+      </Card>
+    </TabsContent>
+  </Tabs>
 </div>
 
 <style>
@@ -144,77 +154,5 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 0.25rem;
-    border-bottom: 1px solid var(--mh-border);
-  }
-
-  .tab {
-    color: var(--mh-text-secondary);
-    border: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    background: none;
-    padding: 0.5rem 1rem;
-  }
-
-  .tab:hover {
-    color: var(--mh-text);
-  }
-
-  .tab.active {
-    color: var(--mh-accent-hover);
-    border-bottom-color: var(--mh-accent);
-  }
-
-  .tab-content {
-    min-height: 300px;
-  }
-
-  .section-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--mh-text-secondary);
-    margin-bottom: 0.25rem;
-  }
-
-  .section-desc {
-    font-size: 0.75rem;
-    color: var(--mh-text-muted);
-    margin-bottom: 1rem;
-  }
-
-  .empty {
-    color: var(--mh-text-muted);
-    font-size: 0.8125rem;
-    font-style: italic;
-    padding: 2rem 0;
-    text-align: center;
-  }
-
-  .blind-spots {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .blind-spot-card {
-    padding: 0.75rem;
-  }
-
-  .blind-spot-card h4 {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #f59e0b;
-    margin-bottom: 0.25rem;
-  }
-
-  .blind-spot-card p {
-    font-size: 0.75rem;
-    color: var(--mh-text-secondary);
-    line-height: 1.5;
   }
 </style>

@@ -4,6 +4,7 @@
   import GoalForm from './GoalForm.svelte'
   import { goals, beliefs } from '$lib/db'
   import type { Goal, Belief } from '$lib/db'
+  import { Button, Card, CardHeader, CardTitle, CardContent } from '$lib/components/ui/index.js'
 
   let allGoals: Goal[] = $state([])
   let allBeliefs: Belief[] = $state([])
@@ -94,36 +95,36 @@
 <div class="view mh-animate">
   <div class="toolbar">
     <h2 class="view-title">System Celów</h2>
-    <button class="mh-btn mh-btn-primary" onclick={handleAdd}>
+    <Button variant="default" onclick={handleAdd}>
       + Nowy cel
-    </button>
+    </Button>
   </div>
 
   {#if loading}
     <div class="loading">Ładowanie...</div>
   {:else}
     <div class="stats-row">
-      <div class="stat mh-card">
+      <Card class="stat">
         <span class="stat-value">{stats.total}</span>
         <span class="stat-label">Wszystkie</span>
-      </div>
-      <div class="stat accent mh-card">
+      </Card>
+      <Card class="stat accent">
         <span class="stat-value">{stats.active}</span>
         <span class="stat-label">Aktywne</span>
-      </div>
-      <div class="stat success mh-card">
+      </Card>
+      <Card class="stat success">
         <span class="stat-value">{stats.completed}</span>
         <span class="stat-label">Ukończone</span>
-      </div>
-      <div class="stat danger mh-card">
+      </Card>
+      <Card class="stat danger">
         <span class="stat-value">{stats.abandoned}</span>
         <span class="stat-label">Porzucone</span>
-      </div>
+      </Card>
     </div>
 
     <div class="columns">
       <div class="column-left mh-animate-d1">
-        <div class="mh-card">
+        <Card>
           <GoalTree
             goals={allGoals}
             {selectedId}
@@ -133,23 +134,27 @@
               editingGoal = undefined
             }}
           />
-        </div>
+        </Card>
       </div>
       <div class="column-right mh-animate-d2">
         {#if showForm}
-          <div class="mh-card">
-            <h3 class="panel-title">
-              {editingGoal ? 'Edytuj cel' : 'Nowy cel'}
-            </h3>
-            <GoalForm
-              goal={editingGoal}
-              allGoals={allGoals}
-              onsave={handleSave}
-              oncancel={handleCancel}
-            />
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle class="text-sm">
+                {editingGoal ? 'Edytuj cel' : 'Nowy cel'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <GoalForm
+                goal={editingGoal}
+                allGoals={allGoals}
+                onsave={handleSave}
+                oncancel={handleCancel}
+              />
+            </CardContent>
+          </Card>
         {:else if selectedGoal}
-          <div class="mh-card">
+          <Card>
             <GoalCard
               goal={selectedGoal}
               beliefs={allBeliefs}
@@ -157,12 +162,12 @@
               onupdate={handleUpdate}
               ondelete={() => handleDelete(selectedGoal!.id)}
             />
-          </div>
+          </Card>
         {:else}
-          <div class="empty-state mh-card">
+          <Card class="empty-state">
             <div class="empty-icon">🎯</div>
             <p class="empty-text">Wybierz cel z listy lub dodaj nowy</p>
-          </div>
+          </Card>
         {/if}
       </div>
     </div>
@@ -193,41 +198,6 @@
     gap: 0.75rem;
   }
 
-  .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.125rem;
-    padding: 0.75rem 1rem;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .stat-value {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--mh-text);
-  }
-
-  .stat-label {
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--mh-text-secondary);
-  }
-
-  .stat.accent .stat-value {
-    color: var(--mh-accent-hover);
-  }
-
-  .stat.success .stat-value {
-    color: #4ade80;
-  }
-
-  .stat.danger .stat-value {
-    color: #f87171;
-  }
-
   .columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -246,13 +216,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-  }
-
-  .panel-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--mh-text);
-    margin-bottom: 0.75rem;
   }
 
   .loading {

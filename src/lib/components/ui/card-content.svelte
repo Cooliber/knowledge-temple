@@ -7,6 +7,6 @@
   } & HTMLAttributes<HTMLDivElement> = $props()
 </script>
 
-<div class={cn("p-6 pt-0", className)} {...rest}>
+<div data-slot="card-content" class={cn("px-6", className)} {...rest}>
   {#if children}{@render children()}{/if}
 </div>

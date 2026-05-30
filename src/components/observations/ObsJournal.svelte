@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Observation } from '$lib/db'
+  import { Card, CardHeader, CardTitle, Badge, Input } from '$lib/components/ui'
 
   let {
     observations = [],
@@ -71,11 +72,11 @@
   }
 </script>
 
-<div class="journal">
-  <div class="journal-head">
-    <h2 class="journal-title">Obserwacje</h2>
-    <span class="journal-badge">{filtered.length}</span>
-  </div>
+<Card class="journal">
+  <CardHeader class="journal-head">
+    <CardTitle class="text-base">Obserwacje</CardTitle>
+    <Badge>{filtered.length}</Badge>
+  </CardHeader>
 
   <div class="journal-filters">
     <select bind:value={sourceTypeFilter} class="filter-select">
@@ -84,11 +85,11 @@
         <option value={st}>{sourceTypeLabels[st]}</option>
       {/each}
     </select>
-    <input
+    <Input
       type="text"
-      bind:value={searchQuery}
+      value={searchQuery}
+      oninput={(e) => searchQuery = e.currentTarget.value}
       placeholder="Szukaj w treści, źródle, tagach…"
-      class="filter-input"
     />
   </div>
 
@@ -127,16 +128,13 @@
       {/each}
     {/if}
   </div>
-</div>
+</Card>
 
 <style>
   .journal {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     overflow: hidden;
   }
 
@@ -144,23 +142,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1rem 0.5rem;
-  }
-
-  .journal-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--sl-color-white);
-    margin: 0;
-  }
-
-  .journal-badge {
-    padding: 0.15rem 0.5rem;
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    color: var(--sl-color-accent);
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 600;
   }
 
   .journal-filters {
@@ -171,8 +152,7 @@
     border-bottom: 1px solid var(--sl-color-border);
   }
 
-  .filter-select,
-  .filter-input {
+  .filter-select {
     background: var(--sl-color-gray-6);
     border: 1px solid var(--sl-color-gray-5);
     color: var(--sl-color-white);
@@ -183,18 +163,13 @@
     transition: border-color 0.15s;
   }
 
-  .filter-select:focus,
-  .filter-input:focus {
+  .filter-select:focus {
     border-color: var(--sl-color-accent);
   }
 
   .filter-select option {
     background: var(--sl-color-gray-6);
     color: var(--sl-color-white);
-  }
-
-  .filter-input::placeholder {
-    color: var(--sl-color-gray-4);
   }
 
   .journal-list {

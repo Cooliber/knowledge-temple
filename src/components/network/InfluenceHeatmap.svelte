@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { NetworkNode, NetworkConnection } from '$lib/db/schema'
+  import { CardTitle } from '$lib/components/ui'
 
   let {
     nodes = [],
@@ -52,7 +53,7 @@
 </script>
 
 <div class="heatmap-container">
-  <h3 class="heatmap-title">Matryca wpływów</h3>
+  <CardTitle class="text-sm heatmap-title">Matryca wpływów</CardTitle>
 
   {#if nodes.length === 0}
     <p class="no-data">Brak węzłów do wyświetlenia</p>
@@ -117,13 +118,6 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-  }
-
-  .heatmap-title {
-    margin: 0 0 1rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--sl-color-white);
   }
 
   .no-data {

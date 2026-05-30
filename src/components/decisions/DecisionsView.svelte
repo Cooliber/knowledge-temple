@@ -2,6 +2,7 @@
   import DecisionLog from './DecisionLog.svelte'
   import DecisionCard from './DecisionCard.svelte'
   import DecisionForm from './DecisionForm.svelte'
+  import { Button, Card, CardHeader, CardTitle, CardContent } from '$lib/components/ui'
   import { decisions, beliefs, goals } from '$lib/db'
   import type { Decision as DecisionType, Belief, Goal } from '$lib/db'
 
@@ -90,9 +91,9 @@
 <div class="view mh-animate">
   <div class="toolbar">
     <h2 class="view-title">Bramka Decyzyjna</h2>
-    <button class="mh-btn mh-btn-primary" onclick={handleAdd}>
+    <Button onclick={handleAdd}>
       + Nowa decyzja
-    </button>
+    </Button>
   </div>
 
   {#if loading}
@@ -100,48 +101,52 @@
   {:else}
     <div class="columns">
       <div class="column-left mh-animate-d1">
-        <div class="mh-card">
-          <DecisionLog
-              decisions={allDecisions}
-            selectedId={selectedId}
-            onselect={(id: string) => {
-              selectedId = id
-              showForm = false
-              editingDecision = undefined
-            }}
-          />
-        </div>
+        <Card>
+          <CardContent>
+            <DecisionLog
+                decisions={allDecisions}
+              selectedId={selectedId}
+              onselect={(id: string) => {
+                selectedId = id
+                showForm = false
+                editingDecision = undefined
+              }}
+            />
+          </CardContent>
+        </Card>
       </div>
       <div class="column-right mh-animate-d2">
         {#if showForm}
-          <div class="mh-card">
-            <h3 class="panel-title">
-              {editingDecision ? 'Edytuj decyzję' : 'Nowa decyzja'}
-            </h3>
-            <DecisionForm
-              decision={editingDecision}
-              beliefs={allBeliefs}
-              goals={allGoals}
-              onsave={handleSave}
-              oncancel={handleCancel}
-            />
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle class="text-base">
+                {editingDecision ? 'Edytuj decyzję' : 'Nowa decyzja'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DecisionForm
+                decision={editingDecision}
+                beliefs={allBeliefs}
+                goals={allGoals}
+                onsave={handleSave}
+                oncancel={handleCancel}
+              />
+            </CardContent>
+          </Card>
         {:else if selectedDecision}
-          <div class="mh-card">
-            <DecisionCard
-              decision={selectedDecision}
-              beliefs={allBeliefs}
-              goals={allGoals}
-              onedit={handleEdit}
-              onupdate={handleUpdate}
-              ondelete={() => handleDelete(selectedDecision!.id)}
-            />
-          </div>
+          <DecisionCard
+            decision={selectedDecision}
+            beliefs={allBeliefs}
+            goals={allGoals}
+            onedit={handleEdit}
+            onupdate={handleUpdate}
+            ondelete={() => handleDelete(selectedDecision!.id)}
+          />
         {:else}
-          <div class="empty-state mh-card">
+          <Card class="empty-state">
             <div class="empty-icon">⚖️</div>
             <p class="empty-text">Wybierz decyzję z listy lub dodaj nową</p>
-          </div>
+          </Card>
         {/if}
       </div>
     </div>
@@ -185,13 +190,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-  }
-
-  .panel-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--mh-text);
-    margin-bottom: 0.75rem;
   }
 
   .loading {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { NetworkNode, NetworkConnection } from '$lib/db/schema'
+  import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label } from '$lib/components/ui'
 
   let {
     nodes = [],
@@ -62,115 +63,97 @@
   }
 </script>
 
-<div class="card">
-  <h3>Nowe połączenie</h3>
+<Card>
+  <CardHeader>
+    <CardTitle class="text-sm">Nowe połączenie</CardTitle>
+  </CardHeader>
 
-  <div class="form-group">
-    <label for="conn-source">Źródło (kto/wpływający)</label>
-    <select id="conn-source" bind:value={formSourceId}>
-      <option value="" disabled>— wybierz —</option>
-      {#each nodes as n}
-        <option value={n.id}>{n.name}</option>
-      {/each}
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="conn-target">Cel (kto/co podlega wpływowi)</label>
-    <select id="conn-target" bind:value={formTargetId}>
-      <option value="" disabled>— wybierz —</option>
-      {#each availableTargets as n}
-        <option value={n.id}>{n.name}</option>
-      {/each}
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="conn-strength">
-      Siła wpływu: <strong>{displayStrength}</strong>
-    </label>
-    <div class="slider-wrapper">
-      <span class="slider-label negative">-1.0</span>
-      <input
-        id="conn-strength"
-        type="range"
-        min="-100"
-        max="100"
-        bind:value={influenceStrength}
-        class="influence-slider"
-      />
-      <span class="slider-label positive">+1.0</span>
+  <CardContent>
+    <div class="form-group">
+      <Label for="conn-source">Źródło (kto/wpływający)</Label>
+      <select id="conn-source" bind:value={formSourceId}>
+        <option value="" disabled>— wybierz —</option>
+        {#each nodes as n}
+          <option value={n.id}>{n.name}</option>
+        {/each}
+      </select>
     </div>
-    <div class="slider-value-indicator" class:pos={influenceStrength > 0} class:neg={influenceStrength < 0}>
-      {influenceStrength > 0 ? 'pozytywny' : influenceStrength < 0 ? 'negatywny' : 'neutralny'}
+
+    <div class="form-group">
+      <Label for="conn-target">Cel (kto/co podlega wpływowi)</Label>
+      <select id="conn-target" bind:value={formTargetId}>
+        <option value="" disabled>— wybierz —</option>
+        {#each availableTargets as n}
+          <option value={n.id}>{n.name}</option>
+        {/each}
+      </select>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label>Typ połączenia</label>
-    <div class="radio-group">
-      {#each ['trust', 'expertise', 'emotional', 'authority'] as type}
-        <label class="radio-label">
-          <input
-            type="radio"
-            name="conn-type"
-            value={type}
-            checked={connectionType === type}
-            onchange={() => connectionType = type as NetworkConnection['type']}
-          />
-          <span class="radio-text">
-            {connectionTypeLabel(type)}
-          </span>
-        </label>
-      {/each}
+    <div class="form-group">
+      <Label for="conn-strength">
+        Siła wpływu: <strong>{displayStrength}</strong>
+      </Label>
+      <div class="slider-wrapper">
+        <span class="slider-label negative">-1.0</span>
+        <input
+          id="conn-strength"
+          type="range"
+          min="-100"
+          max="100"
+          bind:value={influenceStrength}
+          class="influence-slider"
+        />
+        <span class="slider-label positive">+1.0</span>
+      </div>
+      <div class="slider-value-indicator" class:pos={influenceStrength > 0} class:neg={influenceStrength < 0}>
+        {influenceStrength > 0 ? 'pozytywny' : influenceStrength < 0 ? 'negatywny' : 'neutralny'}
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="checkbox-label">
-      <input type="checkbox" bind:checked={bidirectional} />
-      <span>Dwukierunkowe</span>
-    </label>
-  </div>
+    <div class="form-group">
+      <Label>Typ połączenia</Label>
+      <div class="radio-group">
+        {#each ['trust', 'expertise', 'emotional', 'authority'] as type}
+          <Label class="radio-label">
+            <input
+              type="radio"
+              name="conn-type"
+              value={type}
+              checked={connectionType === type}
+              onchange={() => connectionType = type as NetworkConnection['type']}
+            />
+            <span class="radio-text">
+              {connectionTypeLabel(type)}
+            </span>
+          </Label>
+        {/each}
+      </div>
+    </div>
 
-  {#if error}
-    <div class="error">{error}</div>
-  {/if}
+    <div class="form-group">
+      <Label class="checkbox-label">
+        <input type="checkbox" bind:checked={bidirectional} />
+        <span>Dwukierunkowe</span>
+      </Label>
+    </div>
 
-  <div class="form-actions">
-    <button class="btn btn-primary" onclick={handleSubmit}>Zapisz</button>
-    <button class="btn" onclick={handleCancel}>Anuluj</button>
-  </div>
-</div>
+    {#if error}
+      <div class="error">{error}</div>
+    {/if}
+  </CardContent>
+
+  <CardFooter>
+    <Button variant="default" onclick={handleSubmit}>Zapisz</Button>
+    <Button variant="outline" onclick={handleCancel}>Anuluj</Button>
+  </CardFooter>
+</Card>
 
 <style>
-  .card {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
-  .card h3 {
-    margin: 0 0 1rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--sl-color-white);
-  }
-
   .form-group {
     margin-bottom: 1rem;
   }
 
-  .form-group label {
-    display: block;
-    margin-bottom: 0.375rem;
-    font-size: 0.8125rem;
-    color: var(--sl-color-gray-3);
-  }
-
-  .form-group select,
-  .form-group input[type="text"] {
+  .form-group select {
     width: 100%;
     padding: 0.5rem 0.625rem;
     border-radius: 6px;
@@ -296,39 +279,5 @@
     color: #f87171;
     font-size: 0.8125rem;
     margin-bottom: 0.75rem;
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .btn {
-    flex: 1;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    border: 1px solid var(--sl-color-border);
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    font-size: 0.8125rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-  }
-
-  .btn:hover {
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-white);
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
-    border-color: var(--sl-color-accent);
-  }
-
-  .btn-primary:hover {
-    background: var(--sl-color-accent-high);
-    border-color: var(--sl-color-accent-high);
   }
 </style>

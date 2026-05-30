@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button, Input, Label } from '$lib/components/ui'
   import type { Decision, Belief, Goal } from '$lib/db'
 
   let {
@@ -56,10 +57,10 @@
 
 <form class="form mh-animate" onsubmit={handleSubmit}>
   <div class="field">
-    <label class="label" for="desc">Opis decyzji</label>
+    <Label for="desc">Opis decyzji</Label>
     <textarea
       id="desc"
-      class="mh-input"
+      class="textarea"
       bind:value={description}
       rows="2"
       placeholder="Co postanowiłeś?"
@@ -68,10 +69,10 @@
   </div>
 
   <div class="field">
-    <label class="label" for="ctx">Kontekst</label>
+    <Label for="ctx">Kontekst</Label>
     <textarea
       id="ctx"
-      class="mh-input"
+      class="textarea"
       bind:value={context}
       rows="3"
       placeholder="Okoliczności, sytuacja, myśli..."
@@ -79,7 +80,7 @@
   </div>
 
   <div class="field">
-    <label class="label">Powiązane przekonania</label>
+    <Label>Powiązane przekonania</Label>
     <div class="checkbox-grid">
       {#each beliefs as belief (belief.id)}
         <label class="checkbox-item">
@@ -97,7 +98,7 @@
   </div>
 
   <div class="field">
-    <label class="label">Powiązane cele</label>
+    <Label>Powiązane cele</Label>
     <div class="checkbox-grid">
       {#each goals as goal (goal.id)}
         <label class="checkbox-item">
@@ -115,9 +116,7 @@
   </div>
 
   <div class="field">
-    <label class="label" for="threshold">
-      Próg decyzyjny: {threshold}%
-    </label>
+    <Label for="threshold">Próg decyzyjny: {threshold}%</Label>
     <input
       id="threshold"
       type="range"
@@ -133,23 +132,22 @@
   </div>
 
   <div class="field">
-    <label class="label" for="expected">Oczekiwany rezultat</label>
-    <input
+    <Label for="expected">Oczekiwany rezultat</Label>
+    <Input
       id="expected"
       type="text"
-      class="mh-input"
       bind:value={expectedOutcome}
       placeholder="Co预计 się wydarzyć?"
     />
   </div>
 
   <div class="actions">
-    <button type="submit" class="mh-btn mh-btn-primary">
+    <Button type="submit">
       {decision ? 'Zapisz zmiany' : 'Dodaj decyzję'}
-    </button>
-    <button type="button" class="mh-btn mh-btn-secondary" onclick={() => oncancel?.()}>
+    </Button>
+    <Button type="button" variant="outline" onclick={() => oncancel?.()}>
       Anuluj
-    </button>
+    </Button>
   </div>
 </form>
 
@@ -166,10 +164,21 @@
     gap: 0.375rem;
   }
 
-  .label {
+  .textarea {
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    color: var(--sl-color-white);
+    border-radius: 4px;
+    padding: 0.5rem;
     font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--mh-text-secondary);
+    font-family: inherit;
+    width: 100%;
+    resize: vertical;
+  }
+
+  .textarea:focus {
+    outline: none;
+    border-color: var(--sl-color-accent);
   }
 
   .checkbox-grid {

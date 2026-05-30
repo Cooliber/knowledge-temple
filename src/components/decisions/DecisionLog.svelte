@@ -1,5 +1,6 @@
 <script lang="ts">
   import DecisionOutcome from './DecisionOutcome.svelte'
+  import { Button, Progress } from '$lib/components/ui'
   import type { Decision } from '$lib/db'
 
   let {
@@ -44,14 +45,15 @@
 <div class="log-container">
   <div class="filters">
     {#each outcomes as f}
-      <button
-        class="filter-btn"
-        class:active={filterOutcome === f.value}
+      <Button
+        variant="outline"
+        size="sm"
+        class={filterOutcome === f.value ? 'bg-accent/20 border-accent text-accent' : ''}
         onclick={() => (filterOutcome = f.value)}
       >
         {f.label}
-        <span class="count">{f.count}</span>
-      </button>
+        <span class="text-xs opacity-60">{f.count}</span>
+      </Button>
     {/each}
   </div>
 
@@ -71,12 +73,7 @@
           </div>
           <div class="item-meta">
             <span class="item-date">{formatDate(decision.timestamp)}</span>
-            <div class="threshold-bar">
-              <div
-                class="threshold-fill"
-                style="width: {decision.threshold * 100}%"
-              ></div>
-            </div>
+            <Progress value={decision.threshold * 100} class="h-1 w-[60px]" />
           </div>
         </button>
       {/each}
@@ -95,36 +92,6 @@
     display: flex;
     gap: 0.375rem;
     flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
-    border: 1px solid var(--sl-color-border);
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .filter-btn:hover {
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-white);
-  }
-
-  .filter-btn.active {
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    border-color: var(--sl-color-accent);
-    color: var(--sl-color-accent-high);
-  }
-
-  .count {
-    font-size: 0.6875rem;
-    opacity: 0.6;
   }
 
   .list {
@@ -181,21 +148,6 @@
   .item-date {
     font-size: 0.6875rem;
     color: var(--sl-color-gray-3);
-  }
-
-  .threshold-bar {
-    width: 60px;
-    height: 4px;
-    background: var(--sl-color-gray-5);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .threshold-fill {
-    height: 100%;
-    background: var(--sl-color-accent);
-    border-radius: 2px;
-    transition: width 0.2s;
   }
 
   .empty {

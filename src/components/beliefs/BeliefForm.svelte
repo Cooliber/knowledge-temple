@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Belief } from '$lib/db'
+  import { Button, Input, Card, CardContent, CardTitle, Label, Progress } from '$lib/components/ui/index.js'
 
   let {
     belief,
@@ -77,25 +78,27 @@
   }
 </script>
 
-<form class="belief-form mh-card mh-animate" onsubmit={handleSubmit}>
-  <h3 class="form-title">{belief ? 'Edytuj przekonanie' : 'Nowe przekonanie'}</h3>
+<Card>
+  <form onsubmit={handleSubmit}>
+    <CardContent class="flex flex-col gap-5 p-6">
+      <CardTitle class="text-lg font-bold">{belief ? 'Edytuj przekonanie' : 'Nowe przekonanie'}</CardTitle>
 
   <div class="form-group">
-    <label class="form-label" for="belief-text">Treść przekonania</label>
-    <textarea
+    <Label for="belief-text">Treść przekonania</Label>
+    <Input
       id="belief-text"
-      class="mh-input"
+      as="textarea"
       bind:value={text}
       placeholder="Np. Ufam, że ludzie są z natury dobrzy..."
       rows={4}
       required
-    ></textarea>
+    />
   </div>
 
   <div class="form-group">
-    <label class="form-label">
+    <Label>
       Siła przekonania: <span class="slider-value">{strengthDisplay}</span>
-    </label>
+    </Label>
     <div class="slider-row">
       <span class="slider-end">Słabe</span>
       <input
@@ -107,13 +110,11 @@
       />
       <span class="slider-end">Silne</span>
     </div>
-    <div class="strength-bar-track">
-      <div class="strength-bar-fill" style="width: {strength}%"></div>
-    </div>
+    <Progress value={strength} />
   </div>
 
   <div class="form-group">
-    <label class="form-label">Typ przekonania</label>
+    <Label>Typ przekonania</Label>
     <div class="radio-group">
       {#each [
         { value: 'first_order' as const, label: '1. rzędu — o świecie', desc: 'Podstawowe przekonanie o rzeczywistości' },
@@ -133,11 +134,10 @@
 
   {#if type !== 'first_order'}
     <div class="form-group">
-      <label class="form-label" for="belief-subject">O kim?</label>
-      <input
+      <Label for="belief-subject">O kim?</Label>
+      <Input
         id="belief-subject"
         type="text"
-        class="mh-input"
         bind:value={subject}
         placeholder="Imię lub nazwa osoby"
       />
@@ -145,18 +145,17 @@
   {/if}
 
   <div class="form-group">
-    <label class="form-label" for="belief-category">Kategoria</label>
-    <input
+    <Label for="belief-category">Kategoria</Label>
+    <Input
       id="belief-category"
       type="text"
-      class="mh-input"
       bind:value={category}
       placeholder="Np. relacje, praca, zdrowie..."
     />
   </div>
 
   <div class="form-group">
-    <label class="form-label">Tagi</label>
+    <Label>Tagi</Label>
     <div class="tags-input-wrapper">
       {#each tags as tag}
         <span class="tag-chip">
@@ -181,40 +180,24 @@
   </div>
 
   <div class="form-actions">
-    <button type="submit" class="mh-btn mh-btn-primary">
+    <Button type="submit">
       {belief ? 'Zapisz zmiany' : 'Utwórz przekonanie'}
-    </button>
-    <button type="button" class="mh-btn mh-btn-secondary" onclick={oncancel}>
+    </Button>
+    <Button type="button" variant="secondary" onclick={oncancel}>
       Anuluj
-    </button>
+    </Button>
   </div>
-</form>
+    </CardContent>
+  </form>
+</Card>
 
 <style>
-  .belief-form {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .form-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--mh-text);
-  }
-
   .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
   }
 
-  .form-label {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--mh-text-secondary);
-  }
 
 
 
@@ -269,20 +252,6 @@
     background: var(--mh-accent);
     cursor: pointer;
     border: 2px solid var(--mh-text);
-  }
-
-  .strength-bar-track {
-    height: 4px;
-    background: var(--mh-bg-elevated);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .strength-bar-fill {
-    height: 100%;
-    background: var(--mh-accent);
-    border-radius: 2px;
-    transition: width 0.15s;
   }
 
   .radio-group {

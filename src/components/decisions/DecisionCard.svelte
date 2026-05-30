@@ -1,5 +1,6 @@
 <script lang="ts">
   import DecisionOutcome from './DecisionOutcome.svelte'
+  import { Button, Card, CardHeader, CardTitle, CardAction, CardContent, Input } from '$lib/components/ui'
   import type { Decision, Belief, Goal } from '$lib/db'
 
   let {
@@ -59,19 +60,20 @@
   }
 </script>
 
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">{decision.description}</h3>
-    <div class="card-actions">
-      <button class="btn btn-small btn-ghost" onclick={() => onedit?.()}>
+<Card>
+  <CardHeader>
+    <CardTitle>{decision.description}</CardTitle>
+    <CardAction>
+      <Button variant="ghost" size="sm" onclick={() => onedit?.()}>
         Edytuj
-      </button>
-      <button class="btn btn-small btn-danger" onclick={() => ondelete?.()}>
+      </Button>
+      <Button variant="destructive" size="sm" onclick={() => ondelete?.()}>
         Usuń
-      </button>
-    </div>
-  </div>
+      </Button>
+    </CardAction>
+  </CardHeader>
 
+  <CardContent>
   <div class="meta-row">
     <DecisionOutcome outcome={decision.outcome} />
     <span class="date">{formatDate(decision.timestamp)}</span>
@@ -150,7 +152,7 @@
     <h4 class="section-title">Rzeczywisty rezultat</h4>
     <div class="outcome-controls">
       <select
-        class="input select"
+        class="select"
         bind:value={newOutcome}
         onchange={handleUpdate}
       >
@@ -159,9 +161,8 @@
         <option value="negative">Negatywny</option>
         <option value="neutral">Neutralny</option>
       </select>
-      <input
+      <Input
         type="text"
-        class="input"
         bind:value={newActualOutcome}
         placeholder="Opis rezultatu..."
         onchange={handleUpdate}
@@ -181,35 +182,10 @@
       </div>
     </div>
   {/if}
-</div>
+  </CardContent>
+</Card>
 
 <style>
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .card-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--sl-color-white);
-    line-height: 1.3;
-  }
-
-  .card-actions {
-    display: flex;
-    gap: 0.375rem;
-    flex-shrink: 0;
-  }
-
   .meta-row {
     display: flex;
     align-items: center;
@@ -315,9 +291,6 @@
 
   .select {
     min-width: 140px;
-  }
-
-  .input {
     background: var(--sl-color-gray-6);
     border: 1px solid var(--sl-color-gray-5);
     color: var(--sl-color-white);
@@ -328,7 +301,7 @@
     flex: 1;
   }
 
-  .input:focus {
+  .select:focus {
     outline: none;
     border-color: var(--sl-color-accent);
   }
@@ -366,35 +339,4 @@
     color: var(--sl-color-gray-4);
   }
 
-  .btn {
-    padding: 0.375rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    border-color: var(--sl-color-gray-5);
-  }
-
-  .btn-ghost:hover {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-  }
-
-  .btn-danger {
-    background: transparent;
-    color: #f87171;
-    border-color: color-mix(in srgb, #f87171 40%, transparent);
-  }
-
-  .btn-danger:hover {
-    background: color-mix(in srgb, #f87171 15%, transparent);
-    color: #f87171;
-  }
 </style>

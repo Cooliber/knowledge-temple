@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Goal } from '$lib/db'
+  import { Button, Input, Label } from '$lib/components/ui/index.js'
 
   let {
     goal,
@@ -46,11 +47,10 @@
 
 <form class="form mh-animate mh-animate-d2" onsubmit={handleSubmit}>
   <div class="field">
-    <label class="label" for="title">Tytuł</label>
-    <input
+    <Label for="title">Tytuł</Label>
+    <Input
       id="title"
       type="text"
-      class="mh-input"
       bind:value={title}
       placeholder="Nazwa celu"
       required
@@ -58,10 +58,10 @@
   </div>
 
   <div class="field">
-    <label class="label" for="desc">Opis</label>
+    <Label for="desc">Opis</Label>
     <textarea
       id="desc"
-      class="mh-input"
+      class="min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm"
       bind:value={description}
       rows="3"
       placeholder="Szczegóły celu..."
@@ -69,8 +69,11 @@
   </div>
 
   <div class="field">
-    <label class="label" for="parent">Cel nadrzędny</label>
-    <select class="mh-input" bind:value={parentId}>
+    <Label for="parent">Cel nadrzędny</Label>
+    <select
+      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+      bind:value={parentId}
+    >
       <option value={null}>Brak (cel główny)</option>
       {#each availableParents as p (p.id)}
         <option value={p.id}>{p.title}</option>
@@ -80,11 +83,10 @@
 
   <div class="field-row">
     <div class="field">
-      <label class="label" for="priority">Priorytet (1–10)</label>
-      <input
+      <Label for="priority">Priorytet (1–10)</Label>
+      <Input
         id="priority"
         type="number"
-        class="mh-input"
         bind:value={priority}
         min="1"
         max="10"
@@ -92,7 +94,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Horyzont</label>
+      <Label>Horyzont</Label>
       <div class="radio-group">
         {#each ['short', 'medium', 'long'] as h}
           <label class="radio-item">
@@ -114,18 +116,20 @@
 
   <div class="field-row">
     <div class="field">
-      <label class="label" for="deadline">Deadline</label>
-      <input
+      <Label for="deadline">Deadline</Label>
+      <Input
         id="deadline"
         type="date"
-        class="mh-input"
         bind:value={deadline}
       />
     </div>
 
     <div class="field">
-      <label class="label" for="status">Status</label>
-      <select class="mh-input" bind:value={status}>
+      <Label for="status">Status</Label>
+      <select
+        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+        bind:value={status}
+      >
         <option value="active">Aktywny</option>
         <option value="completed">Ukończony</option>
         <option value="abandoned">Porzucony</option>
@@ -134,12 +138,12 @@
   </div>
 
   <div class="actions">
-    <button type="submit" class="mh-btn mh-btn-primary">
+    <Button type="submit" variant="default">
       {goal ? 'Zapisz zmiany' : 'Dodaj cel'}
-    </button>
-    <button type="button" class="mh-btn mh-btn-secondary" onclick={() => oncancel?.()}>
+    </Button>
+    <Button type="button" variant="secondary" onclick={() => oncancel?.()}>
       Anuluj
-    </button>
+    </Button>
   </div>
 </form>
 
@@ -166,12 +170,6 @@
     .field-row {
       flex-direction: column;
     }
-  }
-
-  .label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--mh-text-secondary);
   }
 
   .radio-group {

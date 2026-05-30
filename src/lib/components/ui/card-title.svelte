@@ -4,9 +4,9 @@
 
   let { class: className, children, ...rest }: {
     class?: string; children?: import("svelte").Snippet
-  } & HTMLAttributes<HTMLHeadingElement> = $props()
+  } & HTMLAttributes<HTMLDivElement> = $props()
 </script>
 
-<h3 class={cn("font-semibold leading-none tracking-tight", className)} {...rest}>
+<div data-slot="card-title" class={cn("leading-none font-semibold", className)} {...rest}>
   {#if children}{@render children()}{/if}
-</h3>
+</div>

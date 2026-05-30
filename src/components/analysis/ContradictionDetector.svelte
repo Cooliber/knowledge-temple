@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Belief } from '$lib/db'
+  import { Button, Card, CardHeader, CardTitle, CardContent, Label, Badge } from '$lib/components/ui/index.js'
 
   let { beliefs }: { beliefs: Belief[] } = $props()
 
@@ -26,69 +27,75 @@
 </script>
 
 <div class="contradiction-detector">
-  <div class="selectors">
-    <div class="selector-group">
-      <label for="belief-a">Przekonanie A</label>
-      <select id="belief-a" bind:value={beliefAId}>
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col gap-1.5">
+      <Label for="belief-a">Przekonanie A</Label>
+      <select id="belief-a" bind:value={beliefAId}
+        class="w-full p-2 bg-card-bg border border-border rounded-md text-sm text-foreground focus:outline-none focus:border-primary">
         <option value="">Wybierz...</option>
         {#each filteredBeliefs as b}
           <option value={b.id}>{b.text}</option>
         {/each}
       </select>
       {#if beliefA}
-        <div class="belief-preview">
-          <span class="preview-category">{beliefA.category}</span>
-          <span class="preview-type">{beliefA.type === 'first_order' ? 'I-rzędu' : beliefA.type === 'second_order' ? 'II-rzędu' : 'III-rzędu'}</span>
-          <span class="preview-strength">{Math.round(beliefA.strength * 100)}%</span>
+        <div class="flex gap-2 p-1.5 bg-muted/10 rounded text-xs">
+          <Badge variant="secondary" class="text-[11px]">{beliefA.category}</Badge>
+          <span class="text-muted">{beliefA.type === 'first_order' ? 'I-rzędu' : beliefA.type === 'second_order' ? 'II-rzędu' : 'III-rzędu'}</span>
+          <span class="text-muted ml-auto">{Math.round(beliefA.strength * 100)}%</span>
         </div>
       {/if}
     </div>
 
-    <div class="selector-group">
-      <label for="belief-b">Przekonanie B</label>
-      <select id="belief-b" bind:value={beliefBId}>
+    <div class="flex flex-col gap-1.5">
+      <Label for="belief-b">Przekonanie B</Label>
+      <select id="belief-b" bind:value={beliefBId}
+        class="w-full p-2 bg-card-bg border border-border rounded-md text-sm text-foreground focus:outline-none focus:border-primary">
         <option value="">Wybierz...</option>
         {#each filteredBeliefsB as b}
           <option value={b.id}>{b.text}</option>
         {/each}
       </select>
       {#if beliefB}
-        <div class="belief-preview">
-          <span class="preview-category">{beliefB.category}</span>
-          <span class="preview-type">{beliefB.type === 'first_order' ? 'I-rzędu' : beliefB.type === 'second_order' ? 'II-rzędu' : 'III-rzędu'}</span>
-          <span class="preview-strength">{Math.round(beliefB.strength * 100)}%</span>
+        <div class="flex gap-2 p-1.5 bg-muted/10 rounded text-xs">
+          <Badge variant="secondary" class="text-[11px]">{beliefB.category}</Badge>
+          <span class="text-muted">{beliefB.type === 'first_order' ? 'I-rzędu' : beliefB.type === 'second_order' ? 'II-rzędu' : 'III-rzędu'}</span>
+          <span class="text-muted ml-auto">{Math.round(beliefB.strength * 100)}%</span>
         </div>
       {/if}
     </div>
   </div>
 
-  <div class="actions">
-    <button onclick={check} disabled={!beliefA || !beliefB} class="btn btn-primary">
+  <div class="flex gap-2">
+    <Button onclick={check} disabled={!beliefA || !beliefB}>
       Sprawdź Sprzeczność
-    </button>
-    <button onclick={reset} class="btn btn-ghost">Reset</button>
+    </Button>
+    <Button variant="ghost" onclick={reset}>Reset</Button>
   </div>
 
   {#if result}
-    <div class="result-card">
-      <h4>Wynik Analizy</h4>
-      <div class="beliefs-comparison">
-        <div class="belief-col">
-          <div class="belief-text">{beliefA?.text}</div>
-          <div class="belief-detail">Siła: {Math.round((beliefA?.strength ?? 0) * 100)}%</div>
-          <div class="belief-detail">Kategoria: {beliefA?.category}</div>
+    <Card>
+      <CardHeader>
+        <CardTitle class="text-sm">Wynik Analizy</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center mb-4">
+          <div class="bg-card-bg border border-border rounded-md p-3">
+            <p class="text-sm font-medium text-foreground mb-1">{beliefA?.text}</p>
+            <p class="text-[11px] text-muted">Siła: {Math.round((beliefA?.strength ?? 0) * 100)}%</p>
+            <p class="text-[11px] text-muted">Kategoria: {beliefA?.category}</p>
+          </div>
+          <span class="text-xs font-bold text-muted uppercase">vs</span>
+          <div class="bg-card-bg border border-border rounded-md p-3">
+            <p class="text-sm font-medium text-foreground mb-1">{beliefB?.text}</p>
+            <p class="text-[11px] text-muted">Siła: {Math.round((beliefB?.strength ?? 0) * 100)}%</p>
+            <p class="text-[11px] text-muted">Kategoria: {beliefB?.category}</p>
+          </div>
         </div>
-        <div class="vs">vs</div>
-        <div class="belief-col">
-          <div class="belief-text">{beliefB?.text}</div>
-          <div class="belief-detail">Siła: {Math.round((beliefB?.strength ?? 0) * 100)}%</div>
-          <div class="belief-detail">Kategoria: {beliefB?.category}</div>
-        </div>
-      </div>
-      <p class="result-message">{result}</p>
-    </div>
+        <p class="text-sm text-muted italic">{result}</p>
+      </CardContent>
+    </Card>
   {:else}
-    <p class="empty-state">Wybierz dwa przekonania do analizy</p>
+    <p class="text-sm text-muted italic text-center py-12">Wybierz dwa przekonania do analizy</p>
   {/if}
 </div>
 
@@ -97,164 +104,5 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-  }
-
-  .selectors {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .selector-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  .selector-group label {
-    font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .selector-group select {
-    padding: 0.5rem 0.75rem;
-    background: var(--sl-color-gray-7);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    color: var(--sl-color-text);
-    font-size: 0.875rem;
-  }
-
-  .selector-group select:focus {
-    outline: none;
-    border-color: var(--sl-color-accent);
-  }
-
-  .belief-preview {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.375rem 0.5rem;
-    background: var(--sl-color-gray-7);
-    border-radius: 4px;
-    font-size: 0.75rem;
-  }
-
-  .preview-category {
-    color: var(--sl-color-accent-high);
-    font-weight: 600;
-  }
-
-  .preview-type {
-    color: var(--sl-color-gray-4);
-  }
-
-  .preview-strength {
-    color: var(--sl-color-gray-3);
-    margin-left: auto;
-  }
-
-  .actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    border: none;
-  }
-
-  .btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: #fff;
-  }
-
-  .btn-primary:hover:not(:disabled) {
-    background: #6d28d9;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    border: 1px solid var(--sl-color-border);
-  }
-
-  .btn-ghost:hover {
-    background: var(--sl-color-gray-7);
-    color: var(--sl-color-white);
-  }
-
-  .result-card {
-    background: var(--sl-color-gray-7);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
-  .result-card h4 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--sl-color-white);
-    margin-bottom: 0.75rem;
-  }
-
-  .beliefs-comparison {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .belief-col {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    padding: 0.75rem;
-  }
-
-  .belief-text {
-    font-size: 0.8125rem;
-    color: var(--sl-color-text);
-    font-weight: 500;
-    margin-bottom: 0.375rem;
-  }
-
-  .belief-detail {
-    font-size: 0.6875rem;
-    color: var(--sl-color-gray-4);
-  }
-
-  .vs {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--sl-color-gray-4);
-    text-transform: uppercase;
-  }
-
-  .result-message {
-    font-size: 0.8125rem;
-    color: var(--sl-color-gray-3);
-    font-style: italic;
-  }
-
-  .empty-state {
-    color: var(--sl-color-gray-4);
-    font-size: 0.875rem;
-    text-align: center;
-    padding: 3rem 1rem;
-    font-style: italic;
   }
 </style>

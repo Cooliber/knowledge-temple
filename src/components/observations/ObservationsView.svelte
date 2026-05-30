@@ -5,6 +5,7 @@
   import ObsJournal from './ObsJournal.svelte'
   import ObsEntry from './ObsEntry.svelte'
   import ObsForm from './ObsForm.svelte'
+  import { Button } from '$lib/components/ui'
 
   let allObservations: Observation[] = $state([])
   let allBeliefs: Belief[] = $state([])
@@ -71,9 +72,9 @@
 <div class="observations-view mh-animate">
   <div class="view-header">
     <h1 class="view-title">Dziennik Obserwacji</h1>
-    <button class="mh-btn mh-btn-primary" onclick={handleAdd}>
+    <Button variant="default" onclick={handleAdd}>
       + Nowa obserwacja
-    </button>
+    </Button>
   </div>
 
   <div class="view-body mh-animate-d1">

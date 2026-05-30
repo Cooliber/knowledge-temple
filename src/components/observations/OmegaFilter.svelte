@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Progress } from '$lib/components/ui'
+
   let { attentionLevel = 0.5, onchange }: {
     attentionLevel?: number
     onchange?: (value: number) => void
@@ -17,7 +19,6 @@
   }
 
   let pct = $derived(`${Math.round(attentionLevel * 100)}%`)
-  let gaugeStyle = $derived(`width: ${attentionLevel * 100}%`)
 </script>
 
 <div class="omega-filter">
@@ -26,9 +27,7 @@
     <span class="lc">Ω filter</span>
     <span class="lr">Użytkownik</span>
   </div>
-  <div class="gauge-track">
-    <div class="gauge-fill" style={gaugeStyle}></div>
-  </div>
+  <Progress value={attentionLevel * 100} class="h-3" />
   <div class="gauge-meta">
     <span class="gp">{pct}</span>
     <span class="gd">informacji przepuszczonej do modelu</span>
@@ -74,21 +73,6 @@
     color: var(--sl-color-accent);
     font-weight: 700;
     font-size: 0.8rem;
-  }
-
-  .gauge-track {
-    height: 12px;
-    background: var(--sl-color-gray-6);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .gauge-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--sl-color-accent), #a78bfa);
-    border-radius: 6px;
-    transition: width 0.2s ease;
   }
 
   .gauge-meta {

@@ -6,6 +6,7 @@
   import BeliefTimeline from './BeliefTimeline.svelte'
   import BeliefHierarchy from './BeliefHierarchy.svelte'
   import NestedBeliefDialog from './NestedBeliefDialog.svelte'
+  import { Button, Badge, Input, Progress, Card, CardContent, CardTitle } from '$lib/components/ui/index.js'
 
   let allBeliefs = $state<Belief[]>([])
   let selectedBelief = $state<Belief | null>(null)
@@ -99,14 +100,13 @@
 <div class="beliefs-view mh-animate">
   <aside class="sidebar mh-animate-d1">
     <div class="sidebar-header">
-      <h2 class="sidebar-title">Przekonania</h2>
-      <button class="mh-btn mh-btn-primary" onclick={handleCreate}>+ Nowe</button>
+      <CardTitle class="text-sm">Przekonania</CardTitle>
+      <Button onclick={handleCreate}>+ Nowe</Button>
     </div>
 
     <div class="sidebar-controls">
-      <input
+      <Input
         type="search"
-        class="mh-input"
         placeholder="Szukaj przekonań..."
         bind:value={searchQuery}
       />
@@ -127,16 +127,12 @@
       </div>
 
       <div class="view-toggle">
-        <button
-          class="mh-btn"
-          class:mh-btn-primary={viewMode === 'list'}
-          class:mh-btn-secondary={viewMode !== 'list'}
-          onclick={() => viewMode = 'list'}>Lista</button>
-        <button
-          class="mh-btn"
-          class:mh-btn-primary={viewMode === 'hierarchy'}
-          class:mh-btn-secondary={viewMode !== 'hierarchy'}
-          onclick={() => viewMode = 'hierarchy'}>Hierarchia</button>
+        <Button
+          variant={viewMode === 'list' ? 'default' : 'secondary'}
+          onclick={() => viewMode = 'list'}>Lista</Button>
+        <Button
+          variant={viewMode === 'hierarchy' ? 'default' : 'secondary'}
+          onclick={() => viewMode = 'hierarchy'}>Hierarchia</Button>
       </div>
     </div>
 
@@ -172,67 +168,66 @@
         }}
       />
     {:else if selectedBelief && viewMode === 'list'}
-      <div class="detail-panel mh-card">
-        <div class="detail-header">
-          <h3 class="detail-title">{selectedBelief.text}</h3>
-          <div class="detail-actions">
-            <button class="mh-btn mh-btn-secondary" onclick={() => handleEdit(selectedBelief!)}>Edytuj</button>
-            <button class="mh-btn mh-btn-secondary" onclick={() => handleCreateNested(selectedBelief!)}>+ Zagnieżdżone</button>
-          </div>
-        </div>
-
-        <div class="detail-meta">
-          <span class="mh-badge type-{selectedBelief.type}">
-            {typeLabel(selectedBelief.type)}
-          </span>
-          {#if selectedBelief.subject}
-            <span class="meta-item">
-              <span class="meta-label">Osoba:</span> {selectedBelief.subject}
-            </span>
-          {/if}
-          <span class="meta-item">
-            <span class="meta-label">Kategoria:</span> {selectedBelief.category || '—'}
-          </span>
-          <span class="meta-item">
-            <span class="meta-label">ID:</span> {selectedBelief.id.slice(0, 8)}...
-          </span>
-        </div>
-
-        <div class="strength-section">
-          <div class="strength-header">
-            <span class="strength-label">Siła przekonania</span>
-            <span class="strength-value">{Math.round(selectedBelief.strength * 100)}%</span>
-          </div>
-          <div class="strength-bar-track">
-            <div
-              class="strength-bar-fill"
-              style="width: {selectedBelief.strength * 100}%"
-            ></div>
-          </div>
-        </div>
-
-        {#if selectedBelief.tags.length > 0}
-          <div class="tags-section">
-            <span class="section-label">Tagi:</span>
-            <div class="tags-list">
-              {#each selectedBelief.tags as tag}
-                <span class="mh-badge mh-badge-accent">{tag}</span>
-              {/each}
+      <Card>
+        <CardContent class="flex flex-col gap-5 p-6">
+          <div class="detail-header">
+            <h3 class="detail-title">{selectedBelief.text}</h3>
+            <div class="detail-actions">
+              <Button variant="secondary" onclick={() => handleEdit(selectedBelief!)}>Edytuj</Button>
+              <Button variant="secondary" onclick={() => handleCreateNested(selectedBelief!)}>+ Zagnieżdżone</Button>
             </div>
           </div>
-        {/if}
 
-        <div class="timeline-section">
-          <h4 class="section-heading">Historia siły przekonania</h4>
-          <BeliefTimeline belief={selectedBelief} />
-        </div>
-      </div>
+          <div class="detail-meta">
+            <Badge class="type-{selectedBelief.type}">
+              {typeLabel(selectedBelief.type)}
+            </Badge>
+            {#if selectedBelief.subject}
+              <span class="meta-item">
+                <span class="meta-label">Osoba:</span> {selectedBelief.subject}
+              </span>
+            {/if}
+            <span class="meta-item">
+              <span class="meta-label">Kategoria:</span> {selectedBelief.category || '—'}
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">ID:</span> {selectedBelief.id.slice(0, 8)}...
+            </span>
+          </div>
+
+          <div class="strength-section">
+            <div class="strength-header">
+              <span class="strength-label">Siła przekonania</span>
+              <span class="strength-value">{Math.round(selectedBelief.strength * 100)}%</span>
+            </div>
+            <Progress value={selectedBelief.strength * 100} />
+          </div>
+
+          {#if selectedBelief.tags.length > 0}
+            <div class="tags-section">
+              <span class="section-label">Tagi:</span>
+              <div class="tags-list">
+                {#each selectedBelief.tags as tag}
+                  <Badge variant="secondary">{tag}</Badge>
+                {/each}
+              </div>
+            </div>
+          {/if}
+
+          <div class="timeline-section">
+            <h4 class="section-heading">Historia siły przekonania</h4>
+            <BeliefTimeline belief={selectedBelief} />
+          </div>
+        </CardContent>
+      </Card>
     {:else if viewMode === 'hierarchy'}
       <BeliefHierarchy beliefs={allBeliefs} />
     {:else}
-      <div class="empty-detail mh-card">
-        <p>Wybierz przekonanie z listy lub dodaj nowe</p>
-      </div>
+      <Card class="empty-detail">
+        <CardContent class="flex items-center justify-center h-full">
+          <p class="text-muted-foreground text-sm">Wybierz przekonanie z listy lub dodaj nowe</p>
+        </CardContent>
+      </Card>
     {/if}
   </main>
 </div>
@@ -263,12 +258,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .sidebar-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--mh-text);
   }
 
   .sidebar-controls {
@@ -308,13 +297,6 @@
 
   .main-panel {
     overflow-y: auto;
-  }
-
-  .detail-panel {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
   }
 
   .detail-header {
@@ -374,20 +356,6 @@
     font-weight: 600;
   }
 
-  .strength-bar-track {
-    height: 6px;
-    background: var(--mh-bg-elevated);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .strength-bar-fill {
-    height: 100%;
-    background: var(--mh-accent);
-    border-radius: 3px;
-    transition: width 0.3s;
-  }
-
   .tags-section {
     display: flex;
     align-items: center;
@@ -416,15 +384,6 @@
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--mh-text-secondary);
-  }
-
-  .empty-detail {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: var(--mh-text-muted);
-    font-size: 0.9rem;
   }
 
   .type-first_order {

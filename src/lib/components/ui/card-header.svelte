@@ -7,6 +7,13 @@
   } & HTMLAttributes<HTMLDivElement> = $props()
 </script>
 
-<div class={cn("flex flex-col space-y-1.5 p-6", className)} {...rest}>
+<div
+  data-slot="card-header"
+  class={cn(
+    "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-[data-slot=card-action]:grid-cols-[1fr_auto]",
+    className
+  )}
+  {...rest}
+>
   {#if children}{@render children()}{/if}
 </div>

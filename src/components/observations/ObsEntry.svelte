@@ -2,6 +2,7 @@
   import { observations as db } from '$lib/db'
   import type { Observation, Belief } from '$lib/db'
   import OmegaFilter from './OmegaFilter.svelte'
+  import { Card, CardHeader, CardTitle, CardFooter, Badge, Button } from '$lib/components/ui'
 
   let {
     observation,
@@ -69,14 +70,14 @@
 </script>
 
 {#if observation}
-  <div class="obs-entry">
-    <div class="entry-head">
+  <Card>
+    <CardHeader class="entry-head">
       <div class="entry-type-badge">
         <span class="et-icon">{sourceTypeIcons[observation.sourceType] || '📝'}</span>
         <span class="et-label">{sourceTypeLabels[observation.sourceType] || observation.sourceType}</span>
       </div>
       <span class="entry-date">{formatDate(observation.timestamp)}</span>
-    </div>
+    </CardHeader>
 
     <div class="entry-content">
       <p class="entry-text">{observation.content}</p>
@@ -95,12 +96,12 @@
       </div>
       <div class="meta-item">
         <span class="meta-label">Kategoria</span>
-        <span class="meta-badge">{observation.category}</span>
+        <Badge variant="outline" class="font-normal">{observation.category}</Badge>
       </div>
     </div>
 
     <div class="entry-section">
-      <span class="section-label">Omega — poziom uwagi</span>
+      <CardTitle class="section-label">Omega — poziom uwagi</CardTitle>
       <OmegaFilter
         attentionLevel={observation.attentionLevel}
       />
@@ -108,7 +109,7 @@
 
     {#if observation.tags.length > 0}
       <div class="entry-section">
-        <span class="section-label">Tagi</span>
+        <CardTitle class="section-label">Tagi</CardTitle>
         <div class="tags-row">
           {#each observation.tags as tag, i}
             <span class="tag-chip" style="background: {tagColor(i)}33; border-color: {tagColor(i)}">
@@ -120,7 +121,7 @@
     {/if}
 
     <div class="entry-section">
-      <span class="section-label">Powiązane przekonania ({linkedBeliefTexts.length})</span>
+      <CardTitle class="section-label">Powiązane przekonania ({linkedBeliefTexts.length})</CardTitle>
       {#if linkedBeliefTexts.length > 0}
         <div class="linked-beliefs">
           {#each linkedBeliefTexts as belief}
@@ -135,12 +136,13 @@
       {/if}
 
       {#if unlinkedBeliefs.length > 0}
-        <button
-          class="link-toggle-btn"
+        <Button
+          variant="outline"
+          size="sm"
           onclick={() => showLinkSelector = !showLinkSelector}
         >
           {showLinkSelector ? 'Zamknij' : '+ Połącz z przekonaniem'}
-        </button>
+        </Button>
 
         {#if showLinkSelector}
           <div class="link-selector">
@@ -163,36 +165,28 @@
       {/if}
     </div>
 
-    <div class="entry-actions">
-      <button class="btn btn-edit" onclick={() => onedit?.(observation)}>
+    <CardFooter class="entry-actions">
+      <Button variant="outline" onclick={() => onedit?.(observation)}>
         Edytuj
-      </button>
-      <button class="btn btn-delete" onclick={() => ondelete?.(observation.id)}>
+      </Button>
+      <Button variant="destructive" onclick={() => ondelete?.(observation.id)}>
         Usuń
-      </button>
-    </div>
-  </div>
+      </Button>
+    </CardFooter>
+  </Card>
 {:else}
-  <div class="empty-detail">
-    <div class="empty-icon">👁️</div>
-    <p class="empty-title">Wybierz obserwację</p>
-    <p class="empty-desc">Kliknij obserwację z listy, aby zobaczyć szczegóły</p>
-  </div>
+  <Card class="flex flex-col items-center justify-center h-full min-h-[300px] text-center p-8">
+    <div class="text-4xl mb-3 opacity-50">👁️</div>
+    <CardTitle class="text-base text-muted mb-1">Wybierz obserwację</CardTitle>
+    <p class="text-sm text-muted mt-0">Kliknij obserwację z listy, aby zobaczyć szczegóły</p>
+  </Card>
 {/if}
 
 <style>
-  .obs-entry {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1.25rem;
-  }
-
   .entry-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
   }
 
   .entry-type-badge {
@@ -220,6 +214,7 @@
   }
 
   .entry-content {
+    padding: 0 1.5rem;
     margin-bottom: 1rem;
   }
 
@@ -255,7 +250,7 @@
   .entry-meta {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin: 0 1.5rem 1rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--sl-color-border);
   }
@@ -278,28 +273,17 @@
     color: var(--sl-color-white);
   }
 
-  .meta-badge {
-    display: inline-block;
-    padding: 0.15rem 0.5rem;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: var(--sl-color-gray-2);
-  }
-
   .entry-section {
+    padding: 0 1.5rem;
     margin-bottom: 1rem;
   }
 
   .section-label {
-    display: block;
     font-size: 0.75rem;
     color: var(--sl-color-gray-4);
-    margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: 500;
+    margin-bottom: 0.5rem;
   }
 
   .tags-row {
@@ -352,22 +336,6 @@
     margin: 0.25rem 0;
   }
 
-  .link-toggle-btn {
-    margin-top: 0.5rem;
-    padding: 0.35rem 0.75rem;
-    background: color-mix(in srgb, var(--sl-color-accent) 15%, transparent);
-    border: 1px solid var(--sl-color-accent);
-    color: var(--sl-color-accent);
-    border-radius: 4px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .link-toggle-btn:hover {
-    background: color-mix(in srgb, var(--sl-color-accent) 30%, transparent);
-  }
-
   .link-selector {
     margin-top: 0.5rem;
     max-height: 180px;
@@ -414,70 +382,5 @@
   .entry-actions {
     display: flex;
     gap: 0.5rem;
-    margin-top: 1.25rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--sl-color-border);
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: none;
-    font-size: 0.85rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: opacity 0.15s;
-  }
-
-  .btn-edit {
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    border: 1px solid var(--sl-color-accent);
-    color: var(--sl-color-accent);
-  }
-
-  .btn-edit:hover {
-    background: color-mix(in srgb, var(--sl-color-accent) 35%, transparent);
-  }
-
-  .btn-delete {
-    background: #991b1b33;
-    border: 1px solid #ef4444;
-    color: #ef4444;
-  }
-
-  .btn-delete:hover {
-    background: #991b1b55;
-  }
-
-  .empty-detail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-height: 300px;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .empty-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-    opacity: 0.5;
-  }
-
-  .empty-title {
-    font-size: 1rem;
-    color: var(--sl-color-gray-3);
-    margin: 0 0 0.35rem;
-  }
-
-  .empty-desc {
-    font-size: 0.8rem;
-    color: var(--sl-color-gray-4);
-    margin: 0;
   }
 </style>

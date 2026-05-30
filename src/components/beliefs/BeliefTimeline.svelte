@@ -1,6 +1,7 @@
 <script lang="ts">
   import * as d3 from 'd3'
   import type { Belief } from '$lib/db'
+  import { Card } from '$lib/components/ui/index.js'
 
   let { belief }: { belief: Belief } = $props()
 
@@ -125,9 +126,9 @@
   })
 </script>
 
-<div class="timeline-container" bind:clientWidth={containerWidth}>
+<Card class="p-2 overflow-hidden" bind:clientWidth={containerWidth}>
   {#if belief.history.length === 0}
-    <div class="timeline-empty">
+    <div class="flex items-center justify-center h-[100px] text-muted-foreground text-sm">
       <p>Brak danych historycznych dla tego przekonania</p>
     </div>
   {:else}
@@ -138,28 +139,10 @@
       class="timeline-svg"
     ></svg>
   {/if}
-</div>
+</Card>
 
 <style>
-  .timeline-container {
-    width: 100%;
-    background: var(--sl-color-black);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    padding: 0.5rem;
-    overflow: hidden;
-  }
-
   .timeline-svg {
     display: block;
-  }
-
-  .timeline-empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    color: var(--sl-color-gray-4);
-    font-size: 0.8rem;
   }
 </style>

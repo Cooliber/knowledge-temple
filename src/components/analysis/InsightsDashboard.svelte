@@ -1,6 +1,7 @@
 <script lang="ts">
   import * as d3 from 'd3'
   import type { Belief, Observation, Decision } from '$lib/db'
+  import { Card, CardHeader, CardTitle, CardContent } from '$lib/components/ui/index.js'
 
   let { beliefs, observations, decisions }: {
     beliefs: Belief[]
@@ -174,42 +175,58 @@
 </script>
 
 <div class="insights-grid">
-  <div class="card">
-    <h3 class="section-title">Przekonania według kategorii</h3>
-    <div bind:this={barChartEl} class="chart-box"></div>
-  </div>
+  <Card>
+    <CardHeader>
+      <CardTitle class="text-sm">Przekonania według kategorii</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div bind:this={barChartEl} class="w-full min-h-[220px]"></div>
+    </CardContent>
+  </Card>
 
-  <div class="card">
-    <h3 class="section-title">Rozkład siły przekonań</h3>
-    <div bind:this={histChartEl} class="chart-box"></div>
-  </div>
+  <Card>
+    <CardHeader>
+      <CardTitle class="text-sm">Rozkład siły przekonań</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div bind:this={histChartEl} class="w-full min-h-[220px]"></div>
+    </CardContent>
+  </Card>
 
-  <div class="card">
-    <h3 class="section-title">Źródła obserwacji</h3>
-    <div class="source-list">
-      {#if sourceData.length === 0}
-        <p class="empty">Brak danych</p>
-      {:else}
-        {#each sourceData as item}
-          <div class="source-row">
-            <span class="source-label">{sourceLabel(item.label)}</span>
-            <div class="source-bar-track">
-              <div
-                class="source-bar-fill"
-                style="width: {item.value / Math.max(...sourceData.map(d => d.value)) * 100}%"
-              ></div>
+  <Card>
+    <CardHeader>
+      <CardTitle class="text-sm">Źródła obserwacji</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div class="source-list">
+        {#if sourceData.length === 0}
+          <p class="text-sm text-muted italic text-center py-8">Brak danych</p>
+        {:else}
+          {#each sourceData as item}
+            <div class="source-row">
+              <span class="source-label">{sourceLabel(item.label)}</span>
+              <div class="source-bar-track">
+                <div
+                  class="source-bar-fill"
+                  style="width: {item.value / Math.max(...sourceData.map(d => d.value)) * 100}%"
+                ></div>
+              </div>
+              <span class="source-value">{item.value}</span>
             </div>
-            <span class="source-value">{item.value}</span>
-          </div>
-        {/each}
-      {/if}
-    </div>
-  </div>
+          {/each}
+        {/if}
+      </div>
+    </CardContent>
+  </Card>
 
-  <div class="card">
-    <h3 class="section-title">Wyniki decyzji</h3>
-    <div bind:this={pieChartEl} class="chart-box"></div>
-  </div>
+  <Card>
+    <CardHeader>
+      <CardTitle class="text-sm">Wyniki decyzji</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div bind:this={pieChartEl} class="w-full min-h-[220px]"></div>
+    </CardContent>
+  </Card>
 </div>
 
 <style>
@@ -217,35 +234,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-  }
-
-  .card {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
-  .section-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--sl-color-gray-2);
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--sl-color-border);
-  }
-
-  .chart-box {
-    width: 100%;
-    min-height: 220px;
-  }
-
-  .empty {
-    color: var(--sl-color-gray-4);
-    font-size: 0.8125rem;
-    font-style: italic;
-    text-align: center;
-    padding: 2rem;
   }
 
   .source-list {

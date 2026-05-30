@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Belief } from '$lib/db'
+  import { Progress } from '$lib/components/ui/index.js'
 
   let {
     supporting = [],
@@ -30,12 +31,7 @@
         <div class="belief-card supporting">
           <p class="belief-text">{belief.text}</p>
           <div class="strength-row">
-            <div class="strength-bar">
-              <div
-                class="strength-fill"
-                style="width: {strengthWidth(belief.strength)}; background: {strengthColor(belief.strength)}"
-              ></div>
-            </div>
+            <Progress value={Math.round(belief.strength * 100)} />
             <span class="strength-label">
               {Math.round(belief.strength * 100)}%
             </span>
@@ -56,12 +52,7 @@
         <div class="belief-card blocking">
           <p class="belief-text">{belief.text}</p>
           <div class="strength-row">
-            <div class="strength-bar">
-              <div
-                class="strength-fill"
-                style="width: {strengthWidth(belief.strength)}; background: {strengthColor(belief.strength)}"
-              ></div>
-            </div>
+            <Progress value={Math.round(belief.strength * 100)} />
             <span class="strength-label">
               {Math.round(belief.strength * 100)}%
             </span>
@@ -144,20 +135,6 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .strength-bar {
-    flex: 1;
-    height: 4px;
-    background: var(--sl-color-gray-5);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .strength-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.3s;
   }
 
   .strength-label {
