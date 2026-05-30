@@ -7,6 +7,6 @@
   } & HTMLAttributes<HTMLDivElement> = $props()
 </script>
 
-<div class={cn("flex flex-col space-y-1.5 text-center sm:text-left", className)} {...rest}>
+<div class={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2", className)} {...rest}>
   {#if children}{@render children()}{/if}
 </div>

@@ -4,9 +4,9 @@
 
   let { class: className, children, ...rest }: {
     class?: string; children?: import("svelte").Snippet
-  } & HTMLAttributes<HTMLDivElement> = $props()
+  } & HTMLAttributes<HTMLParagraphElement> = $props()
 </script>
 
-<div class={cn("flex flex-col space-y-1.5 text-center sm:text-left", className)} {...rest}>
+<p class={cn("text-sm text-muted", className)} {...rest}>
   {#if children}{@render children()}{/if}
-</div>
+</p>

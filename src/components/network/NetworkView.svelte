@@ -2,6 +2,7 @@
   import { network } from '$lib/db'
   import type { NetworkNode, NetworkConnection } from '$lib/db/schema'
   import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '$lib/components/ui'
+  import { toast } from 'svelte-sonner'
   import NetworkGraph from './NetworkGraph.svelte'
   import NodeDetail from './NodeDetail.svelte'
   import ConnectionForm from './ConnectionForm.svelte'
@@ -56,6 +57,7 @@
     nodes = [...nodes, node]
     newNodeName = ''
     showAddNode = false
+    toast.success('Węzeł utworzony')
   }
 
   async function handleCreateConnection(data: Omit<NetworkConnection, 'id'>) {
@@ -63,6 +65,7 @@
     connections = [...connections, conn]
     showAddConnection = false
     connectionSourceId = null
+    toast.success('Połączenie utworzone')
   }
 
   async function handleDeleteNode(nodeId: string) {
@@ -71,6 +74,7 @@
     connections = connections.filter(c => c.sourceId !== nodeId && c.targetId !== nodeId)
     selectedNodeId = null
     editingNode = null
+    toast.success('Węzeł usunięty')
   }
 
   async function handleUpdateNode(id: string, data: Partial<NetworkNode>) {
@@ -78,12 +82,14 @@
     if (updated) {
       nodes = nodes.map(n => n.id === id ? updated : n)
       editingNode = null
+      toast.success('Węzeł zaktualizowany')
     }
   }
 
   async function handleDeleteConnection(id: string) {
     await network.deleteConnection(id)
     connections = connections.filter(c => c.id !== id)
+    toast.success('Połączenie usunięte')
   }
 
   function handleSelectNode(nodeId: string) {

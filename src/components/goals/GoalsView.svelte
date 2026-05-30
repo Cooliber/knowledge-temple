@@ -5,6 +5,7 @@
   import { goals, beliefs } from '$lib/db'
   import type { Goal, Belief } from '$lib/db'
   import { Button, Card, CardHeader, CardTitle, CardContent } from '$lib/components/ui/index.js'
+  import { toast } from 'svelte-sonner'
 
   let allGoals: Goal[] = $state([])
   let allBeliefs: Belief[] = $state([])
@@ -42,6 +43,7 @@
   })
 
   async function handleSave(data: any) {
+    const wasEdit = !!editingGoal
     if (editingGoal) {
       const updated = await goals.updateGoal(editingGoal.id, data)
       if (updated) {
@@ -55,6 +57,7 @@
     }
     showForm = false
     editingGoal = undefined
+    toast.success(wasEdit ? 'Cel zaktualizowany' : 'Cel utworzony')
   }
 
   async function handleDelete(id: string) {
@@ -63,6 +66,7 @@
     if (selectedId === id) {
       selectedId = null
     }
+    toast.success('Cel usunięty')
   }
 
   async function handleUpdate(id: string, data: Partial<Goal>) {
@@ -71,6 +75,7 @@
       allGoals = allGoals.map((g) =>
         g.id === id ? updated : g
       )
+      toast.success('Cel zaktualizowany')
     }
   }
 

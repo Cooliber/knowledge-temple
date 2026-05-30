@@ -9,6 +9,7 @@
     Input, Separator, Label,
   } from '$lib/components/ui/index.js'
   import { TrendingUp, TrendingDown } from 'lucide-svelte'
+  import { toast } from 'svelte-sonner'
 
   let allBeliefs: Belief[] = $state([])
   let allObservations: Observation[] = $state([])
@@ -71,31 +72,37 @@
 
   async function handleQuickAdd() {
     if (!quickText.trim()) return
-    if (quickType === 'observation') {
-      await observations.createObservation({
-        content: quickText,
-        source: quickSource || 'quick',
-        sourceType: 'other',
-        attentionLevel: 0.5,
-        category: 'general',
-        tags: [],
-        linkedBeliefs: [],
-        timestamp: new Date().toISOString(),
-      })
-    } else {
-      await beliefs.createBelief({
-        text: quickText,
-        strength: 0.5,
-        type: 'first_order',
-        category: 'general',
-        tags: [],
-        history: [{ strength: 0.5, timestamp: new Date().toISOString() }],
-      })
+    try {
+      if (quickType === 'observation') {
+        await observations.createObservation({
+          content: quickText,
+          source: quickSource || 'quick',
+          sourceType: 'other',
+          attentionLevel: 0.5,
+          category: 'general',
+          tags: [],
+          linkedBeliefs: [],
+          timestamp: new Date().toISOString(),
+        })
+        toast.success('Obserwacja dodana')
+      } else {
+        await beliefs.createBelief({
+          text: quickText,
+          strength: 0.5,
+          type: 'first_order',
+          category: 'general',
+          tags: [],
+          history: [{ strength: 0.5, timestamp: new Date().toISOString() }],
+        })
+        toast.success('Przekonanie dodane')
+      }
+      quickText = ''
+      quickSource = ''
+      addDialog = false
+      await loadData()
+    } catch (e) {
+      toast.error('Błąd podczas zapisu')
     }
-    quickText = ''
-    quickSource = ''
-    addDialog = false
-    await loadData()
   }
 
   function shortDate(ts: string) {

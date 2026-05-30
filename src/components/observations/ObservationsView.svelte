@@ -6,6 +6,7 @@
   import ObsEntry from './ObsEntry.svelte'
   import ObsForm from './ObsForm.svelte'
   import { Button } from '$lib/components/ui'
+  import { toast } from 'svelte-sonner'
 
   let allObservations: Observation[] = $state([])
   let allBeliefs: Belief[] = $state([])
@@ -50,15 +51,18 @@
   }
 
   async function handleSave() {
+    const wasEdit = !!editingObservation
     showForm = false
     editingObservation = null
     await loadData()
+    toast.success(wasEdit ? 'Obserwacja zaktualizowana' : 'Obserwacja utworzona')
   }
 
   async function handleDelete(id: string) {
     await db.deleteObservation(id)
     if (selectedId === id) selectedId = null
     await loadData()
+    toast.success('Obserwacja usunięta')
   }
 
   async function handleLinkBelief(obsId: string, beliefId: string) {

@@ -6,7 +6,8 @@
   import BeliefTimeline from './BeliefTimeline.svelte'
   import BeliefHierarchy from './BeliefHierarchy.svelte'
   import NestedBeliefDialog from './NestedBeliefDialog.svelte'
-  import { Button, Badge, Input, Progress, Card, CardContent, CardTitle } from '$lib/components/ui/index.js'
+  import { Button, Badge, Input, Progress, Card, CardContent, CardTitle, Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '$lib/components/ui/index.js'
+  import { toast } from 'svelte-sonner'
 
   let allBeliefs = $state<Belief[]>([])
   let selectedBelief = $state<Belief | null>(null)
@@ -17,6 +18,7 @@
   let showNestedDialog = $state(false)
   let nestedParent = $state<Belief | null>(null)
   let viewMode = $state<'list' | 'hierarchy'>('list')
+  let sheetOpen = $state(false)
 
   let categories = $derived(['all', ...new Set(allBeliefs.map(b => b.category).filter(Boolean))])
 
@@ -30,6 +32,12 @@
   )
 
   let displayBeliefs = $derived(viewMode === 'hierarchy' ? allBeliefs : filteredBeliefs)
+
+  $effect(() => {
+    if (selectedBelief && viewMode === 'list' && !showForm) {
+      sheetOpen = true
+    }
+  })
 
   function typeLabel(t: string): string {
     const map: Record<string, string> = {
@@ -62,6 +70,7 @@
   }
 
   async function handleSave(data: any) {
+    const wasUpdate = !!selectedBelief
     if (selectedBelief) {
       await beliefs.updateBelief(selectedBelief.id, data)
     } else {
@@ -70,12 +79,14 @@
     await loadBeliefs()
     showForm = false
     selectedBelief = null
+    toast.success(wasUpdate ? 'Przekonanie zaktualizowane' : 'Przekonanie utworzone')
   }
 
   async function handleDelete(id: string) {
     await beliefs.deleteBelief(id)
     if (selectedBelief?.id === id) selectedBelief = null
     await loadBeliefs()
+    toast.success('Przekonanie zostało usunięte')
   }
 
   function handleCreateNested(belief: Belief) {
@@ -167,59 +178,6 @@
           selectedBelief = null
         }}
       />
-    {:else if selectedBelief && viewMode === 'list'}
-      <Card>
-        <CardContent class="flex flex-col gap-5 p-6">
-          <div class="detail-header">
-            <h3 class="detail-title">{selectedBelief.text}</h3>
-            <div class="detail-actions">
-              <Button variant="secondary" onclick={() => handleEdit(selectedBelief!)}>Edytuj</Button>
-              <Button variant="secondary" onclick={() => handleCreateNested(selectedBelief!)}>+ Zagnieżdżone</Button>
-            </div>
-          </div>
-
-          <div class="detail-meta">
-            <Badge class="type-{selectedBelief.type}">
-              {typeLabel(selectedBelief.type)}
-            </Badge>
-            {#if selectedBelief.subject}
-              <span class="meta-item">
-                <span class="meta-label">Osoba:</span> {selectedBelief.subject}
-              </span>
-            {/if}
-            <span class="meta-item">
-              <span class="meta-label">Kategoria:</span> {selectedBelief.category || '—'}
-            </span>
-            <span class="meta-item">
-              <span class="meta-label">ID:</span> {selectedBelief.id.slice(0, 8)}...
-            </span>
-          </div>
-
-          <div class="strength-section">
-            <div class="strength-header">
-              <span class="strength-label">Siła przekonania</span>
-              <span class="strength-value">{Math.round(selectedBelief.strength * 100)}%</span>
-            </div>
-            <Progress value={selectedBelief.strength * 100} />
-          </div>
-
-          {#if selectedBelief.tags.length > 0}
-            <div class="tags-section">
-              <span class="section-label">Tagi:</span>
-              <div class="tags-list">
-                {#each selectedBelief.tags as tag}
-                  <Badge variant="secondary">{tag}</Badge>
-                {/each}
-              </div>
-            </div>
-          {/if}
-
-          <div class="timeline-section">
-            <h4 class="section-heading">Historia siły przekonania</h4>
-            <BeliefTimeline belief={selectedBelief} />
-          </div>
-        </CardContent>
-      </Card>
     {:else if viewMode === 'hierarchy'}
       <BeliefHierarchy beliefs={allBeliefs} />
     {:else}
@@ -230,6 +188,70 @@
       </Card>
     {/if}
   </main>
+
+<Sheet bind:open={sheetOpen} onOpenChange={(o) => { if (!o) selectedBelief = null }}>
+  <SheetContent side="right" class="sm:max-w-md">
+    {#if selectedBelief}
+      <SheetHeader>
+        <SheetTitle>{selectedBelief.text}</SheetTitle>
+        <SheetDescription>
+          <Badge class="type-{selectedBelief.type}">
+            {typeLabel(selectedBelief.type)}
+          </Badge>
+        </SheetDescription>
+      </SheetHeader>
+
+      <div class="flex flex-col gap-5 py-6">
+        {#if selectedBelief.subject}
+          <div class="detail-meta">
+            <span class="meta-item">
+              <span class="meta-label">Osoba:</span> {selectedBelief.subject}
+            </span>
+          </div>
+        {/if}
+
+        <div class="detail-meta">
+          <span class="meta-item">
+            <span class="meta-label">Kategoria:</span> {selectedBelief.category || '—'}
+          </span>
+          <span class="meta-item">
+            <span class="meta-label">ID:</span> {selectedBelief.id.slice(0, 8)}...
+          </span>
+        </div>
+
+        <div class="strength-section">
+          <div class="strength-header">
+            <span class="strength-label">Siła przekonania</span>
+            <span class="strength-value">{Math.round(selectedBelief.strength * 100)}%</span>
+          </div>
+          <Progress value={selectedBelief.strength * 100} />
+        </div>
+
+        {#if selectedBelief.tags.length > 0}
+          <div class="tags-section">
+            <span class="section-label">Tagi:</span>
+            <div class="tags-list">
+              {#each selectedBelief.tags as tag}
+                <Badge variant="secondary">{tag}</Badge>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        <div class="timeline-section">
+          <h4 class="section-heading">Historia siły przekonania</h4>
+          <BeliefTimeline belief={selectedBelief} />
+        </div>
+      </div>
+
+      <SheetFooter>
+        <Button variant="secondary" onclick={() => { handleEdit(selectedBelief!); sheetOpen = false }}>Edytuj</Button>
+        <Button variant="secondary" onclick={() => { handleCreateNested(selectedBelief!); sheetOpen = false }}>+ Zagnieżdżone</Button>
+        <Button variant="destructive" onclick={() => handleDelete(selectedBelief!.id)}>Usuń</Button>
+      </SheetFooter>
+    {/if}
+  </SheetContent>
+</Sheet>
 </div>
 
 <NestedBeliefDialog
@@ -297,26 +319,6 @@
 
   .main-panel {
     overflow-y: auto;
-  }
-
-  .detail-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .detail-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--mh-text);
-    line-height: 1.5;
-  }
-
-  .detail-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-shrink: 0;
   }
 
   .detail-meta {

@@ -2,6 +2,7 @@
 import '../styles/design.css'
 import '../styles/app.css'
 import AppNav from '../components/layout/AppNav.svelte'
+import Toaster from '../components/layout/Toaster.svelte'
 
 export interface Props {
   title: string
@@ -93,5 +94,6 @@ const { title, description = '', activePath = '/app/dashboard' } = Astro.props
         </div>
       </main>
     </div>
+    <Toaster client:load />
   </body>
 </html>
