@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import GoalsView from '../../components/goals/GoalsView.svelte'
 ---
 
-<AppLayout title="System Celów" activePath="/app/goals">
+<AppLayout
+  title="System Celów"
+  description="Zarządzaj celami — od krótkoterminowych po długoterminowe. Sprawdź które przekonania wspierają lub blokują postęp."
+  activePath="/app/goals"
+>
   <GoalsView client:load />
 </AppLayout>

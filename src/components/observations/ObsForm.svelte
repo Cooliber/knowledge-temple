@@ -74,7 +74,7 @@
   }
 </script>
 
-<div class="obs-form">
+<div class="obs-form mh-card mh-animate mh-animate-d3">
   <h2 class="form-title">{isEdit ? 'Edytuj obserwację' : 'Nowa obserwacja'}</h2>
 
   <div class="form-group">
@@ -82,7 +82,7 @@
     <textarea
       id="obs-content"
       bind:value={formContent}
-      class="form-textarea"
+      class="mh-input"
       placeholder="Co zaobserwowałeś/aś?"
       rows={5}
     ></textarea>
@@ -95,7 +95,7 @@
         id="obs-source"
         type="text"
         bind:value={formSource}
-        class="form-input"
+        class="mh-input"
         placeholder="np. rozmowa z Anną, artykuł z X"
       />
     </div>
@@ -105,7 +105,7 @@
         id="obs-category"
         type="text"
         bind:value={formCategory}
-        class="form-input"
+        class="mh-input"
         placeholder="np. psychologia, polityka"
       />
     </div>
@@ -142,7 +142,7 @@
       id="obs-tags"
       type="text"
       bind:value={formTags}
-      class="form-input"
+      class="mh-input"
       placeholder="np. ważne, praca, rodzina"
     />
   </div>
@@ -173,11 +173,11 @@
   {/if}
 
   <div class="form-actions">
-    <button class="btn btn-secondary" onclick={handleCancel}>
+    <button class="mh-btn mh-btn-secondary" onclick={handleCancel}>
       Anuluj
     </button>
     <button
-      class="btn btn-primary"
+      class="mh-btn mh-btn-primary"
       onclick={handleSave}
       disabled={saving || !formContent.trim()}
     >
@@ -188,16 +188,13 @@
 
 <style>
   .obs-form {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     padding: 1.25rem;
   }
 
   .form-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     margin: 0 0 1rem;
   }
 
@@ -208,34 +205,12 @@
   .form-label {
     display: block;
     font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
     margin-bottom: 0.35rem;
     font-weight: 500;
   }
 
-  .form-input,
-  .form-textarea {
-    width: 100%;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.15s;
-  }
 
-  .form-input:focus,
-  .form-textarea:focus {
-    border-color: var(--sl-color-accent);
-  }
-
-  .form-textarea {
-    resize: vertical;
-    font-family: inherit;
-  }
 
   .form-row {
     display: flex;
@@ -257,19 +232,19 @@
     align-items: center;
     gap: 0.3rem;
     padding: 0.35rem 0.65rem;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
+    background: var(--mh-bg-card);
+    border: 1px solid var(--mh-bg-elevated);
     border-radius: 4px;
     font-size: 0.8rem;
-    color: var(--sl-color-gray-2);
+    color: var(--mh-text-secondary);
     cursor: pointer;
     transition: all 0.15s;
   }
 
   .radio-item.active {
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    border-color: var(--sl-color-accent);
-    color: var(--sl-color-white);
+    background: color-mix(in srgb, var(--mh-accent) 20%, transparent);
+    border-color: var(--mh-accent);
+    color: var(--mh-text);
   }
 
   .radio-input {
@@ -289,8 +264,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.6rem;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
+    background: var(--mh-bg-card);
+    border: 1px solid var(--mh-bg-elevated);
     border-radius: 4px;
     font-size: 0.8rem;
     cursor: pointer;
@@ -298,21 +273,21 @@
   }
 
   .belief-chip.selected {
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    border-color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--mh-accent) 20%, transparent);
+    border-color: var(--mh-accent);
   }
 
   .belief-checkbox {
-    accent-color: var(--sl-color-accent);
+    accent-color: var(--mh-accent);
   }
 
   .belief-text {
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     flex: 1;
   }
 
   .belief-strength {
-    color: var(--sl-color-accent);
+    color: var(--mh-accent);
     font-size: 0.7rem;
     font-weight: 600;
   }
@@ -323,39 +298,12 @@
     gap: 0.5rem;
     margin-top: 1.25rem;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--sl-color-border);
+    border-top: 1px solid var(--mh-border);
   }
 
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: none;
-    font-size: 0.875rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: opacity 0.15s;
-  }
-
-  .btn:disabled {
+  .btn:disabled,
+  .mh-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: white;
-  }
-
-  .btn-primary:hover:not(:disabled) {
-    opacity: 0.9;
-  }
-
-  .btn-secondary {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-  }
-
-  .btn-secondary:hover {
-    background: var(--sl-color-gray-4);
   }
 </style>

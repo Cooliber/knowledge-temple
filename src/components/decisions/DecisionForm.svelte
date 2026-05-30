@@ -54,12 +54,12 @@
   }
 </script>
 
-<form class="form" onsubmit={handleSubmit}>
+<form class="form mh-animate" onsubmit={handleSubmit}>
   <div class="field">
     <label class="label" for="desc">Opis decyzji</label>
     <textarea
       id="desc"
-      class="input"
+      class="mh-input"
       bind:value={description}
       rows="2"
       placeholder="Co postanowiłeś?"
@@ -71,7 +71,7 @@
     <label class="label" for="ctx">Kontekst</label>
     <textarea
       id="ctx"
-      class="input"
+      class="mh-input"
       bind:value={context}
       rows="3"
       placeholder="Okoliczności, sytuacja, myśli..."
@@ -137,17 +137,17 @@
     <input
       id="expected"
       type="text"
-      class="input"
+      class="mh-input"
       bind:value={expectedOutcome}
       placeholder="Co预计 się wydarzyć?"
     />
   </div>
 
   <div class="actions">
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="mh-btn mh-btn-primary">
       {decision ? 'Zapisz zmiany' : 'Dodaj decyzję'}
     </button>
-    <button type="button" class="btn btn-ghost" onclick={() => oncancel?.()}>
+    <button type="button" class="mh-btn mh-btn-secondary" onclick={() => oncancel?.()}>
       Anuluj
     </button>
   </div>
@@ -169,27 +169,7 @@
   .label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--sl-color-gray-2);
-  }
-
-  .input {
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-    border-radius: 4px;
-    padding: 0.5rem;
-    font-size: 0.8125rem;
-    font-family: inherit;
-    resize: vertical;
-  }
-
-  .input:focus {
-    outline: none;
-    border-color: var(--sl-color-accent);
-  }
-
-  input[type="text"].input {
-    resize: none;
+    color: var(--mh-text-secondary);
   }
 
   .checkbox-grid {
@@ -199,9 +179,8 @@
     max-height: 160px;
     overflow-y: auto;
     padding: 0.375rem;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 4px;
+    border: 1px solid var(--mh-border);
+    border-radius: var(--mh-radius-sm);
   }
 
   .checkbox-item {
@@ -212,28 +191,18 @@
     border-radius: 3px;
     cursor: pointer;
     font-size: 0.78125rem;
-    color: var(--sl-color-gray-2);
+    color: var(--mh-text-secondary);
   }
 
   .checkbox-item:hover {
-    background: var(--sl-color-gray-5);
-  }
-
-  .checkbox-text {
-    line-height: 1.3;
-  }
-
-  .empty-hint {
-    color: var(--sl-color-gray-4);
-    font-size: 0.75rem;
-    padding: 0.5rem;
+    background: var(--mh-bg-elevated);
   }
 
   .slider {
     -webkit-appearance: none;
     appearance: none;
     height: 6px;
-    background: var(--sl-color-gray-5);
+    background: var(--mh-bg-elevated);
     border-radius: 3px;
     outline: none;
   }
@@ -244,7 +213,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: var(--sl-color-accent);
+    background: var(--mh-accent);
     cursor: pointer;
   }
 
@@ -252,7 +221,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: var(--sl-color-accent);
+    background: var(--mh-accent);
     cursor: pointer;
     border: none;
   }
@@ -261,42 +230,12 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.6875rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 
   .actions {
     display: flex;
     gap: 0.5rem;
     margin-top: 0.5rem;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: color-mix(in srgb, var(--sl-color-accent) 80%, white);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    border-color: var(--sl-color-gray-5);
-  }
-
-  .btn-ghost:hover {
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-white);
   }
 </style>

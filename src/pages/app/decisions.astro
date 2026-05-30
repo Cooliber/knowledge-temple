@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import DecisionsView from '../../components/decisions/DecisionsView.svelte'
 ---
 
-<AppLayout title="Bramka Decyzyjna" activePath="/app/decisions">
+<AppLayout
+  title="Bramka Decyzyjna"
+  description="Modeluj decyzje jako funkcję przekonań i celów. Analizuj próg aktywacji i rezultaty."
+  activePath="/app/decisions"
+>
   <DecisionsView client:load />
 </AppLayout>

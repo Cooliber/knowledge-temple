@@ -40,10 +40,10 @@
       a.download = `mind-harness-export-${new Date().toISOString().slice(0, 10)}.json`
       a.click()
       URL.revokeObjectURL(url)
-      exportStatus = 'Dane wyeksportowane pomyślnie'
+      exportStatus = 'Dane wyeksportowane'
       setTimeout(() => exportStatus = '', 3000)
     } catch (err) {
-      exportStatus = 'Błąd eksportu: ' + (err instanceof Error ? err.message : 'nieznany błąd')
+      exportStatus = 'Błąd eksportu'
     }
   }
 
@@ -51,31 +51,26 @@
     const input = event.target as HTMLInputElement
     const file = input.files?.[0]
     if (!file) return
-
     try {
       const text = await file.text()
       const data = JSON.parse(text)
-
       await db.beliefs.clear()
       await db.observations.clear()
       await db.networkNodes.clear()
       await db.networkConnections.clear()
       await db.decisions.clear()
       await db.goals.clear()
-
       if (data.beliefs?.length) await db.beliefs.bulkAdd(data.beliefs)
       if (data.observations?.length) await db.observations.bulkAdd(data.observations)
       if (data.networkNodes?.length) await db.networkNodes.bulkAdd(data.networkNodes)
       if (data.networkConnections?.length) await db.networkConnections.bulkAdd(data.networkConnections)
       if (data.decisions?.length) await db.decisions.bulkAdd(data.decisions)
       if (data.goals?.length) await db.goals.bulkAdd(data.goals)
-
-      importStatus = `Zaimportowano: ${data.beliefs?.length || 0} przekonań, ${data.observations?.length || 0} obserwacji, ${data.decisions?.length || 0} decyzji, ${data.goals?.length || 0} celów`
+      importStatus = `Zaimportowano dane`
       setTimeout(() => importStatus = '', 5000)
-    } catch (err) {
-      importStatus = 'Błąd importu: ' + (err instanceof Error ? err.message : 'nieprawidłowy plik')
+    } catch {
+      importStatus = 'Błąd importu — nieprawidłowy plik'
     }
-
     input.value = ''
   }
 
@@ -88,51 +83,57 @@
       await db.decisions.clear()
       await db.goals.clear()
       confirmClear = false
-      importStatus = 'Wszystkie dane zostały usunięte'
+      importStatus = 'Wszystkie dane usunięte'
       setTimeout(() => importStatus = '', 3000)
-    } catch (err) {
-      importStatus = 'Błąd usuwania danych: ' + (err instanceof Error ? err.message : 'nieznany błąd')
+    } catch {
+      importStatus = 'Błąd usuwania danych'
     }
   }
 </script>
 
 <div class="settings">
-  <section class="card">
-    <h2 class="section-title">LLM API Key</h2>
-    <p class="section-desc">Skonfiguruj dostęp do modeli NVIDIA NIM dla analizy przekonań i wykrywania sprzeczności.</p>
+  <section class="mh-card settings-section mh-animate mh-animate-d1">
+    <h2 class="section-title">
+      <span class="section-icon">⚿</span>
+      LLM API Key
+    </h2>
+    <p class="section-desc">Skonfiguruj dostęp do modeli NVIDIA NIM do analizy przekonań i wykrywania sprzeczności.</p>
 
-    <div class="form-group">
+    <div class="field">
       <label for="api-key">NVIDIA NIM API Key</label>
       <input
         id="api-key"
         type="password"
         bind:value={apiKey}
         placeholder="nvapi-..."
-        class="input"
+        class="mh-input"
       />
     </div>
 
-    <div class="form-group">
+    <div class="field">
       <label for="model-name">Model</label>
       <input
         id="model-name"
         type="text"
         bind:value={modelName}
         placeholder="meta/llama-3.1-8b-instruct"
-        class="input"
+        class="mh-input"
       />
     </div>
 
-    <div class="form-actions">
-      <button onclick={saveApiSettings} class="btn btn-primary">
+    <div class="field-actions">
+      <button onclick={saveApiSettings} class="mh-btn mh-btn-primary">
         {apiSaved ? 'Zapisano ✓' : 'Zapisz'}
       </button>
     </div>
   </section>
 
-  <section class="card">
-    <h2 class="section-title">Zarządzanie Danymi</h2>
-    <p class="section-desc">Eksportuj, importuj lub usuwaj wszystkie dane aplikacji.</p>
+  <section class="mh-card settings-section mh-animate mh-animate-d2">
+    <h2 class="section-title">
+      <span class="section-icon">▦</span>
+      Zarządzanie Danymi
+    </h2>
+    <p class="section-desc">Eksportuj, importuj lub usuwaj dane aplikacji.</p>
 
     <div class="data-actions">
       <div class="action-row">
@@ -140,7 +141,7 @@
           <strong>Eksport danych</strong>
           <span>Pobierz wszystkie dane jako plik JSON</span>
         </div>
-        <button onclick={exportData} class="btn btn-secondary">Eksportuj</button>
+        <button onclick={exportData} class="mh-btn mh-btn-secondary">Eksportuj</button>
       </div>
 
       <div class="action-row">
@@ -148,7 +149,7 @@
           <strong>Import danych</strong>
           <span>Wczytaj dane z pliku JSON (zastępuje istniejące)</span>
         </div>
-        <label class="btn btn-secondary file-btn">
+        <label class="mh-btn mh-btn-secondary file-btn">
           Importuj
           <input type="file" accept=".json" onchange={importData} hidden />
         </label>
@@ -162,38 +163,41 @@
         {#if confirmClear}
           <div class="confirm-group">
             <span class="confirm-text">Na pewno?</span>
-            <button onclick={clearAll} class="btn btn-danger">Tak, usuń</button>
-            <button onclick={() => confirmClear = false} class="btn btn-ghost">Anuluj</button>
+            <button onclick={clearAll} class="mh-btn mh-btn-danger">Tak, usuń</button>
+            <button onclick={() => confirmClear = false} class="mh-btn mh-btn-secondary">Anuluj</button>
           </div>
         {:else}
-          <button onclick={() => confirmClear = true} class="btn btn-danger">Usuń wszystko</button>
+          <button onclick={() => confirmClear = true} class="mh-btn mh-btn-danger">Usuń wszystko</button>
         {/if}
       </div>
     </div>
 
     {#if importStatus}
-      <div class="status-message">{importStatus}</div>
+      <div class="status-bar">{importStatus}</div>
     {/if}
   </section>
 
-  <section class="card">
-    <h2 class="section-title">O aplikacji</h2>
-    <div class="about-info">
-      <div class="about-row">
+  <section class="mh-card settings-section mh-animate mh-animate-d3">
+    <h2 class="section-title">
+      <span class="section-icon">◉</span>
+      O aplikacji
+    </h2>
+    <div class="about-grid">
+      <div class="about-item">
         <span class="about-label">Nazwa</span>
         <span class="about-value">Mind Harness</span>
       </div>
-      <div class="about-row">
+      <div class="about-item">
         <span class="about-label">Wersja</span>
         <span class="about-value">1.0.0</span>
       </div>
-      <div class="about-row">
-        <span class="about-label">Opis</span>
-        <span class="about-value">Osobiste narzędzie do zarządzania sobą oparte na koncepcjach Theory of Mind</span>
+      <div class="about-item">
+        <span class="about-label">Silnik</span>
+        <span class="about-value">User Harness / Theory of Mind</span>
       </div>
-      <div class="about-row">
-        <span class="about-label">Źródła</span>
-        <span class="about-value">Based on User Harness research paper</span>
+      <div class="about-item">
+        <span class="about-label">Dane</span>
+        <span class="about-value">IndexedDB (lokalnie)</span>
       </div>
     </div>
   </section>
@@ -203,121 +207,55 @@
   .settings {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     max-width: 640px;
   }
 
-  .card {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
+  .settings-section {
     padding: 1.25rem;
   }
 
   .section-title {
-    font-size: 1rem;
+    font-size: 0.9375rem;
     font-weight: 700;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-icon {
+    font-size: 0.875rem;
+    opacity: 0.4;
   }
 
   .section-desc {
-    font-size: 0.8125rem;
-    color: var(--sl-color-gray-4);
+    font-size: 0.75rem;
+    color: var(--mh-text-muted);
     margin-bottom: 1rem;
   }
 
-  .form-group {
+  .field {
     margin-bottom: 0.75rem;
   }
 
-  .form-group label {
+  .field label {
     display: block;
     font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
-    font-weight: 600;
+    color: var(--mh-text-secondary);
+    font-weight: 500;
     margin-bottom: 0.375rem;
   }
 
-  .input {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    background: var(--sl-color-gray-7);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    color: var(--sl-color-text);
-    font-size: 0.875rem;
-    font-family: inherit;
-  }
-
-  .input:focus {
-    outline: none;
-    border-color: var(--sl-color-accent);
-  }
-
-  .form-actions {
+  .field-actions {
     margin-top: 0.75rem;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    border: none;
-    font-family: inherit;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    background: #6d28d9;
-  }
-
-  .btn-secondary {
-    background: var(--sl-color-gray-7);
-    color: var(--sl-color-text);
-    border: 1px solid var(--sl-color-border);
-  }
-
-  .btn-secondary:hover {
-    background: var(--sl-color-gray-5);
-  }
-
-  .btn-danger {
-    background: #dc2626;
-    color: #fff;
-  }
-
-  .btn-danger:hover {
-    background: #b91c1c;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    border: 1px solid var(--sl-color-border);
-  }
-
-  .btn-ghost:hover {
-    background: var(--sl-color-gray-7);
-    color: var(--sl-color-white);
-  }
-
-  .file-btn {
-    display: inline-block;
-    cursor: pointer;
   }
 
   .data-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   .action-row {
@@ -326,12 +264,14 @@
     justify-content: space-between;
     gap: 1rem;
     padding: 0.75rem;
-    background: var(--sl-color-gray-7);
-    border-radius: 6px;
+    background: var(--mh-bg-elevated);
+    border-radius: var(--mh-radius-sm);
+    border: 1px solid transparent;
+    transition: border-color var(--mh-transition-fast);
   }
 
   .action-row.danger {
-    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-color: rgba(239, 68, 68, 0.15);
   }
 
   .action-info {
@@ -344,12 +284,13 @@
 
   .action-info strong {
     font-size: 0.8125rem;
-    color: var(--sl-color-text);
+    color: var(--mh-text);
+    font-weight: 600;
   }
 
   .action-info span {
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 
   .confirm-group {
@@ -361,46 +302,50 @@
 
   .confirm-text {
     font-size: 0.75rem;
-    color: #f87171;
+    color: var(--mh-danger);
     font-weight: 600;
   }
 
-  .status-message {
+  .file-btn {
+    cursor: pointer;
+  }
+
+  .status-bar {
     margin-top: 0.75rem;
     padding: 0.5rem 0.75rem;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    border-radius: 6px;
+    background: var(--mh-success-subtle);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: var(--mh-radius-sm);
     font-size: 0.8125rem;
-    color: #34d399;
+    color: var(--mh-success);
   }
 
-  .about-info {
+  .about-grid {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
 
-  .about-row {
+  .about-item {
     display: flex;
     gap: 1rem;
-    padding: 0.375rem 0;
-    border-bottom: 1px solid var(--sl-color-gray-7);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--mh-border);
   }
 
-  .about-row:last-child {
+  .about-item:last-child {
     border-bottom: none;
   }
 
   .about-label {
-    font-size: 0.8125rem;
-    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    color: var(--mh-text-muted);
     min-width: 5rem;
     flex-shrink: 0;
   }
 
   .about-value {
     font-size: 0.8125rem;
-    color: var(--sl-color-text);
+    color: var(--mh-text);
   }
 </style>

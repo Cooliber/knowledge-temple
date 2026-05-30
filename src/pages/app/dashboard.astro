@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import DashboardView from '../../components/DashboardView.svelte'
 ---
 
-<AppLayout title="Dashboard" activePath="/app/dashboard">
+<AppLayout
+  title="Dashboard"
+  description="Przegląd wszystkich modułów — przekonania, obserwacje, decyzje i cele."
+  activePath="/app/dashboard"
+>
   <DashboardView client:load />
 </AppLayout>

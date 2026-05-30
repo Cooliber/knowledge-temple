@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import SettingsView from '../../components/SettingsView.svelte'
 ---
 
-<AppLayout title="Ustawienia" activePath="/app/settings">
+<AppLayout
+  title="Ustawienia"
+  description="Skonfiguruj klucz NVIDIA NIM, zarządzaj danymi i przeglądaj informacje o aplikacji."
+  activePath="/app/settings"
+>
   <SettingsView client:load />
 </AppLayout>

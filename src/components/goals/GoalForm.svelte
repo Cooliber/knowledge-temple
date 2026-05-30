@@ -44,13 +44,13 @@
   }
 </script>
 
-<form class="form" onsubmit={handleSubmit}>
+<form class="form mh-animate mh-animate-d2" onsubmit={handleSubmit}>
   <div class="field">
     <label class="label" for="title">Tytuł</label>
     <input
       id="title"
       type="text"
-      class="input"
+      class="mh-input"
       bind:value={title}
       placeholder="Nazwa celu"
       required
@@ -61,7 +61,7 @@
     <label class="label" for="desc">Opis</label>
     <textarea
       id="desc"
-      class="input"
+      class="mh-input"
       bind:value={description}
       rows="3"
       placeholder="Szczegóły celu..."
@@ -70,7 +70,7 @@
 
   <div class="field">
     <label class="label" for="parent">Cel nadrzędny</label>
-    <select class="input" bind:value={parentId}>
+    <select class="mh-input" bind:value={parentId}>
       <option value={null}>Brak (cel główny)</option>
       {#each availableParents as p (p.id)}
         <option value={p.id}>{p.title}</option>
@@ -84,7 +84,7 @@
       <input
         id="priority"
         type="number"
-        class="input"
+        class="mh-input"
         bind:value={priority}
         min="1"
         max="10"
@@ -118,14 +118,14 @@
       <input
         id="deadline"
         type="date"
-        class="input"
+        class="mh-input"
         bind:value={deadline}
       />
     </div>
 
     <div class="field">
       <label class="label" for="status">Status</label>
-      <select class="input" bind:value={status}>
+      <select class="mh-input" bind:value={status}>
         <option value="active">Aktywny</option>
         <option value="completed">Ukończony</option>
         <option value="abandoned">Porzucony</option>
@@ -134,10 +134,10 @@
   </div>
 
   <div class="actions">
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="mh-btn mh-btn-primary">
       {goal ? 'Zapisz zmiany' : 'Dodaj cel'}
     </button>
-    <button type="button" class="btn btn-ghost" onclick={() => oncancel?.()}>
+    <button type="button" class="mh-btn mh-btn-secondary" onclick={() => oncancel?.()}>
       Anuluj
     </button>
   </div>
@@ -171,36 +171,15 @@
   .label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--sl-color-gray-2);
-  }
-
-  .input {
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-    border-radius: 4px;
-    padding: 0.5rem;
-    font-size: 0.8125rem;
-    font-family: inherit;
-    resize: vertical;
-  }
-
-  .input:focus {
-    outline: none;
-    border-color: var(--sl-color-accent);
-  }
-
-  select.input {
-    cursor: pointer;
+    color: var(--mh-text-secondary);
   }
 
   .radio-group {
     display: flex;
     gap: 0.5rem;
     padding: 0.375rem;
-    background: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 4px;
+    border: 1px solid var(--mh-border);
+    border-radius: var(--mh-radius-sm);
   }
 
   .radio-item {
@@ -211,16 +190,16 @@
     border-radius: 3px;
     cursor: pointer;
     font-size: 0.78125rem;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
   }
 
   .radio-item:hover {
-    background: var(--sl-color-gray-5);
+    background: var(--mh-bg-elevated);
   }
 
   .radio-item:has(input:checked) {
-    background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-    color: var(--sl-color-accent-high);
+    background: color-mix(in srgb, var(--mh-accent) 20%, transparent);
+    color: var(--mh-accent-hover);
   }
 
   .radio-label {
@@ -233,33 +212,5 @@
     margin-top: 0.5rem;
   }
 
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
 
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: color-mix(in srgb, var(--sl-color-accent) 80%, white);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--sl-color-gray-3);
-    border-color: var(--sl-color-gray-5);
-  }
-
-  .btn-ghost:hover {
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-white);
-  }
 </style>

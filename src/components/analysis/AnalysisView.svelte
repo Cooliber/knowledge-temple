@@ -84,11 +84,11 @@
   })
 </script>
 
-<div class="analysis-view">
+<div class="analysis-view mh-animate">
   <div class="tabs">
     {#each tabs as tab}
       <button
-        class="tab"
+        class="mh-btn tab"
         class:active={activeTab === tab.id}
         onclick={() => activeTab = tab.id}
       >
@@ -105,11 +105,11 @@
         decisions={allDecisions}
       />
     {:else if activeTab === 'trends'}
-      <div class="card">
+      <div class="mh-card">
         <TrendChart beliefs={allBeliefs} />
       </div>
     {:else if activeTab === 'contradictions'}
-      <div class="card">
+      <div class="mh-card">
         <ContradictionDetector beliefs={allBeliefs} />
       </div>
     {:else if activeTab === 'influences'}
@@ -119,15 +119,15 @@
         beliefs={allBeliefs}
       />
     {:else if activeTab === 'blindspots'}
-      <div class="card">
-        <h3 class="section-title">Slepe Plamy</h3>
+      <div class="mh-card">
+        <h3 class="mh-section-title">Slepe Plamy</h3>
         <p class="section-desc">Obszary, które mogą wymagać większej uwagi</p>
         {#if blindSpots.length === 0}
           <p class="empty">Brak zidentyfikowanych ślepych plam. Dane są dobrze zrównoważone.</p>
         {:else}
           <div class="blind-spots">
             {#each blindSpots as spot}
-              <div class="blind-spot-card">
+              <div class="mh-card blind-spot-card">
                 <h4>{spot.title}</h4>
                 <p>{spot.description}</p>
               </div>
@@ -149,57 +149,46 @@
   .tabs {
     display: flex;
     gap: 0.25rem;
-    border-bottom: 1px solid var(--sl-color-border);
+    border-bottom: 1px solid var(--mh-border);
   }
 
   .tab {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
     border: none;
     border-bottom: 2px solid transparent;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.15s;
+    border-radius: 0;
     background: none;
-    font-family: inherit;
+    padding: 0.5rem 1rem;
   }
 
   .tab:hover {
-    color: var(--sl-color-white);
+    color: var(--mh-text);
   }
 
   .tab.active {
-    color: var(--sl-color-accent-high);
-    border-bottom-color: var(--sl-color-accent);
+    color: var(--mh-accent-hover);
+    border-bottom-color: var(--mh-accent);
   }
 
   .tab-content {
     min-height: 300px;
   }
 
-  .card {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
   .section-title {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--sl-color-gray-2);
+    color: var(--mh-text-secondary);
     margin-bottom: 0.25rem;
   }
 
   .section-desc {
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
     margin-bottom: 1rem;
   }
 
   .empty {
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
     font-size: 0.8125rem;
     font-style: italic;
     padding: 2rem 0;
@@ -213,9 +202,6 @@
   }
 
   .blind-spot-card {
-    background: var(--sl-color-gray-7);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
     padding: 0.75rem;
   }
 
@@ -228,7 +214,7 @@
 
   .blind-spot-card p {
     font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
     line-height: 1.5;
   }
 </style>

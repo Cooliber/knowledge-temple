@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import AnalysisView from '../../components/analysis/AnalysisView.svelte'
 ---
 
-<AppLayout title="Analiza Wpływów" activePath="/app/analysis">
+<AppLayout
+  title="Analiza Wpływów"
+  description="Odkrywaj wzorce, trendy i ślepe plamy. Analizuj jak zmieniają się Twoje przekonania w czasie."
+  activePath="/app/analysis"
+>
   <AnalysisView client:load />
 </AppLayout>

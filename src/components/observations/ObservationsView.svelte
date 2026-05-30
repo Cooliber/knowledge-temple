@@ -68,15 +68,15 @@
   let showDetail = $derived(!!selectedObservation && !showForm)
 </script>
 
-<div class="observations-view">
+<div class="observations-view mh-animate">
   <div class="view-header">
     <h1 class="view-title">Dziennik Obserwacji</h1>
-    <button class="add-btn" onclick={handleAdd}>
+    <button class="mh-btn mh-btn-primary" onclick={handleAdd}>
       + Nowa obserwacja
     </button>
   </div>
 
-  <div class="view-body">
+  <div class="view-body mh-animate-d1">
     <div class="view-sidebar">
       <ObsJournal
         observations={allObservations}
@@ -128,24 +128,8 @@
   .view-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     margin: 0;
-  }
-
-  .add-btn {
-    padding: 0.5rem 1rem;
-    background: var(--sl-color-accent);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-
-  .add-btn:hover {
-    opacity: 0.9;
   }
 
   .view-body {

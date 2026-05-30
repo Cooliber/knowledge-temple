@@ -77,14 +77,14 @@
   }
 </script>
 
-<form class="belief-form" onsubmit={handleSubmit}>
+<form class="belief-form mh-card mh-animate" onsubmit={handleSubmit}>
   <h3 class="form-title">{belief ? 'Edytuj przekonanie' : 'Nowe przekonanie'}</h3>
 
   <div class="form-group">
     <label class="form-label" for="belief-text">Treść przekonania</label>
     <textarea
       id="belief-text"
-      class="form-textarea"
+      class="mh-input"
       bind:value={text}
       placeholder="Np. Ufam, że ludzie są z natury dobrzy..."
       rows={4}
@@ -137,7 +137,7 @@
       <input
         id="belief-subject"
         type="text"
-        class="form-input"
+        class="mh-input"
         bind:value={subject}
         placeholder="Imię lub nazwa osoby"
       />
@@ -149,7 +149,7 @@
     <input
       id="belief-category"
       type="text"
-      class="form-input"
+      class="mh-input"
       bind:value={category}
       placeholder="Np. relacje, praca, zdrowie..."
     />
@@ -181,10 +181,10 @@
   </div>
 
   <div class="form-actions">
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="mh-btn mh-btn-primary">
       {belief ? 'Zapisz zmiany' : 'Utwórz przekonanie'}
     </button>
-    <button type="button" class="btn btn-outline" onclick={oncancel}>
+    <button type="button" class="mh-btn mh-btn-secondary" onclick={oncancel}>
       Anuluj
     </button>
   </div>
@@ -192,9 +192,6 @@
 
 <style>
   .belief-form {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -204,7 +201,7 @@
   .form-title {
     font-size: 1.125rem;
     font-weight: 700;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
   }
 
   .form-group {
@@ -216,42 +213,10 @@
   .form-label {
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--sl-color-gray-2);
+    color: var(--mh-text-secondary);
   }
 
-  .form-textarea {
-    background: var(--sl-color-black);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    padding: 0.625rem 0.75rem;
-    color: var(--sl-color-text);
-    font-size: 0.875rem;
-    font-family: inherit;
-    line-height: 1.5;
-    outline: none;
-    resize: vertical;
-    min-height: 80px;
-    transition: border-color 0.15s;
-  }
 
-  .form-textarea:focus {
-    border-color: var(--sl-color-accent);
-  }
-
-  .form-input {
-    background: var(--sl-color-black);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    color: var(--sl-color-text);
-    font-size: 0.875rem;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .form-input:focus {
-    border-color: var(--sl-color-accent);
-  }
 
   .slider-row {
     display: flex;
@@ -261,7 +226,7 @@
 
   .slider-end {
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
     white-space: nowrap;
     min-width: 3rem;
   }
@@ -271,7 +236,7 @@
   }
 
   .slider-value {
-    color: var(--sl-color-accent-high);
+    color: var(--mh-accent-hover);
     font-weight: 600;
   }
 
@@ -280,7 +245,7 @@
     -webkit-appearance: none;
     appearance: none;
     height: 6px;
-    background: var(--sl-color-gray-5);
+    background: var(--mh-bg-elevated);
     border-radius: 3px;
     outline: none;
     cursor: pointer;
@@ -292,30 +257,30 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--sl-color-accent);
+    background: var(--mh-accent);
     cursor: pointer;
-    border: 2px solid var(--sl-color-white);
+    border: 2px solid var(--mh-text);
   }
 
   .strength-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--sl-color-accent);
+    background: var(--mh-accent);
     cursor: pointer;
-    border: 2px solid var(--sl-color-white);
+    border: 2px solid var(--mh-text);
   }
 
   .strength-bar-track {
     height: 4px;
-    background: var(--sl-color-gray-5);
+    background: var(--mh-bg-elevated);
     border-radius: 2px;
     overflow: hidden;
   }
 
   .strength-bar-fill {
     height: 100%;
-    background: var(--sl-color-accent);
+    background: var(--mh-accent);
     border-radius: 2px;
     transition: width 0.15s;
   }
@@ -331,20 +296,20 @@
     align-items: flex-start;
     gap: 0.625rem;
     padding: 0.625rem 0.75rem;
-    background: var(--sl-color-black);
-    border: 1px solid var(--sl-color-border);
+    background: var(--mh-bg);
+    border: 1px solid var(--mh-border);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s;
   }
 
   .radio-option.active {
-    border-color: var(--sl-color-accent);
+    border-color: var(--mh-accent);
     background: rgba(124, 58, 237, 0.08);
   }
 
   .radio-option input[type="radio"] {
-    accent-color: var(--sl-color-accent);
+    accent-color: var(--mh-accent);
     margin-top: 0.125rem;
   }
 
@@ -357,12 +322,12 @@
   .radio-label {
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
   }
 
   .radio-desc {
     font-size: 0.75rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 
   .tags-input-wrapper {
@@ -370,14 +335,14 @@
     flex-wrap: wrap;
     gap: 0.375rem;
     padding: 0.5rem;
-    background: var(--sl-color-black);
-    border: 1px solid var(--sl-color-border);
+    background: var(--mh-bg);
+    border: 1px solid var(--mh-border);
     border-radius: 6px;
     transition: border-color 0.15s;
   }
 
   .tags-input-wrapper:focus-within {
-    border-color: var(--sl-color-accent);
+    border-color: var(--mh-accent);
   }
 
   .tag-chip {
@@ -387,7 +352,7 @@
     padding: 0.125rem 0.375rem;
     font-size: 0.75rem;
     background: rgba(124, 58, 237, 0.15);
-    color: var(--sl-color-accent-high);
+    color: var(--mh-accent-hover);
     border-radius: 4px;
     white-space: nowrap;
   }
@@ -401,7 +366,7 @@
     border-radius: 50%;
     border: none;
     background: transparent;
-    color: var(--sl-color-accent-high);
+    color: var(--mh-accent-hover);
     cursor: pointer;
     padding: 0;
     opacity: 0.7;
@@ -417,52 +382,19 @@
     min-width: 120px;
     border: none;
     background: transparent;
-    color: var(--sl-color-text);
+    color: var(--mh-text);
     font-size: 0.8125rem;
     outline: none;
     padding: 0.125rem 0;
   }
 
   .tag-input::placeholder {
-    color: var(--sl-color-gray-5);
+    color: var(--mh-text-muted);
   }
 
   .form-actions {
     display: flex;
     gap: 0.75rem;
     padding-top: 0.5rem;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
-  }
-
-  .btn-primary:hover {
-    opacity: 0.9;
-  }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--sl-color-border);
-    color: var(--sl-color-gray-2);
-  }
-
-  .btn-outline:hover {
-    border-color: var(--sl-color-gray-4);
-    color: var(--sl-color-white);
   }
 </style>

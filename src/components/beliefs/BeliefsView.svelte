@@ -96,30 +96,30 @@
   }
 </script>
 
-<div class="beliefs-view">
-  <aside class="sidebar">
+<div class="beliefs-view mh-animate">
+  <aside class="sidebar mh-animate-d1">
     <div class="sidebar-header">
       <h2 class="sidebar-title">Przekonania</h2>
-      <button class="btn btn-primary" onclick={handleCreate}>+ Nowe</button>
+      <button class="mh-btn mh-btn-primary" onclick={handleCreate}>+ Nowe</button>
     </div>
 
     <div class="sidebar-controls">
       <input
         type="search"
-        class="search-input"
+        class="mh-input"
         placeholder="Szukaj przekonań..."
         bind:value={searchQuery}
       />
 
       <div class="filter-row">
-        <select class="filter-select" bind:value={filterType}>
+        <select class="mh-input" bind:value={filterType}>
           <option value="all">Wszystkie typy</option>
           <option value="first_order">1. rzędu</option>
           <option value="second_order">2. rzędu</option>
           <option value="third_order">3. rzędu</option>
         </select>
 
-        <select class="filter-select" bind:value={filterCategory}>
+        <select class="mh-input" bind:value={filterCategory}>
           {#each categories as cat}
             <option value={cat}>{cat === 'all' ? 'Wszystkie kategorie' : cat}</option>
           {/each}
@@ -128,12 +128,14 @@
 
       <div class="view-toggle">
         <button
-          class="toggle-btn"
-          class:active={viewMode === 'list'}
+          class="mh-btn"
+          class:mh-btn-primary={viewMode === 'list'}
+          class:mh-btn-secondary={viewMode !== 'list'}
           onclick={() => viewMode = 'list'}>Lista</button>
         <button
-          class="toggle-btn"
-          class:active={viewMode === 'hierarchy'}
+          class="mh-btn"
+          class:mh-btn-primary={viewMode === 'hierarchy'}
+          class:mh-btn-secondary={viewMode !== 'hierarchy'}
           onclick={() => viewMode = 'hierarchy'}>Hierarchia</button>
       </div>
     </div>
@@ -159,7 +161,7 @@
     </div>
   </aside>
 
-  <main class="main-panel">
+  <main class="main-panel mh-animate-d2">
     {#if showForm}
       <BeliefForm
         belief={selectedBelief ?? undefined}
@@ -170,17 +172,17 @@
         }}
       />
     {:else if selectedBelief && viewMode === 'list'}
-      <div class="detail-panel">
+      <div class="detail-panel mh-card">
         <div class="detail-header">
           <h3 class="detail-title">{selectedBelief.text}</h3>
           <div class="detail-actions">
-            <button class="btn btn-outline" onclick={() => handleEdit(selectedBelief!)}>Edytuj</button>
-            <button class="btn btn-outline" onclick={() => handleCreateNested(selectedBelief!)}>+ Zagnieżdżone</button>
+            <button class="mh-btn mh-btn-secondary" onclick={() => handleEdit(selectedBelief!)}>Edytuj</button>
+            <button class="mh-btn mh-btn-secondary" onclick={() => handleCreateNested(selectedBelief!)}>+ Zagnieżdżone</button>
           </div>
         </div>
 
         <div class="detail-meta">
-          <span class="type-badge type-{selectedBelief.type}">
+          <span class="mh-badge type-{selectedBelief.type}">
             {typeLabel(selectedBelief.type)}
           </span>
           {#if selectedBelief.subject}
@@ -214,7 +216,7 @@
             <span class="section-label">Tagi:</span>
             <div class="tags-list">
               {#each selectedBelief.tags as tag}
-                <span class="tag">{tag}</span>
+                <span class="mh-badge mh-badge-accent">{tag}</span>
               {/each}
             </div>
           </div>
@@ -228,7 +230,7 @@
     {:else if viewMode === 'hierarchy'}
       <BeliefHierarchy beliefs={allBeliefs} />
     {:else}
-      <div class="empty-detail">
+      <div class="empty-detail mh-card">
         <p>Wybierz przekonanie z listy lub dodaj nowe</p>
       </div>
     {/if}
@@ -266,7 +268,7 @@
   .sidebar-title {
     font-size: 1.125rem;
     font-weight: 700;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
   }
 
   .sidebar-controls {
@@ -275,63 +277,13 @@
     gap: 0.5rem;
   }
 
-  .search-input {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    color: var(--sl-color-text);
-    font-size: 0.875rem;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .search-input:focus {
-    border-color: var(--sl-color-accent);
-  }
-
   .filter-row {
     display: flex;
     gap: 0.5rem;
   }
 
-  .filter-select {
+  .filter-row select {
     flex: 1;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    padding: 0.375rem 0.5rem;
-    color: var(--sl-color-text);
-    font-size: 0.8rem;
-    outline: none;
-  }
-
-  .filter-select:focus {
-    border-color: var(--sl-color-accent);
-  }
-
-  .view-toggle {
-    display: flex;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .toggle-btn {
-    flex: 1;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .toggle-btn.active {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
   }
 
   .belief-list {
@@ -346,7 +298,7 @@
   .empty-state {
     text-align: center;
     padding: 2rem 1rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 
   .empty-hint {
@@ -359,9 +311,6 @@
   }
 
   .detail-panel {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -378,7 +327,7 @@
   .detail-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     line-height: 1.5;
   }
 
@@ -397,11 +346,11 @@
 
   .meta-item {
     font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
   }
 
   .meta-label {
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 
   .strength-section {
@@ -417,24 +366,24 @@
   }
 
   .strength-label {
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
   }
 
   .strength-value {
-    color: var(--sl-color-accent-high);
+    color: var(--mh-accent-hover);
     font-weight: 600;
   }
 
   .strength-bar-track {
     height: 6px;
-    background: var(--sl-color-gray-5);
+    background: var(--mh-bg-elevated);
     border-radius: 3px;
     overflow: hidden;
   }
 
   .strength-bar-fill {
     height: 100%;
-    background: var(--sl-color-accent);
+    background: var(--mh-accent);
     border-radius: 3px;
     transition: width 0.3s;
   }
@@ -448,22 +397,13 @@
 
   .section-label {
     font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
   }
 
   .tags-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.375rem;
-  }
-
-  .tag {
-    display: inline-block;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.75rem;
-    background: rgba(124, 58, 237, 0.15);
-    color: var(--sl-color-accent-high);
-    border-radius: 4px;
   }
 
   .timeline-section {
@@ -475,7 +415,7 @@
   .section-heading {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--sl-color-gray-2);
+    color: var(--mh-text-secondary);
   }
 
   .empty-detail {
@@ -483,66 +423,22 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
     font-size: 0.9rem;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.4375rem 0.875rem;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
-  }
-
-  .btn-primary:hover {
-    opacity: 0.9;
-  }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--sl-color-border);
-    color: var(--sl-color-gray-2);
-  }
-
-  .btn-outline:hover {
-    border-color: var(--sl-color-accent);
-    color: var(--sl-color-white);
-  }
-
-  .type-badge {
-    display: inline-block;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
   .type-first_order {
-    background: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
+    background: var(--mh-info-subtle);
+    color: var(--mh-info);
   }
 
   .type-second_order {
-    background: rgba(124, 58, 237, 0.15);
-    color: #a78bfa;
+    background: var(--mh-accent-subtle);
+    color: var(--mh-accent-hover);
   }
 
   .type-third_order {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
+    background: var(--mh-danger-subtle);
+    color: var(--mh-danger);
   }
 </style>

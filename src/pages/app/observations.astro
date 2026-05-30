@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import ObservationsView from '../../components/observations/ObservationsView.svelte'
 ---
 
-<AppLayout title="Dziennik Obserwacji" activePath="/app/observations">
+<AppLayout
+  title="Dziennik Obserwacji"
+  description="Rejestruj co do Ciebie dociera. Filtr epistemiczny Omega (Ω) — ile z otoczenia faktycznie zauważasz."
+  activePath="/app/observations"
+>
   <ObservationsView client:load />
 </AppLayout>

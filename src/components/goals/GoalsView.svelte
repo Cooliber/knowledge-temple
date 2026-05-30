@@ -91,10 +91,10 @@
   }
 </script>
 
-<div class="view">
+<div class="view mh-animate">
   <div class="toolbar">
     <h2 class="view-title">System Celów</h2>
-    <button class="btn btn-primary" onclick={handleAdd}>
+    <button class="mh-btn mh-btn-primary" onclick={handleAdd}>
       + Nowy cel
     </button>
   </div>
@@ -103,27 +103,27 @@
     <div class="loading">Ładowanie...</div>
   {:else}
     <div class="stats-row">
-      <div class="stat">
+      <div class="stat mh-card">
         <span class="stat-value">{stats.total}</span>
         <span class="stat-label">Wszystkie</span>
       </div>
-      <div class="stat accent">
+      <div class="stat accent mh-card">
         <span class="stat-value">{stats.active}</span>
         <span class="stat-label">Aktywne</span>
       </div>
-      <div class="stat success">
+      <div class="stat success mh-card">
         <span class="stat-value">{stats.completed}</span>
         <span class="stat-label">Ukończone</span>
       </div>
-      <div class="stat danger">
+      <div class="stat danger mh-card">
         <span class="stat-value">{stats.abandoned}</span>
         <span class="stat-label">Porzucone</span>
       </div>
     </div>
 
     <div class="columns">
-      <div class="column-left">
-        <div class="card-container">
+      <div class="column-left mh-animate-d1">
+        <div class="mh-card">
           <GoalTree
             goals={allGoals}
             {selectedId}
@@ -135,9 +135,9 @@
           />
         </div>
       </div>
-      <div class="column-right">
+      <div class="column-right mh-animate-d2">
         {#if showForm}
-          <div class="card-container">
+          <div class="mh-card">
             <h3 class="panel-title">
               {editingGoal ? 'Edytuj cel' : 'Nowy cel'}
             </h3>
@@ -149,7 +149,7 @@
             />
           </div>
         {:else if selectedGoal}
-          <div class="card-container">
+          <div class="mh-card">
             <GoalCard
               goal={selectedGoal}
               beliefs={allBeliefs}
@@ -159,7 +159,7 @@
             />
           </div>
         {:else}
-          <div class="empty-state">
+          <div class="empty-state mh-card">
             <div class="empty-icon">🎯</div>
             <p class="empty-text">Wybierz cel z listy lub dodaj nowy</p>
           </div>
@@ -185,26 +185,7 @@
   .view-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--sl-color-white);
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: color-mix(in srgb, var(--sl-color-accent) 80%, white);
+    color: var(--mh-text);
   }
 
   .stats-row {
@@ -218,9 +199,6 @@
     align-items: center;
     gap: 0.125rem;
     padding: 0.75rem 1rem;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     flex: 1;
     min-width: 0;
   }
@@ -228,18 +206,18 @@
   .stat-value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
   }
 
   .stat-label {
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--sl-color-gray-3);
+    color: var(--mh-text-secondary);
   }
 
   .stat.accent .stat-value {
-    color: var(--sl-color-accent-high);
+    color: var(--mh-accent-hover);
   }
 
   .stat.success .stat-value {
@@ -270,24 +248,17 @@
     gap: 0.75rem;
   }
 
-  .card-container {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
   .panel-title {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     margin-bottom: 0.75rem;
   }
 
   .loading {
     padding: 3rem 0;
     text-align: center;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
     font-size: 0.875rem;
   }
 
@@ -297,9 +268,6 @@
     align-items: center;
     justify-content: center;
     padding: 3rem 1rem;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     text-align: center;
   }
 
@@ -311,6 +279,6 @@
 
   .empty-text {
     font-size: 0.875rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 </style>

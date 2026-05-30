@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import BeliefsView from '../../components/beliefs/BeliefsView.svelte'
 ---
 
-<AppLayout title="Mapa Przekonań" activePath="/app/beliefs">
+<AppLayout
+  title="Mapa Przekonań"
+  description="Śledź swoje przekonania — first, second i third order. Zobacz jak zmieniają się w czasie."
+  activePath="/app/beliefs"
+>
   <BeliefsView client:load />
 </AppLayout>

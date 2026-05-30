@@ -87,10 +87,10 @@
   }
 </script>
 
-<div class="view">
+<div class="view mh-animate">
   <div class="toolbar">
     <h2 class="view-title">Bramka Decyzyjna</h2>
-    <button class="btn btn-primary" onclick={handleAdd}>
+    <button class="mh-btn mh-btn-primary" onclick={handleAdd}>
       + Nowa decyzja
     </button>
   </div>
@@ -99,8 +99,8 @@
     <div class="loading">Ładowanie...</div>
   {:else}
     <div class="columns">
-      <div class="column-left">
-        <div class="card-container">
+      <div class="column-left mh-animate-d1">
+        <div class="mh-card">
           <DecisionLog
               decisions={allDecisions}
             selectedId={selectedId}
@@ -112,9 +112,9 @@
           />
         </div>
       </div>
-      <div class="column-right">
+      <div class="column-right mh-animate-d2">
         {#if showForm}
-          <div class="card-container">
+          <div class="mh-card">
             <h3 class="panel-title">
               {editingDecision ? 'Edytuj decyzję' : 'Nowa decyzja'}
             </h3>
@@ -127,7 +127,7 @@
             />
           </div>
         {:else if selectedDecision}
-          <div class="card-container">
+          <div class="mh-card">
             <DecisionCard
               decision={selectedDecision}
               beliefs={allBeliefs}
@@ -138,7 +138,7 @@
             />
           </div>
         {:else}
-          <div class="empty-state">
+          <div class="empty-state mh-card">
             <div class="empty-icon">⚖️</div>
             <p class="empty-text">Wybierz decyzję z listy lub dodaj nową</p>
           </div>
@@ -164,26 +164,7 @@
   .view-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--sl-color-white);
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .btn-primary {
-    background: var(--sl-color-accent);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: color-mix(in srgb, var(--sl-color-accent) 80%, white);
+    color: var(--mh-text);
   }
 
   .columns {
@@ -206,24 +187,17 @@
     gap: 0.75rem;
   }
 
-  .card-container {
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-
   .panel-title {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--sl-color-white);
+    color: var(--mh-text);
     margin-bottom: 0.75rem;
   }
 
   .loading {
     padding: 3rem 0;
     text-align: center;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
     font-size: 0.875rem;
   }
 
@@ -233,9 +207,6 @@
     align-items: center;
     justify-content: center;
     padding: 3rem 1rem;
-    background: var(--sl-color-bg-card);
-    border: 1px solid var(--sl-color-border);
-    border-radius: 8px;
     text-align: center;
   }
 
@@ -247,6 +218,6 @@
 
   .empty-text {
     font-size: 0.875rem;
-    color: var(--sl-color-gray-4);
+    color: var(--mh-text-muted);
   }
 </style>

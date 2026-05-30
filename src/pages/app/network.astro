@@ -3,6 +3,10 @@ import AppLayout from '../../layouts/AppLayout.astro'
 import NetworkView from '../../components/network/NetworkView.svelte'
 ---
 
-<AppLayout title="Mapa Sieci" activePath="/app/network">
+<AppLayout
+  title="Mapa Sieci"
+  description="Wizualizuj swoją sieć wpływów. Kto i jak na Ciebie oddziałuje? Mapuj relacje i siłę wpływu."
+  activePath="/app/network"
+>
   <NetworkView client:load />
 </AppLayout>
