@@ -2,10 +2,12 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
+import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
 	vite: {
+		plugins: [tailwindcss()],
 		resolve: {
 			alias: {
 				'$lib': fileURLToPath(new URL('./src/lib', import.meta.url)),
