@@ -1,0 +1,8 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import DecisionsView from '../../components/decisions/DecisionsView.svelte'
+---
+
+<AppLayout title="Bramka Decyzyjna" activePath="/app/decisions">
+  <DecisionsView client:load />
+</AppLayout>

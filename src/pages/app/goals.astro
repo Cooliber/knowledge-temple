@@ -1,0 +1,8 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import GoalsView from '../../components/goals/GoalsView.svelte'
+---
+
+<AppLayout title="System Celów" activePath="/app/goals">
+  <GoalsView client:load />
+</AppLayout>

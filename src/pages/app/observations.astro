@@ -1,0 +1,8 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import ObservationsView from '../../components/observations/ObservationsView.svelte'
+---
+
+<AppLayout title="Dziennik Obserwacji" activePath="/app/observations">
+  <ObservationsView client:load />
+</AppLayout>

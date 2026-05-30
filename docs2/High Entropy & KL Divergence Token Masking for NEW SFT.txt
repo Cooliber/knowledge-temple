@@ -1,0 +1,861 @@
+Hello community. So great that you are
+
+back. Today we talk about supervised
+
+finetuning. So forget about the harness,
+
+forget about memory scale. We are back
+
+to the pure LLM. And now we are looking
+
+here at the finetuning mechanism and we
+
+are at the token level and all the
+
+golden little bubbles you see here are
+
+single tokens. And we have here predict
+
+the next token. But now we take care
+
+about some effects and we are talking
+
+about that we will calculate especially
+
+the entropy here for each single token
+
+and we will have a coolback lava
+
+divergence that we also calculate here
+
+and then we will have a force a force
+
+where you see those are our virus
+
+tokens. Notice how they have a high
+
+entropy. We have to take care about them
+
+because we have to keep them closer to
+
+the reference model manifold. So here if
+
+you want this is our kubak lava
+
+divergence force compressing them down
+
+here back to the manifold but of course
+
+we will apply this only here to this
+
+viral token with a high entropy and we
+
+have here a combination of Shannon
+
+entropy kublober divergence and yes I
+
+can tell you this is not the right
+
+formula because this is just an
+
+abbreviation the mathematics will be
+
+gorgeous we really go down on a token
+
+level and apply mathematics on each and
+
+every single token token and then we
+
+will have a look at the result. So
+
+supervised fine-tuning a new training
+
+methodology for your LLM. If you're
+
+interested, come and join me.
+
+Now, you know, not all tokens are
+
+created equal power transformer
+
+especially the uniform cross entropy
+
+training is highly destructive and our
+
+high entropy tokens generate
+
+disproportionately large high variant
+
+gradients that the drive here the
+
+parameter drift of the model and the
+
+mode collapse. We do not want this
+
+because we use supervised finetuning for
+
+a very specific target.
+
+Now if we identify and can isolate those
+
+high-risk token this blue tokens from a
+
+direct cross entropy supervision we can
+
+safely adapt the models here to complex
+
+reasoning domains without fearing that
+
+we have to corrupt the fundamental
+
+ability to explore. Remember the
+
+exploration and the exploitation those
+
+are our two friends here. So therefore
+
+what we are looking for is a new
+
+tokenbased training methodology for
+
+large language model and we have this
+
+idea I showed you here already here in
+
+the image here at the beginning of this
+
+video we have two let's call it soft
+
+forces we have one pulling the
+
+distribution here towards the reference
+
+model pi reference while maintaining the
+
+structural entropy scaled at particular
+
+parameters here given here kuba clabber
+
+and entropy preventing the high variance
+
+exogenous forcing that destroy here the
+
+exploratory diversity.
+
+So we have two forces that we have to
+
+bring under one hat and we have to
+
+optimize this and we have somehow to
+
+build a model that is a better
+
+supervised fine-tuning training
+
+methodology.
+
+Now just recap supervised fine tuning.
+
+Supervised fine tetuning a common
+
+approach to adapt LLMs to downstream
+
+task. You want that your LLM gets
+
+familiar with how to do a certain
+
+calculation, how perform a certain
+
+formatting of a certain complexity.
+
+Normally supervised fine-tuning is here
+
+to learn something. So given now a
+
+supervised data set D where we have our
+
+X I and our Yi where X I denotes here
+
+the prompt and the Yi denote the
+
+corresponding response here of the
+
+tokens and the objective is simple. Now
+
+we train now the policy model pi theta
+
+to maximize now the likelihood of the
+
+response y given the corresponding
+
+prompt x and this is simple this is what
+
+we know there's nothing special this is
+
+our classical supervised fine coding
+
+this is the base
+
+so what we are going to do now is for
+
+the sequence of tokens t we compute now
+
+two token level specific matrix for each
+
+token t unbelievable now the first is
+
+simple this This is the entropy
+
+calculation. Now our H the token level
+
+entropy quantifies here the uncertainty
+
+of the next token probability
+
+distribution produced by our large
+
+language model and given a prompt X in a
+
+language model distribution pi theta or
+
+strategy of the model. The token level
+
+entropy at the time step t is defined in
+
+a classical way to denote this. This
+
+means the policy probability of
+
+generating the next token V condition T
+
+under prompt X and the preceding history
+
+sequence Y before T. This is all that we
+
+need. Yeah, V denotes here the target
+
+token and the vocabulary and everything
+
+that you're familiar with. And then we
+
+have the Kubak Liber divergent term in
+
+our LLMs. Remember Kuba Liber use only
+
+when we have here probability
+
+distribution and we want to compare
+
+probability distribution and this is
+
+just a statistical formula this is it
+
+but it is extremely important in AI so
+
+Kubaklaba is a statistical divergence
+
+that quantify how one probability
+
+distribution differ from another given
+
+two language model P theta and pi
+
+reference the token level Kubaklaba
+
+divergence for pi theta to pyref is
+
+defined in the following way you
+
+remember this and now we have this
+
+beautiful study here by the university
+
+of science the knowledge of China and
+
+who are by cloud and those beautiful
+
+people here. Some viewer of mine asked,
+
+"Hey, can you please pronounce here the
+
+name of the artist?" So to honor the or
+
+listen, if I tell the name of the orus
+
+in my German language, you are not going
+
+to be happy. So no, I will just tell you
+
+entropy kubc divergence base token
+
+masking a novel approach for selectify
+
+tuning of LLMs. This is published May
+
+28, 2026. So let's have a look.
+
+So to avoid setting now specific
+
+thresholds for determining the category
+
+of a token, they introduce now a top K
+
+ratio strategy which ranks the token
+
+within a given set. Clear? Now we want
+
+to have here the most important token
+
+with the highest uh entropy or whatever
+
+we're looking for. So therefore given a
+
+policy model pi data reference model pi
+
+reference and a top k ratio of row row
+
+is in the interval from 0 to one and a
+
+sequential token sequency of t. We can
+
+easily calculate the token level entropy
+
+at the empty token TM and this is the
+
+formula for it. Great. So we obtain all
+
+the token entropy in T. Beautiful. And
+
+the rank of the empty token by the
+
+entropy cannot formulate it with here
+
+the identity. Great. We know this.
+
+Subsequently we select here the top K
+
+ratio tokens defined now in the
+
+following way. Yes. Beautiful. But of
+
+course beyond the entropy and we have
+
+been dealing with entropy quite a lot.
+
+The authors tell us we found that tokens
+
+with a large kubber lago divergence of
+
+course no a high divergence from here
+
+the reference model pi reference have a
+
+pronounced effect on the drift of the
+
+model parameters and you don't want this
+
+no you want to have in your supervised
+
+fine tuning that is that the the basic
+
+knowledge that is already in the
+
+pre-trained model that you stay with
+
+this model you don't want to override
+
+this knowledge if you do supervised fine
+
+tuning so we take care that there's No
+
+knowledge overwritten overwriting
+
+happening here.
+
+So guess what? Exactly similar to the
+
+token level entropy computation, we do
+
+now the same with the kubak lava
+
+divergence and the empty token DM can be
+
+calculated according to this formula.
+
+Then again all tokens KL divergence in T
+
+or the following and we just follow
+
+through and we arrive now at our highest
+
+top K ratio among the Kuba clever
+
+divergence token and this is here what
+
+we can code. So now we have it. Now
+
+guess what? We can combine the entropy
+
+and the kuba clubber selection in the
+
+most simple way. It is a union operator
+
+and this union operator covers here the
+
+tokens that are either high entropy or
+
+high kubc divergence ensuring that our
+
+selective masking that we are doing now.
+
+No, we have now two strengths. One is
+
+here the one that we mask out the blue
+
+one the blue bubbles we mask out. We
+
+know oh those are those we have to treat
+
+carefully because they are high entropy
+
+and we have to apply here kubak law
+
+divergence force on them but the other
+
+one no the mask one where we just have
+
+the normal quotation mark normal tokens
+
+no in the selective masking mitigates
+
+here both the entropy collapse and the
+
+distributional shift the blue dangerous
+
+one nodes are out and we just have a
+
+normal supervised learning and the two
+
+sets are largely complimentary Here this
+
+is just nice.
+
+Now if you have a look at the PL code
+
+and thank you for the orders to
+
+providing this here you have not a
+
+complete sequence. No for each epoch we
+
+do for each token we have here our
+
+entropy calculation our coolback liver
+
+divergence calculation when we determine
+
+here the mask token number K. We have
+
+here the let's say top 20 or top 50
+
+whatever you decide easier. You have to
+
+try it out here for your set. The number
+
+of mask token that you want to go with.
+
+Then you have the unit the union of the
+
+mask token set. You compute then
+
+classically the mask cross entropy loss
+
+our CE cross entropy loss that we know
+
+now for 10 15 years. And then then comes
+
+something special because now remember
+
+we have two soft forces. So what we do
+
+have to do is now a regularization.
+
+So we have now a compute mask entropy
+
+irregularization and a compute mask
+
+liber regularization.
+
+So here is our last function. And guess
+
+what? And then we combine everything.
+
+And then we have our three terms and we
+
+have our nlo operation. We have our
+
+gradient and the output is now and
+
+you're not going to believe it our new
+
+fine-tuned policy model pi data. And we
+
+have hopefully a better supervised
+
+fine-tuned model now exactly in front of
+
+us. So what seems to be a lot of a
+
+mathematical operation is rather a
+
+simple coding. Go to claude code or
+
+whatever. It knows exactly how to code
+
+this. And beautiful.
+
+That's it. So let's start a summary.
+
+What we have? We have a new selective
+
+fine-tuning training algorithm that is
+
+specific looking for high entropy and
+
+high kuba labber divergent token and the
+
+key insight is that our entropy kubert
+
+select define tuning the eksft
+
+is to activate the task relevant
+
+knowledge while preserving on the other
+
+hand the generalization of the general
+
+knowledge of the fine-tuned model. We
+
+don't want to forget knowledge. And to
+
+achieve this, our ASFT modifies now the
+
+standard cross entropy loss by masking
+
+now this top critical top K top 20 or
+
+whatever high entropy and high KB liber
+
+divergent token. And therefore the main
+
+loss function can now be rewritten since
+
+we have now the formulas for those two
+
+tokens that the main loss function is
+
+now reformulated in this where MAR
+
+denotes now the complement of M. Mbar is
+
+remember the safe zone with our good
+
+tokens.
+
+And following here the prior work they
+
+imply as I already showed you here in
+
+the code a Kubakent regularization on
+
+and now careful only on the mask token
+
+of course to prevent here some
+
+undesirable drift without altering here
+
+the core design here of this AKSFT.
+
+So the mass cubic clava divergence
+
+regularization is known and the entropy
+
+regularization is also known and as I've
+
+already shown you we define now here the
+
+new aksft loss function just by these
+
+three terms. Beautiful. This is it.
+
+If you have the loss function we can
+
+start with the training. We just need a
+
+training data set. They have a 3k
+
+training data set generated. If you're
+
+interested in the details of the
+
+training data set please have a look at
+
+the report yourself. I just going to
+
+show you the results because
+
+because it is a little bit
+
+disappointing. Let's have a look.
+
+So here we are the overall performance
+
+comparison here in the stage one before
+
+we applied now reinforcement learning.
+
+So this is the pure supervised fine
+
+tuning and they go here with a Q13 4
+
+billion free parameter model and you see
+
+here for AIM AIM25 AMC for different
+
+benchmark and here in the the last
+
+column you have here the average here
+
+for different benchmark I give you here
+
+all the other models and then of course
+
+ours AKSFT
+
+this entropy Kuba Glover supervised
+
+finetuning is at aim not the best model
+
+is the second best model. It is at XO
+
+here also 73.3 together with two other
+
+models here. I mean just the supervised
+
+fine tuning has exactly the same
+
+performance. So this is interesting with
+
+AIM 25. It's a little bit different
+
+because now it is the best performance
+
+model here at passet one and pass 32 and
+
+you see if you have the right
+
+combination here and the average then
+
+you achieve here that it is the best
+
+performance model here on average at
+
+posit one
+
+h now if you look at here that the
+
+supervised fine tuning gives you here on
+
+average 41.0 zero and after we have done
+
+a per token entropy calculation and a
+
+per single token kak lava divergence and
+
+some really interesting mathematical
+
+operations with just a G41.7
+
+dot 7
+
+this is it less than one percentage
+
+point difference well of course and you
+
+might say maybe it was the 4B model so
+
+let's have a look at the 8B model no
+
+and see that the situation does not
+
+really change. Yes, sometimes the new
+
+model is here the best one, then it's
+
+the second best, the second best, the
+
+best one, the best one. And in general,
+
+we are a little bit better with 43.1.
+
+But compared to the computer and I think
+
+this is about 1.7 to two times the
+
+computer effort that you have to invest.
+
+This is now something interesting. But
+
+you might say maybe it changes here
+
+after the reinforcement learning you
+
+know because we always have supervised
+
+fine tuning and reinforcement learning
+
+as a package together. So let's do the
+
+reinforcement learning here and let's
+
+have a look. We have dappo of course
+
+how does it change?
+
+Well not really no I mean yeah there is
+
+it is here. Yeah supervised finetuning
+
+was 52 now it is 56. This was 80 now it
+
+is 83. This was 40. now is 42.
+
+Okay. So for the effort we invested, I
+
+really would have expected a strong
+
+effect, a stronger performance because
+
+imagine we have done this on a per token
+
+level
+
+how how much more do you want to
+
+compute?
+
+And here you see now in red here we have
+
+the pass at K and the red one is here
+
+our new Andrew B. Koopa glyber
+
+supervised fine-tuning methodology and
+
+you see the red line yes it is dominant
+
+but you see yeah it is here almost ex
+
+equal with some other and then yeah it
+
+is a little bit better I mean hardly any
+
+better so
+
+yeah this is the Q38B on M25 so you
+
+might say okay so we do have the entropy
+
+kubert library selective finetuning a
+
+simple as the order say yet effective
+
+modification to the supervised
+
+finetuning
+
+or the widely used supervised
+
+fine-tuning and then do the
+
+reinforcement learning post-training
+
+paradigm which now masks our dangerous
+
+high entropy or high kaklava divergence
+
+token from the token level imitation in
+
+the cross entropy objective here
+
+mitigating hopefully the entropy
+
+collapse or some distributional drift
+
+during the normal supervised learning
+
+okay as I told I thought we would have I
+
+don't know 20%, 25%. But let's be clear,
+
+these are the data yields an average
+
+improvement here of
+
+7 percentage in paret one and 5.1%age at
+
+paret 32 on a Q13 4 billion model
+
+compared to the standard supervised fine
+
+tuning methodology. And if we go here
+
+with the subst fine tuning and
+
+reinforcement learning and we have
+
+dabble for the reinforcement learning
+
+pipeline, it outperforms the classical
+
+standard super fine tuning in and dabble
+
+by 5.6% on a pass at 32.
+
+Okay, I expected 20%, I got 5%.
+
+Anything else? Where is the chocolate
+
+cake? Where's the jerry on the chocolate
+
+cake? No. Hm. Now the authors argue that
+
+this new A SFT reframes here the
+
+supervised finetuning objective in AI.
+
+Its role is to activate now task
+
+relevant latent capabilities in the LLM
+
+while preserving the underlying
+
+pre-trained distribution of our
+
+knowledge.
+
+Okay. Yes, I can go with this. Okay. And
+
+we take care about the most dangerous
+
+tokens. Okay.
+
+But I have the feeling that we are
+
+missing something. Yeah.
+
+Maybe you're interested to watch one of
+
+my next videos. I hope to see you then.
+
+

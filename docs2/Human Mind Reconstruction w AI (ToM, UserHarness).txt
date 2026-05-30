@@ -1,0 +1,1657 @@
+Hello community. So great that you are
+
+back. Yes, today we talk about a user
+
+harness system and you might said hey
+
+wait a minute we have an AI harness.
+
+What do you mean with a user harness?
+
+Are we trying to simulate here the human
+
+cognitive architecture?
+
+Absolutely.
+
+So we start with an objective world
+
+state. This is here the reality. This is
+
+the real world. Then we will have an eye
+
+for an epistemic filtering. This is a
+
+layer where the human brain just notices
+
+some event and then we will build with
+
+an AI system a subjective mind space. So
+
+this is then we build an AI that
+
+simulates this. So this is the agent's
+
+internal world model. We'll have nested
+
+beliefs and meta beliefs and goals and
+
+values and policy computer actions and
+
+everything. And it's time to start this.
+
+And we all do this because there's a
+
+simple question. And our global
+
+corporations, you know, they care about
+
+us customers and they have a simple
+
+question in their mind. What are those
+
+damn humans thinking? Because they ask
+
+themselves, how can we manipulate them?
+
+How can we guide them? How can we
+
+influence them? How can we make them buy
+
+in their little bubble that they stay
+
+happy in their little bubble? that we
+
+have the algorithms that those users
+
+just are fed here on social media
+
+exactly what they want to see a
+
+self-reinforcing framework. How can we
+
+use AI to make our customers happy that
+
+they don't revolt and still continue to
+
+buy our stuff?
+
+So, we have here some some new
+
+publication May 26, 2026. And this is a
+
+user harness. So now we're going to
+
+simulate now the deep interior of a
+
+human belief system with AI. Isn't this
+
+fantastic? So let's have a look. We have
+
+to know about what is currently going on
+
+in EI. So user hornness explicitly now
+
+models a human user mindset as a
+
+temporarily evolving belief goal action
+
+loop for a theory of mind evaluation.
+
+anyone say okay so let's have a closer
+
+look so at each time step the user
+
+observes here the external environment E
+
+for environment forms an internal
+
+observation O for observation and
+
+updates here the internal belief that
+
+the user has here from a B tus one to B
+
+at the time T the updated belief now
+
+together with the user's goal determines
+
+now on the next user action do I press
+
+this buy button on Amazon or on Ma. Do I
+
+buy here this product here on Ma or on
+
+any social media platform which then in
+
+turn changes the environment to
+
+environment T+1 the user board or
+
+product and now the global corporations
+
+are happy. So we have defined here time
+
+flow. You see this here at the time
+
+stamp t and then we move over here to
+
+the time step t + 1 and we change this
+
+the user made a decision to buy here
+
+product or to sign up for a new abonom
+
+or whatever. So let's have a look. This
+
+new user horn is enables now here the
+
+tested AI agent that simulates not a
+
+user to explicitly track this hidden
+
+cognitive process you know of those
+
+humans across the timeline including now
+
+both the user's own belief system and
+
+all those nested belief about other
+
+agents mental state.
+
+Now there are of course locked elements
+
+that indicate some private or
+
+inaccessible mental state. Yeah, maybe
+
+this user still has some sort that
+
+global cooperation cannot penetrate to.
+
+So this must be inferred rather than
+
+directly observed. Hey, but luckily we
+
+have a neural network. So no problem
+
+about this. No. So by reconstructing now
+
+this belief dynamics in a human mind,
+
+the tested agent can now better
+
+understand the user's perspective and
+
+improve the performance on theory of
+
+mind question.
+
+But there's now the huge jump in this
+
+paper. In this new technical paper, we
+
+go go here from an answer prediction of
+
+what this human is going to tell us to a
+
+user mind reconstruction. This is the
+
+main point of this study I'm going to
+
+show you today. They say listen this is
+
+so interwoven internal belief states
+
+here all the influence here from
+
+platforms ma whatever you are WhatsApp
+
+Tik Tok whatever you name it we have to
+
+build a system with a user mind and we
+
+construct now here the belief creation
+
+I mean isn't this beautiful just think
+
+about the happy companies ma all social
+
+media companies optimize marketing
+
+optimize your selling optimize your
+
+augmentation and it is just heaven for
+
+influencer if we have now detailed
+
+information how to optimize this. This
+
+is the study of today and it is American
+
+University the University of Illinois's
+
+Ubana Champagne and they do exactly this
+
+harness a user mind for a stronger agent
+
+theory of mind and they call this the
+
+user harness and the term harness will
+
+make sense in about 10 minutes time why
+
+suddenly we apply a harness that we have
+
+normally in any system an energetic
+
+system here that is around here the core
+
+of the agent the LLM now we operate now
+
+on a user to harness because we now want
+
+to penetrate here this sort process
+
+sphere of the customer and we have a
+
+neural network to analyze this to guide
+
+this to train this 26th of May 2026 now
+
+we start
+
+so the tell us we propose now the user
+
+harness a simple inference time
+
+framework you say hey wow that reframes
+
+here the tear of mind solving now this
+
+user mind reconstruction and rather than
+
+asking here the tested agent to also
+
+directly know from the raw story they
+
+have now a problem because if you give
+
+the complete story to an AI you
+
+encounter the problems I showed you in
+
+the last three videos. So user harness
+
+now guides it to recover the user
+
+perspective and it is asking hey what
+
+has the user observed how those
+
+observations shaped here the user human
+
+belief and the human intention and how
+
+this mental state explains now even
+
+prediction action and maybe we as meter
+
+we want to sell something here. We just
+
+have at the right time just just comment
+
+here or give here a particular piece of
+
+information and suddenly we are over the
+
+threshold and the user buys here presses
+
+here the buy button.
+
+Now of course the framing has to be
+
+grounded in some principle. No the user
+
+act on beliefs rather than reality. Of
+
+course I mean come on if the user starts
+
+to be a logical human being and not an
+
+emotional human being the whole theory
+
+will crumble. Yeah. The belief updates
+
+only through accessible evidence. No,
+
+what the user really notices. Intentions
+
+operate under those beliefs. So we have
+
+some multi-layer
+
+belief system. And the social reasoning
+
+know social media may require tracking
+
+how one's user words or action affect
+
+others mind or the user is infected here
+
+in a group dynamic by some influencer by
+
+some group leader and then it is
+
+especially easy. Yeah.
+
+And the others tell us we evaluate now
+
+the user harness across five perspective
+
+that cover now false belief, nested
+
+belief, action prediction, goal
+
+inference, communication complexity and
+
+the social intention. Hey, absolutely
+
+fascinating.
+
+And I give you the result. This new
+
+methodology, this new user harness
+
+reaches now a particular accuracy
+
+measurement of close to 96%.
+
+So it seems to be very effective.
+
+Congratulation Ma. So let's start theory
+
+of mind research. Now it originates in
+
+the study of how humans attribute mental
+
+state such as beliefs, desires,
+
+intention, perception and knowledge to
+
+others. And if you want to have here,
+
+this is a study here by Salesforce
+
+research and of course University of
+
+Illinois Champagne here from September
+
+2025 training interactive user centric
+
+AI agents via reinforcement learning
+
+exactly already for this task. So you
+
+see here University of Illinois is
+
+really into this topic absolutely great
+
+and incorporate here already in 2025
+
+with Salesforce AI research and you have
+
+this user facing benchmarks to
+
+understand how is this possible what
+
+have you taken care of what is happening
+
+in the mind of a customer and those
+
+benchmark increasingly evaluate whether
+
+the agent can satisfy real user intents
+
+can it really understand what the human
+
+is thinking converse with simul related
+
+users follow here domain policy discover
+
+latent preferences and remain reliable
+
+across multi-turn trajectories in a deep
+
+conversation with the user. So finally
+
+the step number six is the user presses
+
+the buy button or upon or whatever you
+
+have.
+
+So what is now the methodology and you
+
+might said oh yeah this is now
+
+interesting user harness let's have a
+
+deep dive. So just to make sure know we
+
+have three different levels. We have the
+
+real objective world state has almost no
+
+influence here no importance here for a
+
+human being there. Then we have the
+
+filtering horizon that we have to take
+
+care of and then we're going to work
+
+here with the subjective human mind
+
+space.
+
+Beautiful. You see here oh wow this is
+
+here uh AI generated. Yeah all those
+
+images I don't paint them. I just give
+
+you some commands and you will find here
+
+in the images here some mistakes but I
+
+just want to show you the main idea here
+
+three layers and on this if you want
+
+cognitive architecture of the subjective
+
+human mind space you see we have first
+
+order beliefs and then we have nested
+
+beliefs and then we have decision gates
+
+where we have thresholds that we have to
+
+overcome and now we want to build here
+
+somehow a mathematical construct that we
+
+can code this and optimize this and we
+
+can put it on I don't know a meta
+
+platform or your social media platform
+
+no so we will have to define here a
+
+particular policy pie for our agent and
+
+then somehow from this mind space we
+
+have to ignite an action here in reality
+
+so let's do this
+
+theory of mind the evaluation asks you
+
+an AI model to answer from the
+
+perspective of a user and here we have a
+
+Beautiful demonstration of a user coming
+
+back from shopping. Isn't this
+
+beautiful? But this user here is
+
+integrated in a current social media
+
+environment. Yeah, we are collecting
+
+data about identity, demographics, about
+
+location, mobility of the person. We are
+
+looking at social graph, friend
+
+relationship, communication, membership,
+
+interaction frequency. We have
+
+information about purchases, brand
+
+preferences, subscription services,
+
+creditworthiness, car ownership,
+
+insurance data. All this information is
+
+available and we can build some
+
+psychological and behavioral traits of
+
+this person. Yeah. And often we can
+
+infer from this the impulsiveness, the
+
+extraversion, maybe the political
+
+engagement, the risk tolerance, even the
+
+religion, some anxiety likelihood, some
+
+consumer susceptibility
+
+and and this is gorgeous, the openness
+
+to persuasion, no by any.
+
+So of course then we sometimes can infer
+
+some mental health parameter if we have
+
+access to the sleep and activity
+
+parameters to the posting behaviors.
+
+Does this po person post at 3:00 a.m. in
+
+the morning? What are the topics? What
+
+are here the groups? What are the search
+
+time that this person is looking for?
+
+What are the purchases for or in
+
+relation to anything about health or
+
+training? And what are the sentiment
+
+changes that sometimes we notice here a
+
+mood change here in the communication on
+
+the public social media platforms?
+
+Then we can build behavior traces. Huh?
+
+Examples are purchases, browsing,
+
+movement, app use, sleep schedule or
+
+social interaction. And you know what?
+
+Behavior is usually so much more
+
+predictive on mathematical models than
+
+when we ask this person know can you
+
+give us a self-escription of you and we
+
+have so many data and we have so many
+
+beautiful data centers. We don't need
+
+some self-escription of a human being
+
+and we can build on temporal patterns.
+
+No, because timing matters extremely.
+
+Are you shopping at night? What is here
+
+the habit the pattern that you show in
+
+your shopping experience weekdays or
+
+weekends? What are you shopping for? How
+
+much do you travel? What are the
+
+frequency as you travel? What are your
+
+credit card? What about the changes here
+
+during the season? Amazing. Yeah. And
+
+your emotional posting cycles analyze
+
+here exactly the mood whenever you post
+
+something on public media. No. And this
+
+allows you prediction now a mathematical
+
+to build a mathematical model predicting
+
+now your mood. If you have a certain
+
+pattern the routines that you have in
+
+your professional life you know if you
+
+have a job from I don't know from 9 to5
+
+and you just perform always the same
+
+pattern in your professional career. My
+
+goodness it is so easy for an AI exactly
+
+to learn here this pattern. What about
+
+your stress resistance? What about
+
+impulsivity if you shown new offers? Hey
+
+minus 50%. No. And then we have the
+
+social network structures. No. Humans
+
+are strongly shaped by peer groups. No.
+
+Someone follows you. You follow
+
+somebody. No. Who follows whom in
+
+return? What are the cluster
+
+affiliation? Which influences you engage
+
+with? And this gives us here strong
+
+inference here on the ideology
+
+aspiration and of course lifestyle. The
+
+most important here for buying. So what
+
+we achieve here is something beautiful.
+
+No, we have a crowd of people and
+
+completely inhomogeneous. No, and now
+
+with data science and here data brokers
+
+that sell your personal data here and
+
+available and here also as you see an
+
+American company or university,
+
+they are now able to separate certain
+
+groups, target groups exactly for their
+
+products. And you can even go for the
+
+topology of these groups. No, it is easy
+
+if you have leader and follower groups.
+
+So you have a homogeneous group. So the
+
+gorgeous thing what you can do you can
+
+define a mathematical specific persona
+
+that are now representative for this
+
+group that has I don't know 10,000 or
+
+100,000 person or for this group that
+
+has 3 million people. Yeah. So we have
+
+here the perfect mathematical
+
+abstraction the behavior all the
+
+characteristic that we can work with
+
+because remember what was it here? Yeah.
+
+Simulate group dynamic. But before we
+
+can go in a group dynamic, we have to
+
+start with a single human being because
+
+the topic of this paper today is user
+
+harness and user is a singular. So let's
+
+start.
+
+Let's say a user is you for user
+
+beautiful does not observe here a the
+
+environment directly at a particular
+
+time t. Instead the user receives only a
+
+part of the environment as a partial
+
+observation and this observation is o
+
+and you have this here at a particular
+
+time t.
+
+Now we have here an omega function where
+
+we have exactly here our if you want
+
+part of the environment and here the
+
+user and this omega describes exactly
+
+what is accessible to this particular
+
+user you at that particular moment in
+
+time t such as events in the same room
+
+visible object that changes or social
+
+media messages that are addressed here
+
+to the user. So somehow we have to get a
+
+feeling for this. Think about this. You
+
+have the complete reality plane and then
+
+we have something that is observable and
+
+epsilon around the single particular
+
+human. This is only his observable
+
+environment in this particular moment of
+
+time. Now beautiful omega models here
+
+the physical and the communicative
+
+constraints uh spatial co-presence line
+
+of sight receiving directed message
+
+social media communication whatever
+
+and then we have somehow to model the
+
+subjective belief space of the single
+
+human being. Yeah. B for belief space at
+
+a time. T for the user U. Now to reason
+
+about social interaction the user mind
+
+must track not only their own beliefs
+
+but also nested beliefs. No about other
+
+agents about other people about what
+
+about the the trend and the group what
+
+is coming what is in what is out no? So
+
+we define there by now a hierarchical
+
+belief state B for belief of a
+
+particular time t for a particular user
+
+here in this one. and what we have
+
+hierarchical. So we have a first order
+
+belief state, a second order belief
+
+state and a third order nested belief
+
+structure that we have to take care of.
+
+And then we have to have an update. We
+
+have to have a belief update because
+
+something changes in our environment.
+
+You receive a message, some new
+
+information, some new knowledge, your
+
+friends are going other places,
+
+whatever. So this belief update, let's
+
+make it easy and let's make it a
+
+ruleguided belief update. Gamma
+
+gamma of axums r are now the evolution
+
+of the belief state over the time t and
+
+it is governed by an update operator
+
+gamma of r constrained now by only a set
+
+of logical perspective axioms are and
+
+here you have the formula for this now
+
+what is r is a rule set and acts as an
+
+inductive bias ensuring if you have no
+
+observation of the single human we have
+
+no update if an event is unobserved yes
+
+it happened but it did not happen to the
+
+user you and therefore or the belief at
+
+the user u at the time t is identical to
+
+the belief of the user u at t minus 1 or
+
+t + 1. We have communication boundaries.
+
+No, a message update m affects here the
+
+belief of the user you at the time t if
+
+and only if you is a recipient of this
+
+message. No, and we have nested beliefs
+
+and core observation and yeah everything
+
+beautiful.
+
+And then in general we have to have an
+
+action model. when do we ignite an
+
+action here in a human being and then a
+
+world transition function. So let's have
+
+a look at this. The user's action are
+
+dictated now strictly by their let's say
+
+subjective individual mental state B for
+
+the belief state here of a user U at a
+
+time T and their goal what they want to
+
+achieve. Hey, I want to buy a new dress.
+
+I want to buy a new car. I want to buy a
+
+new computer or just want to go and have
+
+fun with my friends or whatever. your
+
+goal rather than the true environmental
+
+state. You're human. You can change the
+
+environment. You have set your goals,
+
+what you want to achieve, what you want
+
+to experience, what you want to get. So
+
+this is the action defined here by our
+
+policy pi. And as you see, we have here
+
+elements is the goal and the belief and
+
+not the environment itself. So this
+
+subjective actions now for the single
+
+human being subsequently feed back into
+
+the objective state. Since we have taken
+
+now an action we change now the
+
+environment around us in the epsilon
+
+around us through a transition function
+
+where e represents here the external
+
+story events here that is happening and
+
+then finally finally we can go into the
+
+inference time proving or the
+
+consistency maximization so let's say we
+
+have given a benchmark story s we have
+
+to work with benchmarks here a query Q a
+
+set of multiple choices why because yes
+
+we're in America and we only do
+
+everything in multiple choice so we have
+
+to construct a trace a reasoning trace.
+
+So the user harness now parses the story
+
+line s into a discrete sequence and
+
+constructs now a particular trace as you
+
+see here in this formula. Now this here
+
+is here our trace.
+
+Second we have to have an evolation of
+
+the consistency. So for each candidate
+
+option here y which represents a claim
+
+about a belief a goal or an action or
+
+whatever the framework computes now a
+
+consistency score that's inval from 0 to
+
+one zero is nothing one is absolutely
+
+believe in this no great this is the
+
+formula
+
+now you might ask the orus how they
+
+position out the core of the agent the
+
+llm itself and the or tell us hey our
+
+llm is now restricted to two specialized
+
+role in this we have is LLM as a kind of
+
+a translation helper. What it does, it
+
+translates here the raw story text. No,
+
+we have a benchmark story into a prover
+
+readable fact structure. So we are
+
+parsing here the environment at a
+
+particular time t and extracting now the
+
+characters, the goal, the events, the
+
+timelines, what is happening to whom at
+
+what event and what are the
+
+consequences, what are the dependencies
+
+and whatever. And then our LLM is also
+
+here a proof auditor. So the LLM is now
+
+inspecting here the f final candidate
+
+proofs to verify the semantic
+
+compatibility and resolve the edge cases
+
+where strict symbolic rules are too
+
+rigid. And at this moment I said hey
+
+wait a minute what do you mean to verify
+
+the semantic compatibility? I thought we
+
+going to compute here we have an
+
+operator a projection operator. Why are
+
+we suddenly back to the semantic
+
+compatibility issue? And what do you
+
+mean when symbolic uh rules are too
+
+rigid, we fall back to a neural network?
+
+H. Now it turns out if you read the
+
+study a second time that instead of
+
+treating it theory of mind as a
+
+linguistic pattern matching exercise or
+
+a free form reasoning the authors
+
+formalize it only for one particular
+
+idea because what they want is a state
+
+estimation problem
+
+over an agent's hidden cognitive state
+
+because the state we don't know what the
+
+human wants, what it needs, how can we
+
+manipulate, how can we influence, how
+
+can we make the user happier. Yeah, this
+
+is the right wording. How can we make
+
+them happy?
+
+What they have to buy to be happy?
+
+So yeah, they tell us by enforcing an
+
+explicit projection operator or omega
+
+and a ruleguided belief update our gamma
+
+r at inference time. They built this for
+
+a particular reason to construct now a
+
+barrier against the perspective leakage.
+
+Remember the perspective leakage in my
+
+last videos also I showed you we are not
+
+allowed to give here the boss AI or the
+
+orchestrating AI access to all the
+
+complete uh solutions because otherwise
+
+we would have different effect happening
+
+deep inside the LM in my last two
+
+videos. So therefore we have to restrict
+
+the access to the solution and make the
+
+LLM work make the LLM go step by step do
+
+the heavy sinking step by step and come
+
+up with a solution. Notice very same the
+
+identical topic here. So they formalize
+
+it now as a simple state estimation
+
+problem over the cognitive state.
+
+And I said wait a minute does it mean
+
+there's no new mathematical insight?
+
+There's no new brilliant mathematical
+
+formula.
+
+I mean there's no math at all in this
+
+algorithm.
+
+Yes. It turns out that the system just
+
+maintains a relational database. This is
+
+a state transition graph structure of
+
+what each character believes in. And the
+
+update rule is just a step of a discrete
+
+logic. But we do not activate the neural
+
+network of our LLM. We are really here
+
+in symbolic logic.
+
+And the truth is this is a pure discrete
+
+state machine tracking not anyway a
+
+non-discrete option. So it requires if
+
+you want zero advanced math it is just a
+
+series of boolean operation and
+
+dictionary assignments. I'm so sorry I
+
+feel with you.
+
+So what we have we just have a little
+
+bit of a discrete mathematics a little
+
+bit of formal logic a little bit of set
+
+theory and a little bit of automata
+
+theory but this is it. There's no
+
+mathematical breakthrough theory.
+
+There's new mathematical theorem how we
+
+can operationalize here our projection
+
+operators. how we can build new
+
+embedding spaces. Nothing of that
+
+because the truth is here the orus
+
+utilize the LLM just a semantic to
+
+symbolic translator
+
+using here it deep language
+
+understanding to convert it a raw
+
+massing narrative text into discrete
+
+fact is store here at a database and
+
+then feed those facts into a rigorous
+
+rulebased symbolic loop. My goodness to
+
+ensure the final reasoning does not
+
+suffer from perspective leakage.
+
+Okay, this was a disappointment but
+
+let's have a look at result. Is it is it
+
+at least working? Do we at least have
+
+some benefits of this here? Now, so
+
+let's let's move in.
+
+You see here elements here from a Q1 8
+
+billion, 14 billion, 32 billion, then
+
+the two GPD open source here and a GPD
+
+5.4 at least. Otherwise, yeah, forget
+
+all about the llama. Please never use
+
+Llama 3 again on a benchmark in 2026.
+
+This is such a nonsync anymore.
+
+Okay. And then they have some benchmark
+
+and they do their testing and yes and
+
+you have a direct prompting where the
+
+model reasons and answer directly and
+
+you have a paradox prompting where the
+
+model tests each answer option by
+
+assuming it is true and checking for
+
+contradiction. And then you have the
+
+ledger prompting where the model is
+
+asked to organize its reasoning around
+
+the agent environment, observation,
+
+beliefs, goals and actions and come up
+
+with a solution. But the real
+
+interesting point is this now.
+
+So we have now this user harness and
+
+they have here the open source model.
+
+Beautiful. And then the closed source
+
+model and at least we have here an Opus
+
+4.7 and a Sonnet 4.6 and a Gemini 3.1
+
+Pro and yeah. Okay. GBD 5.4 still. Okay.
+
+But look at this. Suddenly here the
+
+first the simplest benchmark we have
+
+100%.
+
+Hey great nice. And look at the other
+
+benchmarks.
+
+Now this is nice. Look at this. We have
+
+an opensource model. Let go with a Q14
+
+billion model, a local model. And we
+
+have a macro accuracy of 95%.
+
+And then we go with the same methodology
+
+here that works on a 14B model to a
+
+clawed ous 4.7.
+
+And we have here an overall macro uh
+
+accuracy of 95.94%.
+
+So you might say, hey, wait a minute,
+
+this is nice. So this separation that is
+
+happening here, as trivial,
+
+mathematically trivial as it is, it
+
+opens up a way that the 14 billion miles
+
+suddenly has it with micro accuracy of
+
+almost identical to a clo OPUS 4.7. Now
+
+this is a nice aspect. Let's talk about
+
+this. Why is this happening? And of
+
+course, you will agree with me when I
+
+tell you this demonstrate here. a
+
+decoupling of the epistemic structure of
+
+the knowledge structure from a raw model
+
+generation capacity that dramatically
+
+elevates and stabilizes here the
+
+reasoning accuracy especially look at
+
+for a 14 billion model. Yes, even better
+
+for a 32 billion model. But this is now
+
+something why show you the study. This
+
+opens now something where we say okay
+
+maybe you don't have to pay for the opus
+
+4.7 but you can have this locally.
+
+This second image here shows you here
+
+the macro accuracy on the y-axis and the
+
+effective model output token on a log
+
+scale here on the x-axis here and you
+
+see here the stars our new user harness.
+
+So you see all the stars are exactly
+
+where we want them close to 100% and
+
+here only 150 output tokens. This kind
+
+of let's say visually confirms that
+
+structuring here the inference path is
+
+far more compute efficient than
+
+eliciting a long unstructured chain of
+
+sort explanation here in our inference
+
+run. So yes we have to invest a little
+
+bit of premputee here before we go here
+
+and we have to prepare the system but
+
+look at this performance. This is really
+
+nice close to 100% macro accuracy with
+
+only 150 token per example output token.
+
+This is nice. So suddenly although it is
+
+a very simple flat not really
+
+challenging not innovative mathematical
+
+system it provides results.
+
+Let's have now a personal reflection.
+
+The study ended and what can what have I
+
+taken away from this? Yes, the cherry is
+
+a little bit smaller but we still have
+
+the chocolate cake.
+
+So again under the standard direct
+
+prompting or chain of sort the eye model
+
+must track the complete complete and
+
+complex epistemic transition entirely in
+
+its multiple layers. No using self
+
+attention layer to guess who knows what
+
+at what time in while simultaneously
+
+generating here the text of the answer.
+
+And now let's put this here and let's
+
+view this from a different perspective.
+
+Let's reframe this. Let's reframe this
+
+from a perspective how weak our AI
+
+systems are in their performance because
+
+what does user harness actually do?
+
+Let's see behind the curtain. It
+
+decoupled it separates this. No, because
+
+it extract the epistemic structure and
+
+moves it simply to an external protected
+
+symbolic tracker or a database or
+
+whatever you have memory and the model
+
+is no longer responsible for remembering
+
+in internally or calculating who knows
+
+what at what particular time and what
+
+changes in what time elements. No. So
+
+this means that the external loop
+
+handles here the tracking
+
+programmatically rule-based
+
+leaving now deterministic almost leaving
+
+now the LLM probabilistic interpretation
+
+to only perform simple localized
+
+I would almost say symbolic translation
+
+or audit checks.
+
+I never thought that this would have
+
+such a massive effect on the performance
+
+of a system.
+
+I thought about this and I found a
+
+simpler example. So let's unpack its
+
+three key components here. So we have
+
+the raw model, the AI model here. Let's
+
+say Opus 4.7, the generation capacity.
+
+Then we do have the epistemic structure,
+
+the knowledge structure inherent to
+
+particular benchmark and the
+
+mathematical consequences of decoupling
+
+here the complexity. Let's think about a
+
+pencil and paper analogy. It is not the
+
+same mathematic. It's just the idea. You
+
+ask two different people to solve a
+
+complex multi-step mathematical problem
+
+such as dividing a number here by
+
+another number. Yeah. And you have two
+
+persons. Person A is a math wizard.
+
+Yeah. With a high working memory
+
+capacity. This is my Opus 4.7. No
+
+example. Then we have a person B. This
+
+is me. I have a lower than average
+
+memory. I'm a simple 3 billion AI model.
+
+No hardly anything.
+
+And if you force them both to calculate
+
+now the entire division or mathematical
+
+operation whatever you have strictly in
+
+their heads without writing anything
+
+down person A the genius wizard here
+
+might get the answer right 70% of the
+
+time while person B me I will almost
+
+fail completely all the time
+
+so the calculation depends entirely on
+
+their internal mental capacity to hold
+
+and update here those numbers in our
+
+example but now let's change this and
+
+now let's do what the study did. Now you
+
+give both of them a pencil and a piece
+
+of paper. This is it. You can separate
+
+this. Now once you can write down the
+
+intermediate steps on the paper, the
+
+structure of the calculation is
+
+offloaded. Let's say from my little
+
+brain to the paper. I can write it down.
+
+I can make here a beautiful calculation,
+
+a long calculation. And suddenly both
+
+the person A,
+
+this is here the wizard. This is here my
+
+Opus 4.7 and person B, this is here my
+
+little personality. Can we both solve
+
+the problem with 99% accuracy?
+
+So you here person B is this 3 billion
+
+or 8 billion Cuban model.
+
+It is amazing that this simple things
+
+like separating here just giving here
+
+the eye a pencil and a piece of paper
+
+can increase the accuracy the macro
+
+accuracy of those benchmarks so
+
+significantly.
+
+So this means now in the inside only
+
+system where with AI AI is still
+
+horrible.
+
+But by externalizing the structure of
+
+the mathematical problem itself,
+
+we have a chance to decouple the success
+
+of the task from the raw internal memory
+
+capacity and the number crunching. So
+
+this means this separation as simple as
+
+it seems to us is the path to success
+
+for an AI system. So the reasoning
+
+burden is shifted from a probabilistic
+
+memory reconstruction to a simple
+
+deterministic structure execution in a
+
+database or wherever you have it or a
+
+piece of paper.
+
+So again it seems so simple but look at
+
+the result again the same topic a QN34B
+
+95% mark accuracy on the same task like
+
+a claude ous 4.7 with 95.9
+
+percentage mark accuracy our small
+
+little models our local models with the
+
+right harness complexity with the right
+
+insight how this AI operates how it
+
+works works. We can tune our little 14B
+
+model to come damn close to a clo OPUS
+
+4.7 model. I hope you enjoyed it. You
+
+hope you had a little bit of fun. It was
+
+a little bit of a dramatic roller
+
+coaster, but at least we had our
+
+chocolate cake. And I hope to see you in
+
+the next video.
+
+
